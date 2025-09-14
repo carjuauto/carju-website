@@ -70,5 +70,31 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   .gallery{grid-template-columns:1fr}
 }
 
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #fafafa; /* light panel background */
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}
+
+.footer .socials {
+  margin-bottom: 10px;
+}
+
+.footer .socials a {
+  display: inline-block;
+  margin: 0 10px;
+  transition: transform 0.2s ease;
+}
+
+.footer .socials a:hover {
+  transform: scale(1.2);
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  color: #666;
+}
 
 
