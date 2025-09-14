@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contact — CARJU JAPAN Co., LTD</title>
+  <meta name="description" content="Contact CARJU JAPAN Co., LTD for quotes and sourcing requests.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js"></script>
+</head>
+<body>
+<header class="header container">
+  <div class="brand">
+    <a href="index.html" class="brandlink"><img src="assets/logo.png" alt="CARJU JAPAN" onerror="this.style.display='none'"/></a>
+    <div><a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
+      <div class="kicker" data-i18n="en">Vehicle & Heavy Machinery Sourcing Agency</div>
+      <div class="kicker hidden" data-i18n="ja">車両・重機ソーシング代理店</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="services.html" data-i18n="en">Services</a>
+    <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+    <a href="fees.html" data-i18n="en">Fees</a>
+    <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
+    <a href="contact.html" data-i18n="en">Contact</a>
+    <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
+  </nav>
+  <div class="lang">
+    <button data-lang-btn="en">EN</button>
+    <button data-lang-btn="ja" class="badge">日本語</button>
+  </div>
+</header>
+
+<main class="container">
+  <h1 data-i18n="en">Contact Us</h1>
+  <h1 class="hidden" data-i18n="ja">お問い合わせ</h1>
+  <section class="grid grid-2">
+    <div class="card" data-i18n="en">
+      <p>Head Office: Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo</p>
+      <p>Phone: +81 80 4790 9663 / +81 80 2695 2010</p>
+      <p>Email: <a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
+      <form name="contact" method="POST" data-netlify="true" action="thankyou.html">
+        <input type="hidden" name="form-name" value="contact">
+        <input name="name" placeholder="Your name" required>
+        <input name="email" type="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Tell us what you need" required></textarea>
+        <button class="btn" type="submit">Send</button>
+      </form>
+    </div>
+    <div class="card hidden" data-i18n="ja">
+      <p>本社：東京都渋谷区道玄坂1-10-8 渋谷道玄坂東急ビル2F-C</p>
+      <p>電話：+81 80 4790 9663 / +81 80 2695 2010</p>
+      <p>メール：<a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
+      <form name="contact-ja" method="POST" data-netlify="true" action="thankyou.html">
+        <input type="hidden" name="form-name" value="contact-ja">
+        <input name="name" placeholder="お名前" required>
+        <input name="email" type="email" placeholder="メールアドレス" required>
+        <textarea name="message" placeholder="ご要望" required></textarea>
+        <button class="btn" type="submit">送信</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer container">
+  <div class="socials">
+    <a id="wa-link" class="icon" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
+    <a id="tiktok-link" class="icon" aria-label="TikTok" target="_blank" rel="noopener"></a>
+  </div>
+  <div data-i18n="en">© 2025 CARJU JAPAN Co., LTD. All rights reserved.</div>
+  <div class="hidden" data-i18n="ja">© 2025 CARJU JAPAN Co., LTD. 無断転載を禁じます。</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>CARJU JAPAN Co., LTD — Japan Sourcing</title>
+  <meta name="description" content="Vehicles, machinery, export agency from Japan.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js"></script>
+</head>
+<body>
+<header class="header container">
+  <div class="brand">
+    <a href="index.html" class="brandlink">
+      <img src="assets/logo.png" alt="CARJU JAPAN logo" onerror="this.style.display='none'"/>
+    </a>
+    <div>
+      <a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
+      <div class="kicker" data-i18n="en">Vehicle & Heavy Machinery Sourcing Agency</div>
+      <div class="kicker hidden" data-i18n="ja">車両・重機ソーシング代理店</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="services.html" data-i18n="en">Services</a>
+    <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+    <a href="fees.html" data-i18n="en">Fees</a>
+    <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
+    <a href="contact.html" data-i18n="en">Contact</a>
+    <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
+  </nav>
+  <div class="lang">
+    <button data-lang-btn="en">EN</button>
+    <button data-lang-btn="ja" class="badge">日本語</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="card" data-i18n="en">
+      <h1>Trusted Japan Sourcing</h1>
+      <p>We source vehicles and heavy machinery from Japan via auctions and trusted suppliers—handling inspection, paperwork, and shipping as your agent.</p>
+      <p><a class="btn" href="contact.html">Request a Quote</a></p>
+    </div>
+    <div class="card hidden" data-i18n="ja">
+      <h1>安心の日本調達</h1>
+      <p>日本のオークションや信頼できる仕入先から車両・重機を調達。検査・書類・輸送までワンストップで対応します。</p>
+      <p><a class="btn" href="contact.html">見積り依頼</a></p>
+    </div>
+
+    <div class="card">
+      <div class="kicker" data-i18n="en">Browse by brand & category</div>
+      <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
+      <div class="filters">
+        <label>
+          <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
+          <select id="brandSelect"></select>
+        </label>
+        <label>
+          <span data-i18n="en">Category</span><span class="hidden" data-i18n="ja">カテゴリー</span>
+          <select id="categorySelect"></select>
+        </label>
+      </div>
+      <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <h2 data-i18n="en">Inventory Gallery</h2>
+    <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
+    <div id="gallery-cars" class="gallery"></div>
+    <p class="muted" data-i18n="en">Add images to <code>assets/cars/</code> and list them in <code>config.js</code> with name, brand, and category.</p>
+    <p class="muted hidden" data-i18n="ja"><code>assets/cars/</code> に画像を追加し、<code>config.js</code> に名前・メーカー・カテゴリーを登録してください。</p>
+  </section>
+
+  <section class="gallery-section">
+    <h2 data-i18n="en">Delivered Vehicles</h2>
+    <h2 class="hidden" data-i18n="ja">納車実績</h2>
+    <div id="gallery-deliveries" class="gallery"></div>
+    <p class="muted" data-i18n="en">Add delivery photos to <code>assets/deliveries/</code> and list them in <code>config.js</code>.</p>
+    <p class="muted hidden" data-i18n="ja">納車写真は <code>assets/deliveries/</code> に置き、<code>config.js</code> に登録してください。</p>
+  </section>
+</main>
+
+<footer class="footer container">
+  <div class="socials">
+    <a id="wa-link" class="icon" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
+    <a id="tiktok-link" class="icon" aria-label="TikTok" target="_blank" rel="noopener"></a>
+  </div>
+  <div data-i18n="en">© 2025 CARJU JAPAN Co., LTD. All rights reserved.</div>
+  <div class="hidden" data-i18n="ja">© 2025 CARJU JAPAN Co., LTD. 無断転載を禁じます。</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin — CARJU JAPAN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js"></script>
+  <style>
+    .admin textarea{width:100%;min-height:220px;font-family:ui-monospace,Consolas,monospace;font-size:13px;padding:12px;border:1px solid #ddd;border-radius:10px}
+    .admin .row{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+    @media (max-width:900px){.admin .row{grid-template-columns:1fr}}
+    .admin pre{white-space:pre-wrap;word-break:break-word;background:#fafafa;border:1px solid #eee;border-radius:10px;padding:12px}
+  </style>
+</head>
+<body>
+<header class="header container">
+  <div class="brand">
+    <a href="index.html" class="brandlink"><img src="assets/logo.png" alt="CARJU JAPAN" onerror="this.style.display='none'"/></a>
+    <div><a href="index.html" class="title">CARJU JAPAN Co., LTD</a></div>
+  </div>
+</header>
+
+<main class="container admin">
+  <section class="card">
+    <h1>Site Admin (Local Helper)</h1>
+    <p class="muted">Use this page to prepare a new <code>config.js</code>. When you’re done, click “Download config.js” and replace the file in your site.</p>
+  </section>
+
+  <section class="card">
+    <h2>Current Settings (from config.js)</h2>
+    <pre id="current"></pre>
+  </section>
+
+  <section class="card">
+    <h2>Edit Galleries</h2>
+    <div class="row">
+      <div>
+        <h3>Cars (named & categorized)</h3>
+        <p class="small">Example:<br>
+        <code>{"src":"assets/cars/toyota-prius-2015.jpg","name":"Toyota Prius S","brand":"Toyota","category":"Hybrid/EV","year":2015}</code></p>
+        <textarea id="carsInput" placeholder='[ { "src":"assets/cars/...", "name":"...", "brand":"Toyota", "category":"SUV", "year":2018 } ]'></textarea>
+      </div>
+      <div>
+        <h3>Deliveries</h3>
+        <p class="small">Example:<br>
+        <code>{"src":"assets/deliveries/customer-kampala-01.jpg","name":"Delivery — Kampala (X-Trail)"}</code></p>
+        <textarea id="delivInput" placeholder='[ { "src":"assets/deliveries/...", "name":"Delivery — ..." } ]'></textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div>
+        <h3>Brands</h3>
+        <textarea id="brandsInput" placeholder='["Toyota","Honda","Nissan"]'></textarea>
+      </div>
+      <div>
+        <h3>Categories</h3>
+        <textarea id="catsInput" placeholder='["Sedan","SUV","Truck","Machinery"]'></textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div>
+        <h3>WhatsApp (number)</h3>
+        <input id="waInput" placeholder="+81 80 4790 9663" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"/>
+      </div>
+      <div>
+        <h3>TikTok URL</h3>
+        <input id="tkInput" placeholder="https://www.tiktok.com/@yourhandle" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"/>
+      </div>
+    </div>
+    <p><button class="btn" id="previewBtn">Preview JSON</button> <button class="btn" id="downloadBtn">Download config.js</button></p>
+    <pre id="preview"></pre>
+  </section>
+</main>
+
+<script>
+  const cfg = window.CARJU_CONFIG || {};
+  const current = {
+    WHATSAPP: cfg.WHATSAPP || "",
+    TIKTOK: cfg.TIKTOK || "",
+    BRANDS: cfg.BRANDS || [],
+    CATEGORIES: cfg.CATEGORIES || [],
+    GALLERIES: {
+      cars: (cfg.GALLERIES && cfg.GALLERIES.cars) || [],
+      deliveries: (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []
+    }
+  };
+  document.getElementById('current').textContent = JSON.stringify(current, null, 2);
+  carsInput.value = JSON.stringify(current.GALLERIES.cars, null, 2);
+  delivInput.value = JSON.stringify(current.GALLERIES.deliveries, null, 2);
+  brandsInput.value = JSON.stringify(current.BRANDS, null, 2);
+  catsInput.value = JSON.stringify(current.CATEGORIES, null, 2);
+  waInput.value = current.WHATSAPP;
+  tkInput.value = current.TIKTOK;
+
+  function buildConfigText(){
+    let cars=[], deliv=[], brands=[], cats=[], wa="", tk="";
+    try{ cars = JSON.parse(carsInput.value || "[]"); }catch(e){ alert("Cars JSON invalid"); throw e; }
+    try{ deliv = JSON.parse(delivInput.value || "[]"); }catch(e){ alert("Deliveries JSON invalid"); throw e; }
+    try{ brands = JSON.parse(brandsInput.value || "[]"); }catch(e){ alert("Brands JSON invalid"); throw e; }
+    try{ cats = JSON.parse(catsInput.value || "[]"); }catch(e){ alert("Categories JSON invalid"); throw e; }
+    wa = waInput.value || ""; tk = tkInput.value || "";
+    const obj = {
+      WHATSAPP: wa,
+      TIKTOK: tk,
+      BRANDS: brands,
+      CATEGORIES: cats,
+      GALLERIES: { cars, deliveries: deliv }
+    };
+    return "window.CARJU_CONFIG = " + JSON.stringify(obj, null, 2) + ";";
+  }
+  previewBtn.onclick = ()=> { preview.textContent = buildConfigText(); };
+  downloadBtn.onclick = ()=>{
+    const text = buildConfigText();
+    const blob = new Blob([text], {type:"application/javascript"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "config.js"; a.click();
+    URL.revokeObjectURL(url);
+  };
+</script>
+</body>
+</html>
