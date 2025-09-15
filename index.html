@@ -66,21 +66,46 @@
     </div>
   </section>
 
-  <section class="gallery-section">
-    <h2 data-i18n="en">Inventory Gallery</h2>
-    <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
-    <div id="gallery-cars" class="gallery"></div>
-    <p class="muted" data-i18n="en">Add images to <code>assets/cars/</code> and list them in <code>config.js</code> with name, brand, and category.</p>
-    <p class="muted hidden" data-i18n="ja"><code>assets/cars/</code> に画像を追加し、<code>config.js</code> に名前・メーカー・カテゴリーを登録してください。</p>
-  </section>
+  <!-- Inventory Slider -->
+<section class="gallery-section">
+  <h2 data-i18n="en">Inventory Gallery</h2>
+  <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
 
-  <section class="gallery-section">
-    <h2 data-i18n="en">Delivered Vehicles</h2>
-    <h2 class="hidden" data-i18n="ja">納車実績</h2>
-    <div id="gallery-deliveries" class="gallery"></div>
-    <p class="muted" data-i18n="en">Add delivery photos to <code>assets/deliveries/</code> and list them in <code>config.js</code>.</p>
-    <p class="muted hidden" data-i18n="ja">納車写真は <code>assets/deliveries/</code> に置き、<code>config.js</code> に登録してください。</p>
-  </section>
+  <div id="slider-cars" class="slider">
+    <figure>
+      <img alt=""/>
+      <figcaption></figcaption>
+    </figure>
+    <!-- NEW: controls -->
+    <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
+    <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
+    <div class="slider-dots" role="tablist"></div>
+  </div>
+
+  <p class="muted" data-i18n="en">Add images to <code>assets/cars/</code> and list them in <code>config.js</code> with name, brand, and category.</p>
+  <p class="muted hidden" data-i18n="ja"><code>assets/cars/</code> に画像を追加し、<code>config.js</code> に名前・メーカー・カテゴリーを登録してください。</p>
+</section>
+
+<!-- Success Stories Slider -->
+<section class="gallery-section">
+  <h2 data-i18n="en">Success Stories</h2>
+  <h2 class="hidden" data-i18n="ja">導入事例</h2>
+
+  <div id="slider-deliveries" class="slider">
+    <figure>
+      <img alt=""/>
+      <figcaption></figcaption>
+    </figure>
+    <!-- NEW: controls -->
+    <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
+    <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
+    <div class="slider-dots" role="tablist"></div>
+  </div>
+
+  <p class="muted" data-i18n="en">Add photos to <code>assets/deliveries/</code> and list them in <code>config.js</code>.</p>
+  <p class="muted hidden" data-i18n="ja">写真は <code>assets/deliveries/</code> に置き、<code>config.js</code> に登録してください。</p>
+</section>
+
 </main>
 
 <footer class="footer">
@@ -97,6 +122,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
