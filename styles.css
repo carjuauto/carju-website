@@ -96,5 +96,71 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   font-size: 0.9rem;
   color: #666;
 }
+/* ===== Sliders ===== */
+.slider{
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  margin: 10px auto 0;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+.slider figure{ margin:0; position:relative; }
+.slider img{
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display:block;
+}
+.slider figcaption{
+  position:absolute; left:0; right:0; bottom:0;
+  background: linear-gradient(transparent, rgba(0,0,0,.55));
+  color:#fff; padding:10px 12px; font-size:14px;
+}
+
+/* Arrows */
+.slider-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border-radius:50%;
+  border:none; cursor:pointer; color:#fff;
+  background: rgba(0,0,0,.45);
+  display:flex; align-items:center; justify-content:center;
+  transition: transform .15s ease, background .15s ease;
+  z-index:3;
+}
+.slider-arrow:hover{ transform:translateY(-50%) scale(1.08); background: rgba(0,0,0,.6); }
+.slider-arrow.prev{ left:10px; }
+.slider-arrow.next{ right:10px; }
+
+/* Dots */
+.slider-dots{
+  position:absolute; left:0; right:0; bottom:8px;
+  display:flex; justify-content:center; gap:6px; z-index:4;
+}
+.slider-dot{
+  width:8px; height:8px; border-radius:50%;
+  background: rgba(255,255,255,.65);
+  border:1px solid rgba(0,0,0,.12);
+  cursor:pointer;
+}
+.slider-dot.active{
+  background: var(--brand); border-color: var(--brand-ink);
+}
+
+/* Slide animations */
+@keyframes slideInFromRight { from{ transform: translateX(100%); opacity:.3; } to{ transform: translateX(0); opacity:1; } }
+@keyframes slideOutToLeft   { from{ transform: translateX(0); opacity:1; }   to{ transform: translateX(-100%); opacity:.3; } }
+
+.slide-enter{ animation: slideInFromRight 520ms ease both; }
+.slide-exit { animation: slideOutToLeft   520ms ease both; }
+
+/* Mobile */
+@media (max-width:720px){
+  .slider img{ height: 240px; }
+}
+
 
 
