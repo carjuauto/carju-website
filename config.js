@@ -1,6 +1,6 @@
 window.CARJU_CONFIG = {
   WHATSAPP: "+81 80 4790 9663",
-  TIKTOK: "https://www.tiktok.com/@yourhandle",
+  TIKTOK: "https://www.tiktok.com/@carju-auto",
 
   BRANDS: ["Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi","Suzuki","Daihatsu","Isuzu","Hino","Lexus"],
   CATEGORIES: ["Sedan","Hatchback","SUV","Truck","Van","Wagon","Coupe","Convertible","Hybrid/EV","Machinery","Agricultural"],
@@ -15,3 +15,4 @@ window.CARJU_CONFIG = {
     ]
   }
 };
+
