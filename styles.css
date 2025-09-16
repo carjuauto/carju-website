@@ -172,51 +172,43 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
 .btn:hover{ filter:brightness(.95); }
 
 /* ===== Animation Banner (Japan → Ship → Globe) ===== */
-.anim-banner {
-  background:#fff;
-  padding:12px 0;
-  border-bottom:1px solid #eee;
-}
-.anim-banner .logistics-anim {
-  max-width:920px;
-  margin:auto;
-}
-.anim-banner svg {
-  width:100%;
-  height:auto;
+.anim-banner{ background:#fff; padding:12px 0; border-bottom:1px solid #eee; }
+.anim-banner .logistics-anim{ max-width:920px; margin:auto; }
+.anim-banner svg{ width:100%; height:auto; }
+
+/* Sizes (a bit larger for clarity) */
+.la-world-img, .la-japan-img { width:90px !important; height:auto !important; }
+.la-ship-img { width:140px !important; height:auto !important; filter:contrast(110%) saturate(115%); opacity:.96; }
+
+/* Safety: prevent any old animations from interfering */
+.la-ship-wrap{
+  animation: none !important;
+  transform: translateX(750px) translateY(0); /* starting at Japan by default until keyframes apply */
 }
 
-/* Bigger imagery for banner */
-.la-world-img,
-.la-japan-img {
-  width: 90px !important;   /* was 70px */
-  height: auto !important;
+/* The ONLY animation we want */
+@keyframes carju-ship-japan-to-world {
+  0%   { transform: translateX(750px) translateY(0)   scale(.98); opacity:0; }  /* at Japan */
+  6%   { opacity:1; }
+  30%  { transform: translateX(550px) translateY(-6px) scale(.98); }
+  60%  { transform: translateX(320px) translateY(-10px) scale(.98); }
+  85%  { transform: translateX(120px) translateY(-4px)  scale(.98); }
+  100% { transform: translateX(60px)  translateY(0)     scale(.98); opacity:0; } /* at Globe */
 }
 
-.la-ship-img {
-  width: 140px !important;  /* was 115px */
-  height: auto !important;
-  filter: contrast(110%) saturate(115%);
-  opacity: .96;
-}
-
-/* Ship sails from Japan (x=750) to Globe (x=60) in 16s */
-@keyframes ship-sail-japan-to-world {
-  0%   { transform: translateX(750px) translateY(0px) scale(.95); opacity:0; }
-  5%   { opacity:1; }
-  25%  { transform: translateX(550px) translateY(-5px) scale(.95); }
-  50%  { transform: translateX(350px) translateY(-10px) scale(.95); }
-  75%  { transform: translateX(200px) translateY(-5px) scale(.95); }
-  95%  { opacity:1; }
-  100% { transform: translateX(60px) translateY(0px) scale(.95); opacity:0; }
-}
-
-.la-ship-wrap {
-  animation: ship-sail-japan-to-world 16s linear infinite;
+/* Force our animation to run and override anything older */
+.la-ship-wrap{
+  animation-name: carju-ship-japan-to-world !important;
+  animation-duration: 16s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  will-change: transform, opacity;
+  transform-box: fill-box;      /* ensures transform is relative to the element's box */
+  transform-origin: center;     /* smooth movement */
 }
 
 @media (prefers-reduced-motion: reduce){
-  .la-ship-wrap{ animation:none !important; }
+  .la-ship-wrap{ animation: none !important; opacity:1 !important; }
 }
 
 
