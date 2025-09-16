@@ -36,6 +36,32 @@
   </div>
 </header>
 
+<!-- ===== Animation Banner (appears on all pages) ===== -->
+<div class="anim-banner">
+  <div class="logistics-anim" aria-hidden="true">
+    <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
+      <!-- World map (left) -->
+      <circle cx="100" cy="100" r="60" class="la-world"/>
+      <text x="100" y="105" text-anchor="middle" font-size="14" fill="#fff">WORLD</text>
+
+      <!-- Japan map (right) -->
+      <rect x="750" y="40" width="80" height="120" rx="15" class="la-japan"/>
+      <text x="790" y="110" text-anchor="middle" font-size="14" fill="#fff">JAPAN</text>
+
+      <!-- Ship group (sails left) -->
+      <g class="la-ship">
+        <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
+        <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
+        <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
+        <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
+        <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
+        <path d="M-20,170 q30,20 80,0" class="la-wave"/>
+        <path d="M40,170  q30,20 80,0" class="la-wave"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
 <main class="container">
   <!-- ===== HERO ===== -->
   <section class="hero">
@@ -63,45 +89,7 @@
       <p><a class="btn" href="contact.html">見積り依頼</a></p>
     </div>
 
-    <!-- Animation card -->
-    <div class="card anim-card">
-      <div class="logistics-anim" aria-hidden="true">
-        <svg viewBox="0 0 900 220" role="img" aria-label="Logistics animation">
-          <!-- track line -->
-          <line x1="20" y1="170" x2="880" y2="170" class="la-track"/>
-
-          <!-- truck group -->
-          <g class="la-truck">
-            <rect x="-140" y="130" width="110" height="40" rx="6" class="la-truck-body"/>
-            <rect x="-40" y="110" width="40" height="40" rx="4" class="la-truck-cab"/>
-            <circle cx="-110" cy="175" r="10" class="la-wheel"/>
-            <circle cx="-60"  cy="175" r="10" class="la-wheel"/>
-          </g>
-
-          <!-- ship group -->
-          <g class="la-ship">
-            <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
-            <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
-            <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
-            <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
-            <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
-            <path d="M-20,170 q30,20 80,0" class="la-wave"/>
-            <path d="M40,170  q30,20 80,0" class="la-wave"/>
-          </g>
-
-          <!-- globe group -->
-          <g class="la-globe">
-            <circle cx="860" cy="80" r="38" class="la-globe-sphere"/>
-            <path d="M860,42 a38,38 0 1,0 0,76 a38,38 0 1,0 0,-76 z" class="la-globe-arc"/>
-            <path d="M822,80 a38,18 0 1,0 76,0 a38,18 0 1,0 -76,0" class="la-globe-arc"/>
-            <path d="M822,65 a38,10 0 1,0 76,0 a38,10 0 1,0 -76,0" class="la-globe-arc"/>
-            <path d="M822,95 a38,10 0 1,0 76,0 a38,10 0 1,0 -76,0" class="la-globe-arc"/>
-          </g>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Browse card (kept) -->
+    <!-- Browse card (unchanged) -->
     <div class="card">
       <div class="kicker" data-i18n="en">Browse by brand & category</div>
       <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
@@ -207,60 +195,19 @@
 
 <script src="script.js"></script>
 
-<!-- Inline CSS just for the animation + why-us cards (add to styles.css if you prefer) -->
+<!-- Animation CSS (safe to move into styles.css later) -->
 <style>
-  .logistics-anim{ max-width: 920px; margin: 18px auto; }
-  .logistics-anim svg{ width:100%; height:auto; overflow:visible; }
-  :root{
-    --brand: #c8102e; /* CARJU red */
-    --ink: #111; --soft: #f6f6f6; --muted: #9aa1a7;
-  }
-  .la-track{ stroke:#e2e5e9; stroke-width:2; }
-  .la-truck-body{ fill: var(--brand); }
-  .la-truck-cab{ fill:#ffdde1; stroke: var(--brand); stroke-width:2; }
-  .la-wheel{ fill:#343a40; stroke:#111; stroke-width:1; }
-  .la-ship-hull{ fill:#111; }
-  .la-ship-box{ fill: var(--brand); }
-  .la-ship-bridge{ fill:#e1e5ea; }
-  .la-ship-mast{ fill:#444; }
+  .anim-banner{ background:#fff; padding:12px 0; border-bottom:1px solid #eee; }
+  .anim-banner .logistics-anim{ max-width:920px; margin:auto; }
+  .anim-banner svg{ width:100%; height:auto; }
+  .la-world{ fill:#0077b6; stroke:#023e8a; stroke-width:3; }
+  .la-japan{ fill:#c8102e; stroke:#800000; stroke-width:3; }
+  .la-ship-hull{ fill:#111; } .la-ship-box{ fill:#c8102e; }
+  .la-ship-bridge{ fill:#e1e5ea; } .la-ship-mast{ fill:#444; }
   .la-wave{ fill:none; stroke:#7aa7c7; stroke-width:2; opacity:.7; }
-  .la-globe-sphere{ fill:#7aa7c7; opacity:.25; stroke:#7aa7c7; }
-  .la-globe-arc{ fill:none; stroke:#7aa7c7; opacity:.8; }
-  @keyframes truck-move {
-    0% { transform: translateX(0); opacity:0; }
-    10% { opacity:1; }
-    40% { transform: translateX(420px); }
-    50% { transform: translateX(480px); opacity:1; }
-    55% { opacity:0; }
-    100% { transform: translateX(480px); opacity:0; }
-  }
-  @keyframes ship-move {
-    0% { transform: translateX(520px); opacity:0; }
-    45% { opacity:0; }
-    55% { opacity:1; }
-    85% { transform: translateX(280px); opacity:1; }
-    100% { transform: translateX(140px); opacity:0; }
-  }
-  @keyframes globe-pulse {
-    0%, 60% { transform: scale(1); opacity:.6; }
-    70% { transform: scale(1.06); opacity:1; }
-    80% { transform: scale(1); opacity:.75; }
-    100% { transform: scale(1); opacity:.6; }
-  }
-  .la-truck{ animation: truck-move 8s ease-in-out infinite; }
-  .la-ship { animation: ship-move 8s ease-in-out infinite; }
-  .la-globe{ transform-origin: 860px 80px; animation: globe-pulse 8s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce){
-    .la-truck, .la-ship, .la-globe{ animation: none !important; }
-  }
-
-  .why-us{ max-width:1100px; margin:34px auto 12px; padding:0 14px; }
-  .why-us h2{ text-align:center; margin-bottom:14px; }
-  .why-us .grid{ display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
-  .why-us .point{ background:#fff; border:1px solid #eee; border-radius:14px; padding:14px; }
-  .why-us .point h3{ margin:0 0 6px; color:var(--brand); }
-  .btn{ display:inline-block; padding:10px 18px; border-radius:10px; background:var(--brand); color:#fff; text-decoration:none; }
-  .btn:hover{ filter:brightness(.95); }
+  @keyframes ship-sail{ 0%{transform:translateX(700px);opacity:0} 10%{opacity:1} 50%{transform:translateX(350px)} 90%{opacity:1} 100%{transform:translateX(0);opacity:0} }
+  .la-ship{ animation: ship-sail 10s linear infinite; }
+  @media (prefers-reduced-motion: reduce){ .la-ship{ animation:none !important; } }
 </style>
 </body>
 </html>
