@@ -186,17 +186,18 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   height:auto;
 }
 
-/* Image sizing (slightly bigger than socials) */
+/* Bigger imagery for banner */
 .la-world-img,
 .la-japan-img {
-  width:70px !important;
-  height:auto !important;
+  width: 90px !important;   /* was 70px */
+  height: auto !important;
 }
+
 .la-ship-img {
-  width:115px !important;
-  height:auto !important;
+  width: 140px !important;  /* was 115px */
+  height: auto !important;
   filter: contrast(110%) saturate(115%);
-  opacity:.96;
+  opacity: .96;
 }
 
 /* Ship sails from Japan (x=750) to Globe (x=60) in 16s */
@@ -217,5 +218,6 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
 @media (prefers-reduced-motion: reduce){
   .la-ship-wrap{ animation:none !important; }
 }
+
 
 
