@@ -37,18 +37,71 @@
 </header>
 
 <main class="container">
+  <!-- ===== HERO ===== -->
   <section class="hero">
+    <!-- EN -->
     <div class="card" data-i18n="en">
-      <h1>Trusted Japan Sourcing</h1>
-      <p>We source vehicles and heavy machinery from Japan via auctions and trusted suppliers—handling inspection, paperwork, and shipping as your agent.</p>
-      <p><a class="btn" href="contact.html">Request a Quote</a></p>
+      <h1>Japan to You—Straight, Simple, Delivered.</h1>
+      <p>We source vehicles and heavy machinery from Japan with <strong>Honesty, Integrity, and Transparency</strong>. Auction access, clear fees, and real updates from bid to bill of lading.</p>
+      <ul style="margin:8px 0 12px 18px">
+        <li><strong>Honesty</strong> — Real auction data, real photos, real timelines.</li>
+        <li><strong>Integrity</strong> — We say what we’ll do—and we do it.</li>
+        <li><strong>Transparency</strong> — Itemized costs and deposit terms upfront.</li>
+      </ul>
+      <p><a class="btn" href="contact.html">Get a Quote</a></p>
     </div>
+
+    <!-- JA -->
     <div class="card hidden" data-i18n="ja">
-      <h1>安心の日本調達</h1>
-      <p>日本のオークションや信頼できる仕入先から車両・重機を調達。検査・書類・輸送までワンストップで対応します。</p>
+      <h1>日本からあなたへ—シンプルに、誠実に。</h1>
+      <p><strong>Honesty・Integrity・Transparency</strong> を大切に、日本のオークションや仕入先から車両・重機を調達。入札からB/L（船荷証券）まで、費用も進捗も明確にご案内します。</p>
+      <ul style="margin:8px 0 12px 18px">
+        <li><strong>Honesty（誠実）</strong>— 実際のオークション情報・写真・スケジュールを共有。</li>
+        <li><strong>Integrity（信頼）</strong>— 約束したことを確実に実行。</li>
+        <li><strong>Transparency（透明性）</strong>— 料金内訳とデポジット条件を事前に明示。</li>
+      </ul>
       <p><a class="btn" href="contact.html">見積り依頼</a></p>
     </div>
 
+    <!-- Animation card -->
+    <div class="card anim-card">
+      <div class="logistics-anim" aria-hidden="true">
+        <svg viewBox="0 0 900 220" role="img" aria-label="Logistics animation">
+          <!-- track line -->
+          <line x1="20" y1="170" x2="880" y2="170" class="la-track"/>
+
+          <!-- truck group -->
+          <g class="la-truck">
+            <rect x="-140" y="130" width="110" height="40" rx="6" class="la-truck-body"/>
+            <rect x="-40" y="110" width="40" height="40" rx="4" class="la-truck-cab"/>
+            <circle cx="-110" cy="175" r="10" class="la-wheel"/>
+            <circle cx="-60"  cy="175" r="10" class="la-wheel"/>
+          </g>
+
+          <!-- ship group -->
+          <g class="la-ship">
+            <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
+            <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
+            <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
+            <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
+            <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
+            <path d="M-20,170 q30,20 80,0" class="la-wave"/>
+            <path d="M40,170  q30,20 80,0" class="la-wave"/>
+          </g>
+
+          <!-- globe group -->
+          <g class="la-globe">
+            <circle cx="860" cy="80" r="38" class="la-globe-sphere"/>
+            <path d="M860,42 a38,38 0 1,0 0,76 a38,38 0 1,0 0,-76 z" class="la-globe-arc"/>
+            <path d="M822,80 a38,18 0 1,0 76,0 a38,18 0 1,0 -76,0" class="la-globe-arc"/>
+            <path d="M822,65 a38,10 0 1,0 76,0 a38,10 0 1,0 -76,0" class="la-globe-arc"/>
+            <path d="M822,95 a38,10 0 1,0 76,0 a38,10 0 1,0 -76,0" class="la-globe-arc"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Browse card (kept) -->
     <div class="card">
       <div class="kicker" data-i18n="en">Browse by brand & category</div>
       <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
@@ -66,52 +119,85 @@
     </div>
   </section>
 
-  <!-- Inventory Slider -->
-<section class="gallery-section">
-  <h2 data-i18n="en">Inventory Gallery</h2>
-  <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
+  <!-- ===== WHY CHOOSE (strengths) ===== -->
+  <section class="why-us">
+    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
+    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
+    <div class="grid">
+      <div class="point">
+        <h3>HIT Values</h3>
+        <p>Honesty • Integrity • Transparency. Real auction data, clear fees, real timelines.</p>
+      </div>
+      <div class="point">
+        <h3>Agency Model</h3>
+        <p>We don’t carry inventory. We source exactly what you want and keep fees low.</p>
+      </div>
+      <div class="point">
+        <h3>Auctions + Partners</h3>
+        <p>Major auctions (post-incorporation) and vetted local suppliers where needed.</p>
+      </div>
+      <div class="point">
+        <h3>East Africa Focus</h3>
+        <p>Experience with Uganda & the region—what sells, what to avoid, and how to ship it.</p>
+      </div>
+      <div class="point">
+        <h3>End-to-Port</h3>
+        <p>From inspection and docs to shipping. You handle clearance—we can recommend agents.</p>
+      </div>
+      <div class="point">
+        <h3>Clear Deposit</h3>
+        <p>¥150,000 auction deposit credited to your balance when you win; terms explained upfront.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <a class="btn" href="contact.html" data-i18n="en">Tell us what you want</a>
+      <a class="btn hidden" href="contact.html" data-i18n="ja">ご希望をお聞かせください</a>
+    </div>
+  </section>
 
-  <div id="slider-cars" class="slider">
-    <figure>
-      <img alt=""/>
-      <figcaption></figcaption>
-    </figure>
-    <!-- NEW: controls -->
-    <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
-    <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
-    <div class="slider-dots" role="tablist"></div>
-  </div>
+  <!-- ===== Inventory Slider ===== -->
+  <section class="gallery-section">
+    <h2 data-i18n="en">Inventory Gallery</h2>
+    <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
 
-  <p class="muted" data-i18n="en">Add images to <code>assets/cars/</code> and list them in <code>config.js</code> with name, brand, and category.</p>
-  <p class="muted hidden" data-i18n="ja"><code>assets/cars/</code> に画像を追加し、<code>config.js</code> に名前・メーカー・カテゴリーを登録してください。</p>
-</section>
+    <div id="slider-cars" class="slider">
+      <figure>
+        <img alt=""/>
+        <figcaption></figcaption>
+      </figure>
+      <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
+      <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
+      <div class="slider-dots" role="tablist"></div>
+    </div>
 
-<!-- Success Stories Slider -->
-<section class="gallery-section">
-  <h2 data-i18n="en">Success Stories</h2>
-  <h2 class="hidden" data-i18n="ja">導入事例</h2>
+    <p class="muted" data-i18n="en">Add images to <code>assets/cars/</code> and list them in <code>config.js</code> with name, brand, and category.</p>
+    <p class="muted hidden" data-i18n="ja"><code>assets/cars/</code> に画像を追加し、<code>config.js</code> に名前・メーカー・カテゴリーを登録してください。</p>
+  </section>
 
-  <div id="slider-deliveries" class="slider">
-    <figure>
-      <img alt=""/>
-      <figcaption></figcaption>
-    </figure>
-    <!-- NEW: controls -->
-    <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
-    <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
-    <div class="slider-dots" role="tablist"></div>
-  </div>
+  <!-- ===== Success Stories Slider ===== -->
+  <section class="gallery-section">
+    <h2 data-i18n="en">Success Stories</h2>
+    <h2 class="hidden" data-i18n="ja">導入事例</h2>
 
-  <p class="muted" data-i18n="en">Add photos to <code>assets/deliveries/</code> and list them in <code>config.js</code>.</p>
-  <p class="muted hidden" data-i18n="ja">写真は <code>assets/deliveries/</code> に置き、<code>config.js</code> に登録してください。</p>
-</section>
+    <div id="slider-deliveries" class="slider">
+      <figure>
+        <img alt=""/>
+        <figcaption></figcaption>
+      </figure>
+      <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
+      <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
+      <div class="slider-dots" role="tablist"></div>
+    </div>
 
+    <p class="muted" data-i18n="en">Add photos to <code>assets/deliveries/</code> and list them in <code>config.js</code>.</p>
+    <p class="muted hidden" data-i18n="ja">写真は <code>assets/deliveries/</code> に置き、<code>config.js</code> に登録してください。</p>
+  </section>
 </main>
 
 <footer class="footer">
   <div class="socials">
-    <!-- WhatsApp --><a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <!-- TikTok --><a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <!-- WhatsApp --><a id="wa-link" href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <!-- TikTok --><a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <!-- Gmail --><a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
   <p class="footer-text">
@@ -120,9 +206,61 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- Inline CSS just for the animation + why-us cards (add to styles.css if you prefer) -->
+<style>
+  .logistics-anim{ max-width: 920px; margin: 18px auto; }
+  .logistics-anim svg{ width:100%; height:auto; overflow:visible; }
+  :root{
+    --brand: #c8102e; /* CARJU red */
+    --ink: #111; --soft: #f6f6f6; --muted: #9aa1a7;
+  }
+  .la-track{ stroke:#e2e5e9; stroke-width:2; }
+  .la-truck-body{ fill: var(--brand); }
+  .la-truck-cab{ fill:#ffdde1; stroke: var(--brand); stroke-width:2; }
+  .la-wheel{ fill:#343a40; stroke:#111; stroke-width:1; }
+  .la-ship-hull{ fill:#111; }
+  .la-ship-box{ fill: var(--brand); }
+  .la-ship-bridge{ fill:#e1e5ea; }
+  .la-ship-mast{ fill:#444; }
+  .la-wave{ fill:none; stroke:#7aa7c7; stroke-width:2; opacity:.7; }
+  .la-globe-sphere{ fill:#7aa7c7; opacity:.25; stroke:#7aa7c7; }
+  .la-globe-arc{ fill:none; stroke:#7aa7c7; opacity:.8; }
+  @keyframes truck-move {
+    0% { transform: translateX(0); opacity:0; }
+    10% { opacity:1; }
+    40% { transform: translateX(420px); }
+    50% { transform: translateX(480px); opacity:1; }
+    55% { opacity:0; }
+    100% { transform: translateX(480px); opacity:0; }
+  }
+  @keyframes ship-move {
+    0% { transform: translateX(520px); opacity:0; }
+    45% { opacity:0; }
+    55% { opacity:1; }
+    85% { transform: translateX(280px); opacity:1; }
+    100% { transform: translateX(140px); opacity:0; }
+  }
+  @keyframes globe-pulse {
+    0%, 60% { transform: scale(1); opacity:.6; }
+    70% { transform: scale(1.06); opacity:1; }
+    80% { transform: scale(1); opacity:.75; }
+    100% { transform: scale(1); opacity:.6; }
+  }
+  .la-truck{ animation: truck-move 8s ease-in-out infinite; }
+  .la-ship { animation: ship-move 8s ease-in-out infinite; }
+  .la-globe{ transform-origin: 860px 80px; animation: globe-pulse 8s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce){
+    .la-truck, .la-ship, .la-globe{ animation: none !important; }
+  }
+
+  .why-us{ max-width:1100px; margin:34px auto 12px; padding:0 14px; }
+  .why-us h2{ text-align:center; margin-bottom:14px; }
+  .why-us .grid{ display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
+  .why-us .point{ background:#fff; border:1px solid #eee; border-radius:14px; padding:14px; }
+  .why-us .point h3{ margin:0 0 6px; color:var(--brand); }
+  .btn{ display:inline-block; padding:10px 18px; border-radius:10px; background:var(--brand); color:#fff; text-decoration:none; }
+  .btn:hover{ filter:brightness(.95); }
+</style>
 </body>
 </html>
-
-
-
-
