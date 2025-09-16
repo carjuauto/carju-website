@@ -1,37 +1,6 @@
-async function loadContent() {
-  // Try CMS JSON first
-  try {
-    const res = await fetch('/data/content.json', { cache: 'no-store' });
-    if (res.ok) {
-      const json = await res.json();
-      return {
-        WHATSAPP: json.WHATSAPP || "",
-        TIKTOK: json.TIKTOK || "",
-        BRANDS: json.BRANDS || [],
-        CATEGORIES: json.CATEGORIES || [],
-        GALLERIES: {
-          cars: json.cars || [],
-          deliveries: json.deliveries || []
-        }
-      };
-    }
-  } catch(e) { /* fallback below */ }
-
-  // Fallback to previous config.js if JSON not found
-  const cfg = window.CARJU_CONFIG || {};
-  return {
-    WHATSAPP: cfg.WHATSAPP || "",
-    TIKTOK: cfg.TIKTOK || "",
-    BRANDS: cfg.BRANDS || [],
-    CATEGORIES: cfg.CATEGORIES || [],
-    GALLERIES: {
-      cars: (cfg.GALLERIES && cfg.GALLERIES.cars) || [],
-      deliveries: (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []
-    }
-  };
-}
-
-/* ===== Language state ===== */
+/* =========================
+   Global language state
+   ========================= */
 const state = { lang: localStorage.getItem('carju_lang') || 'en' };
 
 function setLang(l){
@@ -45,17 +14,118 @@ function setLang(l){
   });
 }
 
-/* ===== Tiny helper ===== */
+/* =========================
+   Helpers
+   ========================= */
 function el(tag, attrs={}, html=''){
   const n = document.createElement(tag);
   Object.entries(attrs).forEach(([k,v])=> n.setAttribute(k,v));
   if(html) n.innerHTML = html;
   return n;
 }
+function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
 
-/* =========================================================================
-   Slider: one-at-a-time with auto-rotate + arrows + dots + pause + swipe
-   ========================================================================= */
+/* =========================
+   Google Sheets integration
+   ========================= */
+/** ✅ YOUR SHEET ID (from the link you sent) **/
+const SHEET_ID = "1vRa9U4sMmZDWdh4pp4Gkig53XUmGr1mFxIB24Zcj_UE";
+/** Tab names (must match your sheet tabs exactly) **/
+const SHEET_CARS_TAB = "Cars";            // columns: Name | Brand | Category | Year | ImageURL
+const SHEET_DELIVERIES_TAB = "Deliveries"; // columns: Caption | ImageURL
+
+// Master lists so dropdowns never shrink even if the sheet has few entries
+const DEFAULT_BRANDS = [
+  "Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi","Suzuki","Daihatsu","Isuzu","Hino","Lexus",
+  "UD Trucks","Scania","Volvo","BMW","Mercedes-Benz","Audi","Volkswagen","Porsche","Maserati","Yamaha","Kawasaki"
+];
+const DEFAULT_CATEGORIES = [
+  "Sedan","Hatchback","SUV","Truck","Van","Wagon","Coupe","Convertible","Hybrid/EV",
+  "Machinery","Agricultural","Bus","Mini Bus","Pickup","Heavy Machinery","Construction Equipment","Motorcycle"
+];
+
+function mapCarRow(r){
+  const year = r.Year && String(r.Year).trim() ? Number(r.Year) : undefined;
+  return {
+    name: (r.Name || "").trim(),
+    brand: (r.Brand || "").trim(),
+    category: (r.Category || "").trim(),
+    year: isNaN(year) ? undefined : year,
+    src: (r.ImageURL || "").trim()
+  };
+}
+function mapDeliveryRow(r){
+  return { name: (r.Caption || "").trim(), src: (r.ImageURL || "").trim() };
+}
+async function fetchSheetJSON(tabName){
+  if(!SHEET_ID) return [];
+  const url = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(tabName)}?t=${Date.now()}`;
+  const res = await fetch(url, { cache: 'no-store' });
+  if(!res.ok) return [];
+  return await res.json();
+}
+
+/* =========================
+   Content loader with fallbacks
+   ========================= */
+async function loadContent(){
+  // 1) Try Google Sheets
+  try {
+    if(SHEET_ID){
+      const [carsRows, deliveriesRows] = await Promise.all([
+        fetchSheetJSON(SHEET_CARS_TAB),
+        fetchSheetJSON(SHEET_DELIVERIES_TAB)
+      ]);
+      const cars = (carsRows || []).map(mapCarRow).filter(x => x.src);
+      const deliveries = (deliveriesRows || []).map(mapDeliveryRow).filter(x => x.src);
+
+      const brands = uniqueList([...DEFAULT_BRANDS, ...cars.map(r => r.brand || r.Brand)]);
+      const categories = uniqueList([...DEFAULT_CATEGORIES, ...cars.map(r => r.category || r.Category)]);
+
+      return {
+        WHATSAPP: "+81 80 4790 9663",
+        TIKTOK: "https://www.tiktok.com/@yourhandle",
+        BRANDS: brands,
+        CATEGORIES: categories,
+        GALLERIES: { cars, deliveries }
+      };
+    }
+  } catch (e) {
+    console.warn("Sheets load failed, will fallback:", e);
+  }
+
+  // 2) Fallback to local JSON (data/content.json)
+  try {
+    const res = await fetch('/data/content.json', { cache: 'no-store' });
+    if (res.ok) {
+      const json = await res.json();
+      return {
+        WHATSAPP: json.WHATSAPP || "",
+        TIKTOK: json.TIKTOK || "",
+        BRANDS: uniqueList([...DEFAULT_BRANDS, ...(json.BRANDS || [])]),
+        CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(json.CATEGORIES || [])]),
+        GALLERIES: { cars: json.cars || [], deliveries: json.deliveries || [] }
+      };
+    }
+  } catch (e) { /* continue */ }
+
+  // 3) Final fallback to window.CARJU_CONFIG
+  const cfg = window.CARJU_CONFIG || {};
+  return {
+    WHATSAPP: cfg.WHATSAPP || "",
+    TIKTOK: cfg.TIKTOK || "",
+    BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
+    CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
+    GALLERIES: {
+      cars: (cfg.GALLERIES && cfg.GALLERIES.cars) || [],
+      deliveries: (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []
+    }
+  };
+}
+
+/* =========================
+   Slider (one-at-a-time)
+   ========================= */
 function setupSlider(containerId, items, intervalMs = 6000){
   const wrap = document.getElementById(containerId);
   if(!wrap || !items || !items.length){ return; }
@@ -90,7 +160,6 @@ function setupSlider(containerId, items, intervalMs = 6000){
       dotsWrap.appendChild(b);
     });
   }
-
   function updateDots(){
     if(!dotsWrap) return;
     Array.from(dotsWrap.children).forEach((d, idx)=>{
@@ -128,7 +197,6 @@ function setupSlider(containerId, items, intervalMs = 6000){
   function stopTimer(){ if(timer){ clearInterval(timer); timer = null; } }
   function resetTimer(){ stopTimer(); startTimer(); }
 
-  // Controls
   if(prevBtn) prevBtn.addEventListener('click', ()=>{ prev(); resetTimer(); });
   if(nextBtn) nextBtn.addEventListener('click', ()=>{ next(); resetTimer(); });
 
@@ -152,7 +220,9 @@ function setupSlider(containerId, items, intervalMs = 6000){
   startTimer();
 }
 
-/* ===== Build page from config ===== */
+/* =========================
+   Build page from config
+   ========================= */
 async function buildFromConfig(){
   const cfg = await loadContent();
 
@@ -160,18 +230,18 @@ async function buildFromConfig(){
   const wa = document.getElementById('wa-link');
   const tk = document.getElementById('tiktok-link');
   if(wa && cfg.WHATSAPP){
-    const num = cfg.WHATSAPP.replace(/[^0-9]/g,'');
-    wa.href = 'https://wa.me/' + num;
+    const num = String(cfg.WHATSAPP).replace(/[^0-9]/g,'');
+    if(num) wa.href = 'https://wa.me/' + num;
   }
   if(tk && cfg.TIKTOK){
     tk.href = cfg.TIKTOK;
   }
 
-  /* --- Sliders (replace the old buildGallery calls) --- */
+  // Sliders
   setupSlider('slider-cars', (cfg.GALLERIES && cfg.GALLERIES.cars) || []);
   setupSlider('slider-deliveries', (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []);
 
-  /* --- Brand + Category filter grid (keep this) --- */
+  // Brand + Category filters (grid preview)
   const brands = cfg.BRANDS || [];
   const cats = cfg.CATEGORIES || [];
   const items = (cfg.GALLERIES && cfg.GALLERIES.cars) || [];
@@ -205,7 +275,7 @@ async function buildFromConfig(){
         grid.appendChild(card);
       });
       if(!items.length){
-        const msg = el('div', {class:'muted small'}, 'Add items in config.js → GALLERIES.cars');
+        const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
         grid.appendChild(msg);
       }
     };
@@ -217,7 +287,9 @@ async function buildFromConfig(){
   }
 }
 
-/* ===== Init ===== */
+/* =========================
+   Init
+   ========================= */
 document.addEventListener('DOMContentLoaded', ()=>{
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
     b.addEventListener('click', ()=> setLang(b.getAttribute('data-lang-btn')));
@@ -225,4 +297,3 @@ document.addEventListener('DOMContentLoaded', ()=>{
   setLang(state.lang);
   buildFromConfig();
 });
-
