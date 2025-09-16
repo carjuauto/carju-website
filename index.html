@@ -36,32 +36,28 @@
   </div>
 </header>
 
-<!-- ===== Animation Banner ===== -->
+<!-- ===== Animation Banner (ship starts at Japan → sails to globe in 16s) ===== -->
 <div class="anim-banner">
   <div class="logistics-anim" aria-hidden="true">
     <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
       <!-- WORLD (left) -->
       <g class="la-world-wrap">
-        <circle cx="100" cy="100" r="72" class="la-world-halo"></circle>
         <image href="assets/world-globe.PNG"
-               x="25" y="10" width="150" height="150"
+               x="60" y="40" width="70" height="70"
                preserveAspectRatio="xMidYMid meet"
                class="la-world-img"/>
       </g>
-
       <!-- JAPAN (right) -->
       <g class="la-japan-wrap">
-        <circle cx="790" cy="100" r="72" class="la-japan-halo"></circle>
         <image href="assets/japan-map.PNG"
-               x="720" y="10" width="150" height="180"
+               x="750" y="40" width="70" height="70"
                preserveAspectRatio="xMidYMid meet"
                class="la-japan-img"/>
       </g>
-
-      <!-- SHIP (moves from Japan → World) -->
+      <!-- SHIP (moves Japan → World) -->
       <g class="la-ship-wrap">
         <image href="assets/ship.PNG"
-               x="0" y="110" width="210" height="70"
+               x="750" y="100" width="115" height="40"
                preserveAspectRatio="xMidYMid meet"
                class="la-ship-img"/>
       </g>
@@ -70,18 +66,30 @@
 </div>
 
 <main class="container">
+  <!-- HERO -->
   <section class="hero">
     <div class="card" data-i18n="en">
-      <h1>Trusted Japan Sourcing</h1>
-      <p>We source vehicles and heavy machinery from Japan via auctions and trusted suppliers—handling inspection, paperwork, and shipping as your agent.</p>
-      <p><a class="btn" href="contact.html">Request a Quote</a></p>
+      <h1>Japan to You—Straight, Simple, Delivered.</h1>
+      <p>We source vehicles and heavy machinery from Japan with <strong>Honesty, Integrity, and Transparency</strong>. Auction access, clear fees, and real updates from bid to bill of lading.</p>
+      <ul style="margin:8px 0 12px 18px">
+        <li><strong>Honesty</strong> — Real auction data, real photos, real timelines.</li>
+        <li><strong>Integrity</strong> — We say what we’ll do—and we do it.</li>
+        <li><strong>Transparency</strong> — Itemized costs and deposit terms upfront.</li>
+      </ul>
+      <p><a class="btn" href="contact.html">Get a Quote</a></p>
     </div>
     <div class="card hidden" data-i18n="ja">
-      <h1>安心の日本調達</h1>
-      <p>日本のオークションや信頼できる仕入先から車両・重機を調達。検査・書類・輸送までワンストップで対応します。</p>
+      <h1>日本からあなたへ—シンプルに、誠実に。</h1>
+      <p><strong>Honesty・Integrity・Transparency</strong> を大切に、日本のオークションや仕入先から車両・重機を調達。入札からB/L（船荷証券）まで、費用も進捗も明確にご案内します。</p>
+      <ul style="margin:8px 0 12px 18px">
+        <li><strong>Honesty（誠実）</strong>— 実際のオークション情報・写真・スケジュールを共有。</li>
+        <li><strong>Integrity（信頼）</strong>— 約束したことを確実に実行。</li>
+        <li><strong>Transparency（透明性）</strong>— 料金内訳とデポジット条件を事前に明示。</li>
+      </ul>
       <p><a class="btn" href="contact.html">見積り依頼</a></p>
     </div>
 
+    <!-- Browse by brand & category -->
     <div class="card">
       <div class="kicker" data-i18n="en">Browse by brand & category</div>
       <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
@@ -99,16 +107,26 @@
     </div>
   </section>
 
+  <!-- WHY CHOOSE (HIT) -->
+  <section class="why-us">
+    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
+    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
+    <div class="grid">
+      <div class="point"><h3>HIT Values</h3><p>Honesty • Integrity • Transparency. Real auction data, clear fees, real timelines.</p></div>
+      <div class="point"><h3>Agency Model</h3><p>We don’t carry inventory. We source exactly what you want and keep fees low.</p></div>
+      <div class="point"><h3>Auctions + Partners</h3><p>Major auctions (post-incorporation) and vetted local suppliers where needed.</p></div>
+      <div class="point"><h3>East Africa Focus</h3><p>Experience with Uganda & the region—what sells, what to avoid, and how to ship.</p></div>
+      <div class="point"><h3>End-to-Port</h3><p>From inspection and docs to shipping. You handle clearance—we can recommend agents.</p></div>
+      <div class="point"><h3>Clear Deposit</h3><p>¥150,000 auction deposit credited to your balance when you win; terms explained upfront.</p></div>
+    </div>
+  </section>
+
   <!-- Inventory Slider -->
   <section class="gallery-section">
     <h2 data-i18n="en">Inventory Gallery</h2>
     <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
-
     <div id="slider-cars" class="slider">
-      <figure>
-        <img alt=""/>
-        <figcaption></figcaption>
-      </figure>
+      <figure><img alt=""/><figcaption></figcaption></figure>
       <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
       <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
       <div class="slider-dots" role="tablist"></div>
@@ -119,12 +137,8 @@
   <section class="gallery-section">
     <h2 data-i18n="en">Success Stories</h2>
     <h2 class="hidden" data-i18n="ja">導入事例</h2>
-
     <div id="slider-deliveries" class="slider">
-      <figure>
-        <img alt=""/>
-        <figcaption></figcaption>
-      </figure>
+      <figure><img alt=""/><figcaption></figcaption></figure>
       <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
       <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
       <div class="slider-dots" role="tablist"></div>
@@ -138,14 +152,8 @@
     <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
-  <p class="footer-text">
-    © 2025 CARJU JAPAN Co., LTD — All Rights Reserved
-  </p>
+  <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
 </footer>
-
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
