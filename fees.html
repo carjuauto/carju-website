@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Fees — CARJU JAPAN Co., LTD</title>
-  <meta name="description" content="Agency fee schedule for vehicles and heavy machinery.">
+  <meta name="description" content="Transparent agency fee structure for cars, trucks, and machinery.">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
@@ -33,27 +33,65 @@
   </div>
 </header>
 
+<!-- Animation Banner -->
+<div class="anim-banner">
+  <div class="logistics-anim" aria-hidden="true">
+    <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
+      <circle cx="100" cy="100" r="60" class="la-world"/>
+      <text x="100" y="105" text-anchor="middle" font-size="14" fill="#fff">WORLD</text>
+      <rect x="750" y="40" width="80" height="120" rx="15" class="la-japan"/>
+      <text x="790" y="110" text-anchor="middle" font-size="14" fill="#fff">JAPAN</text>
+      <g class="la-ship">
+        <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
+        <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
+        <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
+        <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
+        <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
+        <path d="M-20,170 q30,20 80,0" class="la-wave"/>
+        <path d="M40,170  q30,20 80,0" class="la-wave"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
 <main class="container">
-  <h1 data-i18n="en">Agency Fee Schedule (tax included)</h1>
-  <h1 class="hidden" data-i18n="ja">手数料表（税込）</h1>
-  <section class="card" id="fees">
-    <table class="table">
-      <tr>
-        <th data-i18n="en">Vehicle Cost (JPY)</th>
-        <th class="hidden" data-i18n="ja">車両価格（円）</th>
-        <th data-i18n="en">Agency Fee</th>
-        <th class="hidden" data-i18n="ja">手数料</th>
-      </tr>
-      <tr><td>0–500,000</td><td>55,000</td></tr>
-      <tr><td>500,001–1,000,000</td><td>77,000</td></tr>
-      <tr><td>1,000,001+</td><td>99,000</td></tr>
-      <tr>
-        <td data-i18n="en">Heavy Machinery</td>
-        <td class="hidden" data-i18n="ja">重機</td>
-        <td data-i18n="en">Negotiable</td>
-        <td class="hidden" data-i18n="ja">別途ご相談</td>
-      </tr>
-    </table>
+  <h1 data-i18n="en">Fees</h1>
+  <h1 class="hidden" data-i18n="ja">料金</h1>
+
+  <div class="card" data-i18n="en">
+    <h3>Agency Fee Structure (tax included)</h3>
+    <ul>
+      <li>Vehicle price ¥0 – ¥500,000 → <strong>¥55,000</strong></li>
+      <li>¥500,000 – ¥1,000,000 → <strong>¥77,000</strong></li>
+      <li>¥1,000,000 and above → <strong>¥99,000</strong></li>
+      <li>Heavy machinery → <strong>Negotiable</strong></li>
+    </ul>
+    <p><em>Deposit:</em> A refundable/creditable <strong>¥150,000 auction deposit</strong> is required to start bidding. If you win and pay the balance within three business days, this deposit is credited to your invoice. If you win but fail to pay, auction houses may retain the deposit.</p>
+  </div>
+
+  <div class="card hidden" data-i18n="ja">
+    <h3>手数料（消費税込）</h3>
+    <ul>
+      <li>車両価格 ¥0 ～ ¥500,000 → <strong>¥55,000</strong></li>
+      <li>¥500,000 ～ ¥1,000,000 → <strong>¥77,000</strong></li>
+      <li>¥1,000,000 以上 → <strong>¥99,000</strong></li>
+      <li>重機 → <strong>要相談</strong></li>
+    </ul>
+    <p><em>デポジット:</em> 入札開始には <strong>¥150,000</strong> の保証金が必要です。落札後3営業日以内に残額をお支払いいただいた場合、保証金は請求書に充当されます。落札後にお支払いがない場合、オークション側の規定により保証金が没収されることがあります。</p>
+  </div>
+
+  <!-- WHY CHOOSE (optional repeat) -->
+  <section class="why-us">
+    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
+    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
+    <div class="grid">
+      <div class="point"><h3>HIT Values</h3><p>Honesty • Integrity • Transparency. Real auction data, clear fees, real timelines.</p></div>
+      <div class="point"><h3>Agency Model</h3><p>We don’t carry inventory. We source exactly what you want and keep fees low.</p></div>
+      <div class="point"><h3>Auctions + Partners</h3><p>Major auctions (post-incorporation) and vetted local suppliers where needed.</p></div>
+      <div class="point"><h3>East Africa Focus</h3><p>Experience with Uganda & the region—what sells, what to avoid, and how to ship it.</p></div>
+      <div class="point"><h3>End-to-Port</h3><p>From inspection and docs to shipping. You handle clearance—we can recommend agents.</p></div>
+      <div class="point"><h3>Clear Deposit</h3><p>¥150,000 auction deposit credited to your balance when you win; terms explained upfront.</p></div>
+    </div>
   </section>
 </main>
 
@@ -67,10 +105,20 @@
     © 2025 CARJU JAPAN Co., LTD — All Rights Reserved
   </p>
 </footer>
-
 <script src="script.js"></script>
+
+<style>
+  .anim-banner{ background:#fff; padding:12px 0; border-bottom:1px solid #eee; }
+  .anim-banner .logistics-anim{ max-width:920px; margin:auto; }
+  .anim-banner svg{ width:100%; height:auto; }
+  .la-world{ fill:#0077b6; stroke:#023e8a; stroke-width:3; }
+  .la-japan{ fill:#c8102e; stroke:#800000; stroke-width:3; }
+  .la-ship-hull{ fill:#111; } .la-ship-box{ fill:#c8102e; }
+  .la-ship-bridge{ fill:#e1e5ea; } .la-ship-mast{ fill:#444; }
+  .la-wave{ fill:none; stroke:#7aa7c7; stroke-width:2; opacity:.7; }
+  @keyframes ship-sail{ 0%{transform:translateX(700px);opacity:0} 10%{opacity:1} 50%{transform:translateX(350px)} 90%{opacity:1} 100%{transform:translateX(0);opacity:0} }
+  .la-ship{ animation: ship-sail 10s linear infinite; }
+  @media (prefers-reduced-motion: reduce){ .la-ship{ animation:none !important; } }
+</style>
 </body>
 </html>
-
-
-
