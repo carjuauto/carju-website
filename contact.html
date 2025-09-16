@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Contact — CARJU JAPAN Co., LTD</title>
-  <meta name="description" content="Contact CARJU JAPAN Co., LTD for quotes and sourcing requests.">
+  <meta name="description" content="Contact CARJU JAPAN for sourcing cars and machinery from Japan.">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
@@ -13,7 +13,7 @@
 <body>
 <header class="header container">
   <div class="brand">
-    <a href="index.html" class="brandlink"><img src="assets/logo.png" alt="CARJU JAPAN" onerror="this.style.display='none'"/></a>
+    <a href="index.html" class="brandlink"><img src="assets/logo.png" alt="CARJU JAPAN logo" onerror="this.style.display='none'"/></a>
     <div><a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
       <div class="kicker" data-i18n="en">Vehicle & Heavy Machinery Sourcing Agency</div>
       <div class="kicker hidden" data-i18n="ja">車両・重機ソーシング代理店</div>
@@ -33,33 +33,52 @@
   </div>
 </header>
 
+<!-- Animation Banner -->
+<div class="anim-banner">
+  <div class="logistics-anim" aria-hidden="true">
+    <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
+      <circle cx="100" cy="100" r="60" class="la-world"/>
+      <text x="100" y="105" text-anchor="middle" font-size="14" fill="#fff">WORLD</text>
+      <rect x="750" y="40" width="80" height="120" rx="15" class="la-japan"/>
+      <text x="790" y="110" text-anchor="middle" font-size="14" fill="#fff">JAPAN</text>
+      <g class="la-ship">
+        <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
+        <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
+        <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
+        <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
+        <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
+        <path d="M-20,170 q30,20 80,0" class="la-wave"/>
+        <path d="M40,170  q30,20 80,0" class="la-wave"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
 <main class="container">
   <h1 data-i18n="en">Contact Us</h1>
   <h1 class="hidden" data-i18n="ja">お問い合わせ</h1>
+
   <section class="grid grid-2">
-    <div class="card" data-i18n="en">
-      <p>Head Office: Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo</p>
-      <p>Phone: +81 80 4790 9663 / +81 80 2695 2010</p>
-      <p>Email: <a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
-      <form name="contact" method="POST" data-netlify="true" action="/thankyou.html">
-        <input type="hidden" name="form-name" value="contact">
-        <input name="name" placeholder="Your name" required>
-        <input name="email" type="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Tell us what you need" required></textarea>
+    <div class="card">
+      <h3 data-i18n="en">Talk to us</h3>
+      <h3 class="hidden" data-i18n="ja">ご相談ください</h3>
+      <p><strong>Email:</strong> <a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
+      <p><strong>WhatsApp:</strong> <a id="wa-link" href="https://wa.me/+818047909663" target="_blank">+81 80 4790 9663</a></p>
+      <p><strong>TikTok:</strong> <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank">@carju_auto</a></p>
+      <p><strong>Office:</strong> Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo, Japan</p>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="en">Quick Request</h3>
+      <h3 class="hidden" data-i18n="ja">簡単見積り</h3>
+      <!-- Keep your existing form handling; this is a simple mailto fallback -->
+      <form action="mailto:carjuautoagency@gmail.com" method="post" enctype="text/plain">
+        <label>Name<br><input required type="text" name="name" placeholder="Your name"/></label><br>
+        <label>Email<br><input required type="email" name="email" placeholder="you@example.com"/></label><br>
+        <label>What are you looking for?<br><textarea name="message" rows="5" placeholder="Brand, model, year, budget..."></textarea></label><br>
         <button class="btn" type="submit">Send</button>
       </form>
-    </div>
-    <div class="card hidden" data-i18n="ja">
-      <p>本社：東京都渋谷区道玄坂1-10-8 渋谷道玄坂東急ビル2F-C</p>
-      <p>電話：+81 80 4790 9663 / +81 80 2695 2010</p>
-      <p>メール：<a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
-      <form name="contact-ja" method="POST" data-netlify="true" action="/thankyou.html">
-        <input type="hidden" name="form-name" value="contact-ja">
-        <input name="name" placeholder="お名前" required>
-        <input name="email" type="email" placeholder="メールアドレス" required>
-        <textarea name="message" placeholder="ご要望" required></textarea>
-        <button class="btn" type="submit">送信</button>
-      </form>
+      <p class="muted" style="margin-top:6px">Prefer WhatsApp? Click the green icon in the footer.</p>
     </div>
   </section>
 </main>
@@ -75,9 +94,19 @@
   </p>
 </footer>
 <script src="script.js"></script>
+
+<style>
+  .anim-banner{ background:#fff; padding:12px 0; border-bottom:1px solid #eee; }
+  .anim-banner .logistics-anim{ max-width:920px; margin:auto; }
+  .anim-banner svg{ width:100%; height:auto; }
+  .la-world{ fill:#0077b6; stroke:#023e8a; stroke-width:3; }
+  .la-japan{ fill:#c8102e; stroke:#800000; stroke-width:3; }
+  .la-ship-hull{ fill:#111; } .la-ship-box{ fill:#c8102e; }
+  .la-ship-bridge{ fill:#e1e5ea; } .la-ship-mast{ fill:#444; }
+  .la-wave{ fill:none; stroke:#7aa7c7; stroke-width:2; opacity:.7; }
+  @keyframes ship-sail{ 0%{transform:translateX(700px);opacity:0} 10%{opacity:1} 50%{transform:translateX(350px)} 90%{opacity:1} 100%{transform:translateX(0);opacity:0} }
+  .la-ship{ animation: ship-sail 10s linear infinite; }
+  @media (prefers-reduced-motion: reduce){ .la-ship{ animation:none !important; } }
+</style>
 </body>
 </html>
-
-
-
-
