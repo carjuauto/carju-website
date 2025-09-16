@@ -1,3 +1,36 @@
+async function loadContent() {
+  // Try CMS JSON first
+  try {
+    const res = await fetch('/data/content.json', { cache: 'no-store' });
+    if (res.ok) {
+      const json = await res.json();
+      return {
+        WHATSAPP: json.WHATSAPP || "",
+        TIKTOK: json.TIKTOK || "",
+        BRANDS: json.BRANDS || [],
+        CATEGORIES: json.CATEGORIES || [],
+        GALLERIES: {
+          cars: json.cars || [],
+          deliveries: json.deliveries || []
+        }
+      };
+    }
+  } catch(e) { /* fallback below */ }
+
+  // Fallback to previous config.js if JSON not found
+  const cfg = window.CARJU_CONFIG || {};
+  return {
+    WHATSAPP: cfg.WHATSAPP || "",
+    TIKTOK: cfg.TIKTOK || "",
+    BRANDS: cfg.BRANDS || [],
+    CATEGORIES: cfg.CATEGORIES || [],
+    GALLERIES: {
+      cars: (cfg.GALLERIES && cfg.GALLERIES.cars) || [],
+      deliveries: (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []
+    }
+  };
+}
+
 /* ===== Language state ===== */
 const state = { lang: localStorage.getItem('carju_lang') || 'en' };
 
@@ -120,8 +153,8 @@ function setupSlider(containerId, items, intervalMs = 6000){
 }
 
 /* ===== Build page from config ===== */
-function buildFromConfig(){
-  const cfg = window.CARJU_CONFIG || {};
+async function buildFromConfig(){
+  const cfg = await loadContent();
 
   // Socials
   const wa = document.getElementById('wa-link');
@@ -192,3 +225,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
   setLang(state.lang);
   buildFromConfig();
 });
+
