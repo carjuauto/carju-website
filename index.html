@@ -36,60 +36,52 @@
   </div>
 </header>
 
-<!-- ===== Animation Banner (appears on all pages) ===== -->
+<!-- ===== Animation Banner ===== -->
 <div class="anim-banner">
   <div class="logistics-anim" aria-hidden="true">
     <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
-      <!-- World map (left) -->
-      <circle cx="100" cy="100" r="60" class="la-world"/>
-      <text x="100" y="105" text-anchor="middle" font-size="14" fill="#fff">WORLD</text>
+      <!-- WORLD (left) -->
+      <g class="la-world-wrap">
+        <circle cx="100" cy="100" r="72" class="la-world-halo"></circle>
+        <image href="assets/world-globe.png"
+               x="25" y="10" width="150" height="150"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-world-img"/>
+      </g>
 
-      <!-- Japan map (right) -->
-      <rect x="750" y="40" width="80" height="120" rx="15" class="la-japan"/>
-      <text x="790" y="110" text-anchor="middle" font-size="14" fill="#fff">JAPAN</text>
+      <!-- JAPAN (right) -->
+      <g class="la-japan-wrap">
+        <circle cx="790" cy="100" r="72" class="la-japan-halo"></circle>
+        <image href="assets/japan-map.png"
+               x="720" y="10" width="150" height="180"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-japan-img"/>
+      </g>
 
-      <!-- Ship group (sails left) -->
-      <g class="la-ship">
-        <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
-        <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
-        <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
-        <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
-        <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
-        <path d="M-20,170 q30,20 80,0" class="la-wave"/>
-        <path d="M40,170  q30,20 80,0" class="la-wave"/>
+      <!-- SHIP (moves from Japan → World) -->
+      <g class="la-ship-wrap">
+        <image href="assets/ship.png"
+               x="0" y="110" width="210" height="70"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-ship-img"/>
       </g>
     </svg>
   </div>
 </div>
 
 <main class="container">
-  <!-- ===== HERO ===== -->
   <section class="hero">
-    <!-- EN -->
     <div class="card" data-i18n="en">
-      <h1>Japan to You—Straight, Simple, Delivered.</h1>
-      <p>We source vehicles and heavy machinery from Japan with <strong>Honesty, Integrity, and Transparency</strong>. Auction access, clear fees, and real updates from bid to bill of lading.</p>
-      <ul style="margin:8px 0 12px 18px">
-        <li><strong>Honesty</strong> — Real auction data, real photos, real timelines.</li>
-        <li><strong>Integrity</strong> — We say what we’ll do—and we do it.</li>
-        <li><strong>Transparency</strong> — Itemized costs and deposit terms upfront.</li>
-      </ul>
-      <p><a class="btn" href="contact.html">Get a Quote</a></p>
+      <h1>Trusted Japan Sourcing</h1>
+      <p>We source vehicles and heavy machinery from Japan via auctions and trusted suppliers—handling inspection, paperwork, and shipping as your agent.</p>
+      <p><a class="btn" href="contact.html">Request a Quote</a></p>
     </div>
-
-    <!-- JA -->
     <div class="card hidden" data-i18n="ja">
-      <h1>日本からあなたへ—シンプルに、誠実に。</h1>
-      <p><strong>Honesty・Integrity・Transparency</strong> を大切に、日本のオークションや仕入先から車両・重機を調達。入札からB/L（船荷証券）まで、費用も進捗も明確にご案内します。</p>
-      <ul style="margin:8px 0 12px 18px">
-        <li><strong>Honesty（誠実）</strong>— 実際のオークション情報・写真・スケジュールを共有。</li>
-        <li><strong>Integrity（信頼）</strong>— 約束したことを確実に実行。</li>
-        <li><strong>Transparency（透明性）</strong>— 料金内訳とデポジット条件を事前に明示。</li>
-      </ul>
+      <h1>安心の日本調達</h1>
+      <p>日本のオークションや信頼できる仕入先から車両・重機を調達。検査・書類・輸送までワンストップで対応します。</p>
       <p><a class="btn" href="contact.html">見積り依頼</a></p>
     </div>
 
-    <!-- Browse card (unchanged) -->
     <div class="card">
       <div class="kicker" data-i18n="en">Browse by brand & category</div>
       <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
@@ -107,43 +99,7 @@
     </div>
   </section>
 
-  <!-- ===== WHY CHOOSE (strengths) ===== -->
-  <section class="why-us">
-    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
-    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
-    <div class="grid">
-      <div class="point">
-        <h3>HIT Values</h3>
-        <p>Honesty • Integrity • Transparency. Real auction data, clear fees, real timelines.</p>
-      </div>
-      <div class="point">
-        <h3>Agency Model</h3>
-        <p>We don’t carry inventory. We source exactly what you want and keep fees low.</p>
-      </div>
-      <div class="point">
-        <h3>Auctions + Partners</h3>
-        <p>Major auctions (post-incorporation) and vetted local suppliers where needed.</p>
-      </div>
-      <div class="point">
-        <h3>East Africa Focus</h3>
-        <p>Experience with Uganda & the region—what sells, what to avoid, and how to ship it.</p>
-      </div>
-      <div class="point">
-        <h3>End-to-Port</h3>
-        <p>From inspection and docs to shipping. You handle clearance—we can recommend agents.</p>
-      </div>
-      <div class="point">
-        <h3>Clear Deposit</h3>
-        <p>¥150,000 auction deposit credited to your balance when you win; terms explained upfront.</p>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:16px">
-      <a class="btn" href="contact.html" data-i18n="en">Tell us what you want</a>
-      <a class="btn hidden" href="contact.html" data-i18n="ja">ご希望をお聞かせください</a>
-    </div>
-  </section>
-
-  <!-- ===== Inventory Slider ===== -->
+  <!-- Inventory Slider -->
   <section class="gallery-section">
     <h2 data-i18n="en">Inventory Gallery</h2>
     <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
@@ -157,12 +113,9 @@
       <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
       <div class="slider-dots" role="tablist"></div>
     </div>
-
-    <p class="muted" data-i18n="en">Add images to <code>assets/cars/</code> and list them in <code>config.js</code> with name, brand, and category.</p>
-    <p class="muted hidden" data-i18n="ja"><code>assets/cars/</code> に画像を追加し、<code>config.js</code> に名前・メーカー・カテゴリーを登録してください。</p>
   </section>
 
-  <!-- ===== Success Stories Slider ===== -->
+  <!-- Success Stories Slider -->
   <section class="gallery-section">
     <h2 data-i18n="en">Success Stories</h2>
     <h2 class="hidden" data-i18n="ja">導入事例</h2>
@@ -176,17 +129,14 @@
       <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
       <div class="slider-dots" role="tablist"></div>
     </div>
-
-    <p class="muted" data-i18n="en">Add photos to <code>assets/deliveries/</code> and list them in <code>config.js</code>.</p>
-    <p class="muted hidden" data-i18n="ja">写真は <code>assets/deliveries/</code> に置き、<code>config.js</code> に登録してください。</p>
   </section>
 </main>
 
 <footer class="footer">
   <div class="socials">
-    <!-- WhatsApp --><a id="wa-link" href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <!-- TikTok --><a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
-    <!-- Gmail --><a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
   <p class="footer-text">
     © 2025 CARJU JAPAN Co., LTD — All Rights Reserved
@@ -194,20 +144,6 @@
 </footer>
 
 <script src="script.js"></script>
-
-<!-- Animation CSS (safe to move into styles.css later) -->
-<style>
-  .anim-banner{ background:#fff; padding:12px 0; border-bottom:1px solid #eee; }
-  .anim-banner .logistics-anim{ max-width:920px; margin:auto; }
-  .anim-banner svg{ width:100%; height:auto; }
-  .la-world{ fill:#0077b6; stroke:#023e8a; stroke-width:3; }
-  .la-japan{ fill:#c8102e; stroke:#800000; stroke-width:3; }
-  .la-ship-hull{ fill:#111; } .la-ship-box{ fill:#c8102e; }
-  .la-ship-bridge{ fill:#e1e5ea; } .la-ship-mast{ fill:#444; }
-  .la-wave{ fill:none; stroke:#7aa7c7; stroke-width:2; opacity:.7; }
-  @keyframes ship-sail{ 0%{transform:translateX(700px);opacity:0} 10%{opacity:1} 50%{transform:translateX(350px)} 90%{opacity:1} 100%{transform:translateX(0);opacity:0} }
-  .la-ship{ animation: ship-sail 10s linear infinite; }
-  @media (prefers-reduced-motion: reduce){ .la-ship{ animation:none !important; } }
-</style>
 </body>
 </html>
+
