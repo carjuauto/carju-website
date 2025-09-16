@@ -171,4 +171,51 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
 .btn{ display:inline-block; padding:10px 18px; border-radius:10px; background:var(--brand); color:#fff; text-decoration:none; }
 .btn:hover{ filter:brightness(.95); }
 
+/* ===== Animation Banner (Japan → Ship → Globe) ===== */
+.anim-banner {
+  background:#fff;
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+.anim-banner .logistics-anim {
+  max-width:920px;
+  margin:auto;
+}
+.anim-banner svg {
+  width:100%;
+  height:auto;
+}
+
+/* Image sizing (slightly bigger than socials) */
+.la-world-img,
+.la-japan-img {
+  width:70px !important;
+  height:auto !important;
+}
+.la-ship-img {
+  width:115px !important;
+  height:auto !important;
+  filter: contrast(110%) saturate(115%);
+  opacity:.96;
+}
+
+/* Ship sails from Japan (x=750) to Globe (x=60) in 16s */
+@keyframes ship-sail-japan-to-world {
+  0%   { transform: translateX(750px) translateY(0px) scale(.95); opacity:0; }
+  5%   { opacity:1; }
+  25%  { transform: translateX(550px) translateY(-5px) scale(.95); }
+  50%  { transform: translateX(350px) translateY(-10px) scale(.95); }
+  75%  { transform: translateX(200px) translateY(-5px) scale(.95); }
+  95%  { opacity:1; }
+  100% { transform: translateX(60px) translateY(0px) scale(.95); opacity:0; }
+}
+
+.la-ship-wrap {
+  animation: ship-sail-japan-to-world 16s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .la-ship-wrap{ animation:none !important; }
+}
+
 
