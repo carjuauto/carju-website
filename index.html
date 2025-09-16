@@ -37,29 +37,32 @@
 </header>
 
 <!-- ===== Animation Banner (ship starts at Japan → sails to globe in 16s) ===== -->
+<!-- ===== Animation Banner ===== -->
 <div class="anim-banner">
   <div class="logistics-anim" aria-hidden="true">
     <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
       <!-- WORLD (left) -->
       <g class="la-world-wrap">
         <image href="assets/world-globe.PNG"
-               x="60" y="40" width="70" height="70"
+               x="60" y="40" width="90" height="90"
                preserveAspectRatio="xMidYMid meet"
                class="la-world-img"/>
       </g>
+
       <!-- JAPAN (right) -->
       <g class="la-japan-wrap">
         <image href="assets/japan-map.PNG"
-               x="750" y="40" width="70" height="70"
+               x="750" y="40" width="90" height="90"
                preserveAspectRatio="xMidYMid meet"
                class="la-japan-img"/>
       </g>
-      <!-- SHIP (moves Japan → World) -->
+
+      <!-- SHIP (movement is 100% CSS) -->
       <g class="la-ship-wrap">
         <image href="assets/ship.PNG"
-       x="0" y="100" width="115" height="40"
-       preserveAspectRatio="xMidYMid meet"
-       class="la-ship-img"/>
+               x="0" y="110" width="140" height="50"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-ship-img"/>
       </g>
     </svg>
   </div>
@@ -157,4 +160,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
