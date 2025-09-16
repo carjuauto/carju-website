@@ -37,18 +37,16 @@
 <div class="anim-banner">
   <div class="logistics-anim" aria-hidden="true">
     <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
-      <circle cx="100" cy="100" r="60" class="la-world"/>
-      <text x="100" y="105" text-anchor="middle" font-size="14" fill="#fff">WORLD</text>
-      <rect x="750" y="40" width="80" height="120" rx="15" class="la-japan"/>
-      <text x="790" y="110" text-anchor="middle" font-size="14" fill="#fff">JAPAN</text>
-      <g class="la-ship">
-        <path d="M0,165 l80,0 l15,-20 l-110,0 z" class="la-ship-hull"/>
-        <rect x="20" y="120" width="25" height="25" class="la-ship-box"/>
-        <rect x="50" y="120" width="25" height="25" class="la-ship-box"/>
-        <rect x="35" y="95"  width="20" height="20" class="la-ship-bridge"/>
-        <rect x="42" y="85"  width="6"  height="10" class="la-ship-mast"/>
-        <path d="M-20,170 q30,20 80,0" class="la-wave"/>
-        <path d="M40,170  q30,20 80,0" class="la-wave"/>
+      <g class="la-world-wrap">
+        <circle cx="100" cy="100" r="72" class="la-world-halo"></circle>
+        <image href="assets/world-globe.PNG" x="25" y="10" width="150" height="150" preserveAspectRatio="xMidYMid meet" class="la-world-img"/>
+      </g>
+      <g class="la-japan-wrap">
+        <circle cx="790" cy="100" r="72" class="la-japan-halo"></circle>
+        <image href="assets/japan-map.PNG" x="720" y="10" width="150" height="180" preserveAspectRatio="xMidYMid meet" class="la-japan-img"/>
+      </g>
+      <g class="la-ship-wrap">
+        <image href="assets/ship.PNG" x="0" y="110" width="210" height="70" preserveAspectRatio="xMidYMid meet" class="la-ship-img"/>
       </g>
     </svg>
   </div>
@@ -66,7 +64,7 @@
       <li>¥1,000,000 and above → <strong>¥99,000</strong></li>
       <li>Heavy machinery → <strong>Negotiable</strong></li>
     </ul>
-    <p><em>Deposit:</em> A refundable/creditable <strong>¥150,000 auction deposit</strong> is required to start bidding. If you win and pay the balance within three business days, this deposit is credited to your invoice. If you win but fail to pay, auction houses may retain the deposit.</p>
+    <p><em>Deposit:</em> A <strong>¥150,000 auction deposit</strong> is required to start bidding. If you win and pay the balance within three business days, this deposit is credited to your invoice. If you win but fail to pay, auction houses may retain the deposit.</p>
   </div>
 
   <div class="card hidden" data-i18n="ja">
@@ -77,48 +75,18 @@
       <li>¥1,000,000 以上 → <strong>¥99,000</strong></li>
       <li>重機 → <strong>要相談</strong></li>
     </ul>
-    <p><em>デポジット:</em> 入札開始には <strong>¥150,000</strong> の保証金が必要です。落札後3営業日以内に残額をお支払いいただいた場合、保証金は請求書に充当されます。落札後にお支払いがない場合、オークション側の規定により保証金が没収されることがあります。</p>
+    <p><em>保証金:</em> 入札開始には <strong>¥150,000</strong> が必要です。落札後3営業日以内に残額をお支払いいただいた場合、保証金は請求額に充当されます。落札後に未払いの場合、オークション規定により没収されることがあります。</p>
   </div>
-
-  <!-- WHY CHOOSE (optional repeat) -->
-  <section class="why-us">
-    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
-    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
-    <div class="grid">
-      <div class="point"><h3>HIT Values</h3><p>Honesty • Integrity • Transparency. Real auction data, clear fees, real timelines.</p></div>
-      <div class="point"><h3>Agency Model</h3><p>We don’t carry inventory. We source exactly what you want and keep fees low.</p></div>
-      <div class="point"><h3>Auctions + Partners</h3><p>Major auctions (post-incorporation) and vetted local suppliers where needed.</p></div>
-      <div class="point"><h3>East Africa Focus</h3><p>Experience with Uganda & the region—what sells, what to avoid, and how to ship it.</p></div>
-      <div class="point"><h3>End-to-Port</h3><p>From inspection and docs to shipping. You handle clearance—we can recommend agents.</p></div>
-      <div class="point"><h3>Clear Deposit</h3><p>¥150,000 auction deposit credited to your balance when you win; terms explained upfront.</p></div>
-    </div>
-  </section>
 </main>
 
 <footer class="footer">
   <div class="socials">
-    <!-- WhatsApp --><a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <!-- TikTok --><a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
-    <!-- Gmail --><a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
-  <p class="footer-text">
-    © 2025 CARJU JAPAN Co., LTD — All Rights Reserved
-  </p>
+  <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
 </footer>
 <script src="script.js"></script>
-
-<style>
-  .anim-banner{ background:#fff; padding:12px 0; border-bottom:1px solid #eee; }
-  .anim-banner .logistics-anim{ max-width:920px; margin:auto; }
-  .anim-banner svg{ width:100%; height:auto; }
-  .la-world{ fill:#0077b6; stroke:#023e8a; stroke-width:3; }
-  .la-japan{ fill:#c8102e; stroke:#800000; stroke-width:3; }
-  .la-ship-hull{ fill:#111; } .la-ship-box{ fill:#c8102e; }
-  .la-ship-bridge{ fill:#e1e5ea; } .la-ship-mast{ fill:#444; }
-  .la-wave{ fill:none; stroke:#7aa7c7; stroke-width:2; opacity:.7; }
-  @keyframes ship-sail{ 0%{transform:translateX(700px);opacity:0} 10%{opacity:1} 50%{transform:translateX(350px)} 90%{opacity:1} 100%{transform:translateX(0);opacity:0} }
-  .la-ship{ animation: ship-sail 10s linear infinite; }
-  @media (prefers-reduced-motion: reduce){ .la-ship{ animation:none !important; } }
-</style>
 </body>
 </html>
