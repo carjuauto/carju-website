@@ -182,7 +182,6 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
 
 /* Safety: prevent any old animations from interfering */
 .la-ship-wrap{
-  animation: none !important;
   transform: translateX(750px) translateY(0); /* starting at Japan by default until keyframes apply */
 }
 
@@ -207,9 +206,6 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   transform-origin: center;     /* smooth movement */
 }
 
-@media (prefers-reduced-motion: reduce){
-  .la-ship-wrap{ animation: none !important; opacity:1 !important; }
-}
 /* Promo Popup */
 .promo-overlay {
   position: fixed;
@@ -254,6 +250,23 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   to   { opacity: 1; transform: translateY(0); }
 }
 /* You already have .hidden{display:none} — keep it */
+/* Keyframes must exist above this */
+@keyframes carju-ship-japan-to-world {
+  0%   { transform: translateX(750px) translateY(0)   scale(.98); opacity:0; }
+  6%   { opacity:1; }
+  30%  { transform: translateX(550px) translateY(-6px) scale(.98); }
+  60%  { transform: translateX(320px) translateY(-10px) scale(.98); }
+  85%  { transform: translateX(120px) translateY(-4px)  scale(.98); }
+  100% { transform: translateX(60px)  translateY(0)     scale(.98); opacity:0; }
+}
+
+/* 🚢 Make the ship sail again */
+.la-ship-wrap{
+  animation: carju-ship-japan-to-world 16s linear infinite !important;
+  will-change: transform, opacity;
+  transform-box: fill-box;
+  transform-origin: center;
+}
 
 
 
