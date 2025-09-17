@@ -36,16 +36,34 @@
   </div>
 </header>
 
+<!-- Banner -->
 <!-- ===== Animation Banner ===== -->
 <div class="anim-banner">
   <div class="logistics-anim" aria-hidden="true">
     <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
-      <!-- WORLD -->
-      <image href="assets/world-globe.PNG" x="60" y="60" width="90" height="90"/>
-      <!-- JAPAN -->
-      <image href="assets/japan-map.PNG" x="750" y="60" width="200" height="200"/>
-      <!-- SHIP -->
-      <image href="assets/ship.PNG" x="0" y="85" width="100" height="50" class="la-ship-img"/>
+      <!-- WORLD (left) -->
+      <g class="la-world-wrap">
+        <image href="assets/world-globe.PNG"
+               x="60" y="60" width="90" height="90"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-world-img"/>
+      </g>
+
+      <!-- JAPAN (right) -->
+      <g class="la-japan-wrap">
+        <image href="assets/japan-map.PNG"
+               x="750" y="60" width="200" height="200"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-japan-img"/>
+      </g>
+
+      <!-- SHIP (movement is 100% CSS) -->
+      <g class="la-ship-wrap">
+        <image href="assets/ship.PNG"
+               x="0" y="85" width="100" height="50"
+               preserveAspectRatio="xMidYMid meet"
+               class="la-ship-img"/>
+      </g>
     </svg>
   </div>
 </div>
@@ -143,4 +161,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
