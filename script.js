@@ -287,41 +287,33 @@ async function buildFromConfig(){
   }
 }
 
-/* =========================
-   Init
-   ========================= */
-document.addEventListener('DOMContentLoaded', ()=>{
-  document.querySelectorAll('[data-lang-btn]').forEach(b=>{
-    b.addEventListener('click', ()=> setLang(b.getAttribute('data-lang-btn')));
-  });
-  setLang(state.lang);
-  buildFromConfig();
-});
+// ==========================
+// Promo Popup
+// ==========================
 document.addEventListener('DOMContentLoaded', () => {
   const popup = document.getElementById('promo-popup');
   const closeBtn = document.getElementById('promo-close');
 
-  if (popup && closeBtn) {
-    // Show only once per session (per tab)
-    if (!sessionStorage.getItem('promoShown')) {
-      setTimeout(() => {
-        popup.classList.remove('hidden');
-        sessionStorage.setItem('promoShown', 'true');
-      }, 2000); // shows after 2 seconds
-    }
+  if (!popup || !closeBtn) return;
 
-    closeBtn.addEventListener('click', () => {
-      popup.classList.add('hidden');
-    });
-
-    // Optional: click outside box to close
-    popup.addEventListener('click', (e) => {
-      if (e.target === popup) popup.classList.add('hidden');
-    });
-
-    // Optional: Esc to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') popup.classList.add('hidden');
-    });
+  // Show only once per session
+  if (!sessionStorage.getItem('promoShown')) {
+    setTimeout(() => {
+      popup.classList.remove('hidden');
+      sessionStorage.setItem('promoShown', 'true');
+    }, 2000);
   }
+
+  // Extra safety: attach listener again
+  closeBtn.addEventListener('click', () => {
+    popup.classList.add('hidden');
+  });
+
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.classList.add('hidden');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') popup.classList.add('hidden');
+  });
 });
