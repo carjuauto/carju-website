@@ -297,3 +297,31 @@ document.addEventListener('DOMContentLoaded', ()=>{
   setLang(state.lang);
   buildFromConfig();
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const popup = document.getElementById('promo-popup');
+  const closeBtn = document.getElementById('promo-close');
+
+  if (popup && closeBtn) {
+    // Show only once per session (per tab)
+    if (!sessionStorage.getItem('promoShown')) {
+      setTimeout(() => {
+        popup.classList.remove('hidden');
+        sessionStorage.setItem('promoShown', 'true');
+      }, 2000); // shows after 2 seconds
+    }
+
+    closeBtn.addEventListener('click', () => {
+      popup.classList.add('hidden');
+    });
+
+    // Optional: click outside box to close
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) popup.classList.add('hidden');
+    });
+
+    // Optional: Esc to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') popup.classList.add('hidden');
+    });
+  }
+});
