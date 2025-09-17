@@ -210,6 +210,51 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
 @media (prefers-reduced-motion: reduce){
   .la-ship-wrap{ animation: none !important; opacity:1 !important; }
 }
+/* Promo Popup */
+.promo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.promo-box {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 22px 22px;
+  width: min(92vw, 360px);
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,.2);
+  animation: promoFadeIn .45s ease both;
+}
+.promo-box h2 { margin: 0 0 10px; color: var(--brand); }
+.promo-box p  { margin: 0 0 16px; }
+.promo-btn {
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid var(--brand-ink);
+}
+.promo-btn:hover { filter: brightness(.95); }
+.promo-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  background: none; border: none; cursor: pointer;
+  font-size: 24px; color: #666;
+}
+@keyframes promoFadeIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* You already have .hidden{display:none} — keep it */
+
 
 
 
