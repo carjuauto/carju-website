@@ -36,34 +36,16 @@
   </div>
 </header>
 
-<!-- ===== Animation Banner (ship starts at Japan → sails to globe in 16s) ===== -->
 <!-- ===== Animation Banner ===== -->
 <div class="anim-banner">
   <div class="logistics-anim" aria-hidden="true">
     <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
-      <!-- WORLD (left) -->
-      <g class="la-world-wrap">
-        <image href="assets/world-globe.PNG"
-               x="60" y="60" width="90" height="90"
-               preserveAspectRatio="xMidYMid meet"
-               class="la-world-img"/>
-      </g>
-
-      <!-- JAPAN (right) -->
-      <g class="la-japan-wrap">
-        <image href="assets/japan-map.PNG"
-               x="750" y="60" width="200" height="200"
-               preserveAspectRatio="xMidYMid meet"
-               class="la-japan-img"/>
-      </g>
-
-      <!-- SHIP (movement is 100% CSS) -->
-      <g class="la-ship-wrap">
-        <image href="assets/ship.PNG"
-               x="0" y="85" width="100" height="50"
-               preserveAspectRatio="xMidYMid meet"
-               class="la-ship-img"/>
-      </g>
+      <!-- WORLD -->
+      <image href="assets/world-globe.PNG" x="60" y="60" width="90" height="90"/>
+      <!-- JAPAN -->
+      <image href="assets/japan-map.PNG" x="750" y="60" width="200" height="200"/>
+      <!-- SHIP -->
+      <image href="assets/ship.PNG" x="0" y="85" width="100" height="50" class="la-ship-img"/>
     </svg>
   </div>
 </div>
@@ -110,17 +92,17 @@
     </div>
   </section>
 
-  <!-- WHY CHOOSE (HIT) -->
+  <!-- WHY US -->
   <section class="why-us">
     <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
     <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
     <div class="grid">
-      <div class="point"><h3>HIT Values</h3><p>Honesty • Integrity • Transparency. Real auction data, clear fees, real timelines.</p></div>
+      <div class="point"><h3>HIT Values</h3><p>Honesty • Integrity • Transparency.</p></div>
       <div class="point"><h3>Agency Model</h3><p>We don’t carry inventory. We source exactly what you want and keep fees low.</p></div>
-      <div class="point"><h3>Auctions + Partners</h3><p>Major auctions (post-incorporation) and vetted local suppliers where needed.</p></div>
-      <div class="point"><h3>East Africa Focus</h3><p>Experience with Uganda & the region—what sells, what to avoid, and how to ship.</p></div>
-      <div class="point"><h3>End-to-Port</h3><p>From inspection and docs to shipping. You handle clearance—we can recommend agents.</p></div>
-      <div class="point"><h3>Clear Deposit</h3><p>¥150,000 auction deposit credited to your balance when you win; terms explained upfront.</p></div>
+      <div class="point"><h3>Auctions + Partners</h3><p>Major auctions and vetted local suppliers.</p></div>
+      <div class="point"><h3>East Africa Focus</h3><p>Experience with Uganda & the region—what sells and how to ship.</p></div>
+      <div class="point"><h3>End-to-Port</h3><p>Inspection, docs, shipping. You handle clearance—we can recommend agents.</p></div>
+      <div class="point"><h3>Clear Deposit</h3><p>¥150,000 auction deposit credited when you win.</p></div>
     </div>
   </section>
 
@@ -130,61 +112,51 @@
     <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
     <div id="slider-cars" class="slider">
       <figure><img alt=""/><figcaption></figcaption></figure>
-      <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
-      <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
-      <div class="slider-dots" role="tablist"></div>
+      <button class="slider-arrow prev">&#10094;</button>
+      <button class="slider-arrow next">&#10095;</button>
+      <div class="slider-dots"></div>
     </div>
   </section>
 
-  <!-- Success Stories Slider -->
+  <!-- Success Stories -->
   <section class="gallery-section">
     <h2 data-i18n="en">Success Stories</h2>
     <h2 class="hidden" data-i18n="ja">導入事例</h2>
     <div id="slider-deliveries" class="slider">
       <figure><img alt=""/><figcaption></figcaption></figure>
-      <button class="slider-arrow prev" aria-label="Previous slide">&#10094;</button>
-      <button class="slider-arrow next" aria-label="Next slide">&#10095;</button>
-      <div class="slider-dots" role="tablist"></div>
+      <button class="slider-arrow prev">&#10094;</button>
+      <button class="slider-arrow next">&#10095;</button>
+      <div class="slider-dots"></div>
     </div>
   </section>
 </main>
 
 <footer class="footer">
   <div class="socials">
-    <a href="https://wa.me/+818047909663" target="_blank">
-      <img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32">
-    </a>
-    <a href="https://www.tiktok.com/@carju_auto" target="_blank">
-      <img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32">
-    </a>
-    <a href="mailto:carjuautoagency@gmail.com" target="_blank">
-      <img src="assets/gmail.PNG" alt="Gmail" width="32" height="32">
-    </a>
+    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
   <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
 </footer>
 
 <!-- Promo Popup -->
-<div id="promo-popup" class="promo-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="promo-title" aria-describedby="promo-desc">
+<div id="promo-popup" class="promo-overlay hidden">
   <div class="promo-box">
-    <button id="promo-close" class="promo-close" aria-label="Close">&times;</button>
-    <h2 id="promo-title">Limited Offer!</h2>
-    <p id="promo-desc"><strong>50% OFF</strong> agency fees for your first purchase</p>
+    <!-- Inline onclick fallback -->
+    <button id="promo-close" class="promo-close" type="button"
+            onclick="document.getElementById('promo-popup').classList.add('hidden');">
+      &times;
+    </button>
+    <h2>Limited Offer!</h2>
+    <p><strong>50% OFF</strong> agency fees for your first purchase</p>
     <a class="promo-btn"
        href="https://wa.me/818047909663?text=Hello%20CARJU%20Japan!%20I%27d%20like%20to%20claim%2050%25%20OFF%20agency%20fees%20for%20my%20first%20purchase."
        target="_blank">💬 Claim via WhatsApp</a>
   </div>
 </div>
 
-<!-- ✅ IMPORTANT: scripts must come AFTER the popup HTML -->
+<!-- Attach script AFTER popup -->
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
