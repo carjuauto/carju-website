@@ -299,6 +299,27 @@ document.addEventListener('DOMContentLoaded', () => {
   buildFromConfig().catch(err=>{
     console.error('[CARJU] buildFromConfig failed:', err);
   });
+     // load Google Sheets data and build UI
+  buildFromConfig().catch(err=>{
+    console.error('[CARJU] buildFromConfig failed:', err);
+  });
+
+  // Sticky promo banner
+  const promoBar = document.getElementById('promo-bar');
+  const promoBarClose = document.getElementById('promo-bar-close');
+  if (promoBar) {
+    if (sessionStorage.getItem('promoBarDismissed') === '1') {
+      promoBar.classList.add('hidden');
+    }
+    promoBarClose?.addEventListener('click', () => {
+      promoBar.classList.add('hidden');
+      sessionStorage.setItem('promoBarDismissed', '1');
+    });
+  }
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
+  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
+});
+
