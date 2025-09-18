@@ -267,6 +267,26 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   transform-box: fill-box;
   transform-origin: center;
 }
+/* Sticky promo banner */
+.promo-bar{
+  position: sticky; top:0; z-index: 1000;
+  background: var(--brand); color:#fff;
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  padding:8px 12px; font-weight:600; text-align:center;
+  border-bottom: 1px solid var(--brand-ink);
+}
+.promo-link{
+  color:#fff; text-decoration:none;
+  background: rgba(255,255,255,.15);
+  padding:6px 10px; border-radius:8px;
+  border:1px solid rgba(0,0,0,.12);
+}
+.promo-link:hover{ filter: brightness(1.05); }
+.promo-bar-close{
+  background: transparent; border:none; color:#fff; cursor:pointer;
+  font-size: 20px; line-height:1; padding:0 6px; margin-left:4px;
+}
+.promo-bar.hidden{ display:none !important; }
 
 
 
