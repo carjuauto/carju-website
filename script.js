@@ -287,33 +287,18 @@ async function buildFromConfig(){
   }
 }
 
-// ==========================
-// Promo Popup
-// ==========================
+// ===== INIT (language + data) =====
 document.addEventListener('DOMContentLoaded', () => {
-  const popup = document.getElementById('promo-popup');
-  const closeBtn = document.getElementById('promo-close');
+  // language buttons
+  document.querySelectorAll('[data-lang-btn]').forEach(b=>{
+    b.addEventListener('click', ()=> setLang(b.getAttribute('data-lang-btn')));
+  });
+  setLang(state.lang);
 
-  if (!popup || !closeBtn) return;
-
-  // Show only once per session
-  if (!sessionStorage.getItem('promoShown')) {
-    setTimeout(() => {
-      popup.classList.remove('hidden');
-      sessionStorage.setItem('promoShown', 'true');
-    }, 2000);
-  }
-
-  // Extra safety: attach listener again
-  closeBtn.addEventListener('click', () => {
-    popup.classList.add('hidden');
+  // load Google Sheets data and build UI
+  buildFromConfig().catch(err=>{
+    console.error('[CARJU] buildFromConfig failed:', err);
   });
 
-  popup.addEventListener('click', (e) => {
-    if (e.target === popup) popup.classList.add('hidden');
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') popup.classList.add('hidden');
-  });
+  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
