@@ -286,8 +286,7 @@ async function buildFromConfig(){
     render();
   }
 }
-
-// ===== INIT (language + data) =====
+// ===== INIT (language + data + promo) =====
 document.addEventListener('DOMContentLoaded', () => {
   // language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
@@ -299,10 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
   buildFromConfig().catch(err=>{
     console.error('[CARJU] buildFromConfig failed:', err);
   });
-     // load Google Sheets data and build UI
-  buildFromConfig().catch(err=>{
-    console.error('[CARJU] buildFromConfig failed:', err);
-  });
 
   // Sticky promo banner
   const promoBar = document.getElementById('promo-bar');
@@ -311,16 +306,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('promoBarDismissed') === '1') {
       promoBar.classList.add('hidden');
     }
-    promoBarClose?.addEventListener('click', () => {
-      promoBar.classList.add('hidden');
-      sessionStorage.setItem('promoBarDismissed', '1');
-    });
+    if (promoBarClose) {
+      promoBarClose.addEventListener('click', () => {
+        promoBar.classList.add('hidden');
+        sessionStorage.setItem('promoBarDismissed', '1');
+      });
+    }
   }
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
+
+  // 🔧 Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
+  setTimeout(() => {
+    const brandSel = document.getElementById('brandSelect');
+    const catSel   = document.getElementById('categorySelect');
+    const grid     = document.getElementById('brandGrid');
+
+    if (brandSel && brandSel.options.length === 0) {
+      brandSel.innerHTML = ['All', ...DEFAULT_BRANDS].map(b=>`<option value="${b}">${b}</option>`).join('');
+    }
+    if (catSel && catSel.options.length === 0) {
+      catSel.innerHTML = ['All', ...DEFAULT_CATEGORIES].map(c=>`<option value="${c}">${c}</option>`).join('');
+    }
+    if (grid && grid.children.length === 0) {
+      const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
+      grid.appendChild(msg);
+    }
+  }, 1000);
 });
-
-  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
-});
-
-
