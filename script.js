@@ -299,20 +299,17 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('[CARJU] buildFromConfig failed:', err);
   });
 
-  // Sticky promo banner
-  const promoBar = document.getElementById('promo-bar');
-  const promoBarClose = document.getElementById('promo-bar-close');
-  if (promoBar) {
-    if (sessionStorage.getItem('promoBarDismissed') === '1') {
-      promoBar.classList.add('hidden');
-    }
-    if (promoBarClose) {
-      promoBarClose.addEventListener('click', () => {
-        promoBar.classList.add('hidden');
-        sessionStorage.setItem('promoBarDismissed', '1');
-      });
-    }
+  // Sticky promo banner — show on every page load (no memory)
+const promoBar = document.getElementById('promo-bar');
+const promoBarClose = document.getElementById('promo-bar-close');
+if (promoBar) {
+  promoBar.classList.remove('hidden'); // always show each load
+  if (promoBarClose) {
+    promoBarClose.addEventListener('click', () => {
+      promoBar.classList.add('hidden'); // hide until next refresh
+    });
   }
+}
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 
@@ -334,3 +331,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 1000);
 });
+
