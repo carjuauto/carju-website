@@ -323,3 +323,4 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
 
+
