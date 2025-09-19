@@ -7,12 +7,34 @@ window.CARJU_CONFIG = {
 
   GALLERIES: {
     cars: [
-      // { src: "assets/cars/toyota-prius-2015.jpg", name: "Toyota Prius S", brand: "Toyota", category: "Hybrid/EV", year: 2015 },
-      // { src: "assets/cars/honda-fit-2014.jpg",   name: "Honda Fit 1.3G", brand: "Honda",  category: "Hatchback", year: 2014 }
+      {
+        src: "https://drive.google.com/uc?export=view&id=1Seq0srl3-KYkD5MqETVoUXAL7_SiHKSu",
+        name: "Toyota Land Cruiser",
+        brand: "Toyota",
+        category: "SUV",
+        year: 2024
+      },
+      {
+        src: "https://drive.google.com/uc?export=view&id=1wbt8GNQUVV-iq8PEbsqL4PKOHEDr7XLo",
+        name: "Toyota Land Cruiser",
+        brand: "Toyota",
+        category: "SUV",
+        year: 2018
+      },
+      {
+        src: "https://drive.google.com/uc?export=view&id=1_loCpFmT7jIUcUfCD5SnStzVHdWmQVXi/view",
+        name: "Toyota Harrier",
+        brand: "Toyota",
+        category: "SUV",
+        year: 2018
+      },
+      // add more…
     ],
     deliveries: [
-      // { src: "assets/deliveries/customer-kampala-01.jpg", name: "Delivery — Kampala (X-Trail)" }
+      {
+        src: "https://drive.google.com/uc?export=view&id=FILE_ID_HERE",
+        name: "Delivered — Kampala"
+      }
     ]
   }
 };
-
