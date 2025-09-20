@@ -24,6 +24,32 @@ function el(tag, attrs={}, html=''){
   return n;
 }
 function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
+// Small inline placeholder used when an image fails to load
+const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,
+<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'>
+  <rect width='100%' height='100%' fill='%23f3f3f3'/>
+  <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+        fill='%23999' font-size='18'>Image unavailable</text>
+</svg>`.replace(/\n/g,'');
+
+// Turn Google Drive "share links" into direct image links
+function driveToDirect(u){
+  if(!u) return '';
+  // /file/d/<id>/view?... OR ...?id=<id>
+  const m1 = u.match(/\/d\/([a-zA-Z0-9_-]{25,})/);
+  const m2 = u.match(/[?&]id=([a-zA-Z0-9_-]{25,})/);
+  const id = m1 ? m1[1] : (m2 ? m2[1] : null);
+  if(!id) return u;               // not a Drive URL → return as-is
+  return `https://drive.google.com/uc?export=view&id=${id}`;
+}
+
+// Normalize one car/delivery item
+function normalizeItem(it){
+  return {
+    ...it,
+    src: driveToDirect(it.src || it.ImageURL || '')
+  };
+}
 /* =========================
    Google Drive helpers
    ========================= */
@@ -333,13 +359,16 @@ const deliveries = (cfg.GALLERIES && cfg.GALLERIES.deliveries) || [];
 cars.forEach(x => x.src = driveToDirect(x.src));
 deliveries.forEach(x => x.src = driveToDirect(x.src));
 
-setupSlider('slider-cars', cars);
-setupSlider('slider-deliveries', deliveries);
+// Sliders (normalized)
+const carsForSlider = ((cfg.GALLERIES && cfg.GALLERIES.cars) || []).map(normalizeItem);
+const deliveriesForSlider = ((cfg.GALLERIES && cfg.GALLERIES.deliveries) || []).map(normalizeItem);
+setupSlider('slider-cars', carsForSlider);
+setupSlider('slider-deliveries', deliveriesForSlider);
 
-  // Brand + Category filters (grid preview)
-  const brands = cfg.BRANDS || [];
-  const cats = cfg.CATEGORIES || [];
-  const items = (cfg.GALLERIES && cfg.GALLERIES.cars) || [];
+// Brand + Category filters (grid preview)
+const brands = cfg.BRANDS || [];
+const cats = cfg.CATEGORIES || [];
+const items = carsForSlider; // use normalized cars
 
   const brandSel = document.getElementById('brandSelect');
   const catSel = document.getElementById('categorySelect');
@@ -350,14 +379,79 @@ setupSlider('slider-deliveries', deliveries);
     catSel.innerHTML = ['All', ...cats].map(c=>`<option value="${c}">${c}</option>`).join('');
 
     const render = ()=>{
-      const b = brandSel.value;
-      const c = catSel.value;
-      grid.innerHTML = '';
-      const filtered = items.filter(it=>{
-        const brandOk = (b==='All' || it.brand===b);
-        const catOk = (c==='All' || it.category===c);
-        return brandOk && catOk;
-      });
+  const bVal = (brandSel.value || 'All').toLowerCase();
+  const cVal = (catSel.value   || 'All').toLowerCase();
+  grid.innerHTML = '';
+
+  const filtered = items.filter(it=>{
+    const brandOk = (bVal === 'all') || ((it.brand||'').toLowerCase() === bVal);
+    const catOk   = (cVal === 'all') || ((it.category||'').toLowerCase() === cVal);
+    return brandOk && catOk;
+  });
+
+  const show = filtered.length ? filtered : items.slice(0,6);
+
+  show.slice(0,12).forEach(it=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.cursor = 'pointer';
+
+    const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = title;
+    card.appendChild(h3);
+
+    const meta = document.createElement('p');
+    meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
+      || 'Models & images coming soon.';
+    card.appendChild(meta);
+
+    if (it.src) {
+      const imgEl = document.createElement('img');
+      imgEl.src = it.src;
+      imgEl.alt = title;
+      imgEl.loading = 'lazy';
+      imgEl.style.width = '100%';
+      imgEl.style.height = '160px';
+      imgEl.style.objectFit = 'cover';
+      imgEl.style.borderRadius = '10px';
+      imgEl.style.border = '1px solid #eee';
+      imgEl.style.marginTop = '6px';
+
+      // Fallback if Drive blocks or link is bad
+      imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = PLACEHOLDER_IMG; };
+
+      card.appendChild(imgEl);
+    }
+
+    // 🔔 Click-to-inquire: confirm → WhatsApp OR Email
+    card.addEventListener('click', ()=>{
+      const imgUrl = it.src || '';
+      const message = `Hi CARJU Japan, I'm interested in: ${title} (${it.brand||''} · ${it.category||''} ${it.year||''}). Image: ${imgUrl}`;
+      const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
+      const mail  = `mailto:carjuautoagency@gmail.com?subject=${
+        encodeURIComponent('Vehicle Inquiry: '+title)
+      }&body=${
+        encodeURIComponent(message)
+      }`;
+
+      if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
+        window.open(whats, '_blank');
+      } else {
+        window.location.href = mail;
+      }
+    });
+
+    grid.appendChild(card);
+  });
+
+  if (!items.length){
+    const msg = el('div', {class:'muted small'},
+      'Add items in Google Sheets (Cars tab) or in data/content.json');
+    grid.appendChild(msg);
+  }
+};
       const show = filtered.length ? filtered : items.slice(0,6);
       show.slice(0,12).forEach(it=>{
         const card = el('div', {class:'card'});
@@ -426,5 +520,6 @@ if (promoBar) {
     }
   }, 1000);
 });
+
 
 
