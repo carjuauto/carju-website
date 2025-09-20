@@ -24,67 +24,10 @@ function el(tag, attrs={}, html=''){
   return n;
 }
 function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
+
 // Small inline placeholder used when an image fails to load
-const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,
-<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'>
-  <rect width='100%' height='100%' fill='%23f3f3f3'/>
-  <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-        fill='%23999' font-size='18'>Image unavailable</text>
-</svg>`.replace(/\n/g,'');
+const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
 
-// Turn Google Drive "share links" into direct image links
-function driveToDirect(u){
-  if(!u) return '';
-  // /file/d/<id>/view?... OR ...?id=<id>
-  const m1 = u.match(/\/d\/([a-zA-Z0-9_-]{25,})/);
-  const m2 = u.match(/[?&]id=([a-zA-Z0-9_-]{25,})/);
-  const id = m1 ? m1[1] : (m2 ? m2[1] : null);
-  if(!id) return u;               // not a Drive URL → return as-is
-  return `https://drive.google.com/uc?export=view&id=${id}`;
-}
-
-// Normalize one car/delivery item
-function normalizeItem(it){
-  return {
-    ...it,
-    src: driveToDirect(it.src || it.ImageURL || '')
-  };
-}
-/* =========================
-   Google Drive helpers
-   ========================= */
-// Convert any Google Drive link to a direct image candidate list
-function driveToDirect(u){
-  if(!u) return u;
-  try{
-    const idMatch = String(u).match(/[-\w]{25,}/);
-    if(!idMatch) return u;
-    const id = idMatch[0];
-    const candidates = [
-      `https://drive.google.com/uc?export=view&id=${id}`,
-      `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
-      `https://lh3.googleusercontent.com/d/${id}=w1600`
-    ];
-    return candidates[0] + `#gdcandidates=${encodeURIComponent(JSON.stringify(candidates))}`;
-  }catch(e){ return u; }
-}
-
-// If an image fails, try the next candidate URL
-function tryNextDriveCandidate(imgEl){
-  try{
-    const hash = imgEl.src.split('#gdcandidates=')[1];
-    if(!hash) return false;
-    const list = JSON.parse(decodeURIComponent(hash));
-    const current = imgEl.src.split('#')[0];
-    const idx = list.findIndex(x => current.startsWith(x.split('#')[0]));
-    const next = list[idx+1];
-    if(next){
-      imgEl.src = next + `#gdcandidates=${encodeURIComponent(JSON.stringify(list))}`;
-      return true;
-    }
-  }catch(e){}
-  return false;
-}
 /* =========================
    Google Drive helpers
    ========================= */
@@ -93,7 +36,7 @@ function driveToDirect(u){
   if(!u) return u;
   try{
     const idMatch = String(u).match(/[-\w]{25,}/);
-    if(!idMatch) return u;
+    if(!idMatch) return u; // not a Drive URL
     const id = idMatch[0];
     const candidates = [
       `https://drive.google.com/uc?export=view&id=${id}`,
@@ -121,10 +64,19 @@ function tryNextDriveCandidate(imgEl){
   }catch(e){}
   return false;
 }
+
+// Normalize one car/delivery item
+function normalizeItem(it){
+  return {
+    ...it,
+    src: driveToDirect(it.src || it.ImageURL || '')
+  };
+}
+
 /* =========================
    Google Sheets integration
    ========================= */
-/** ✅ YOUR SHEET ID (from the link you sent) **/
+/** ✅ YOUR SHEET ID **/
 const SHEET_ID = "1vRa9U4sMmZDWdh4pp4Gkig53XUmGr1mFxIB24Zcj_UE";
 /** Tab names (must match your sheet tabs exactly) **/
 const SHEET_CARS_TAB = "Cars";            // columns: Name | Brand | Category | Year | ImageURL
@@ -256,7 +208,6 @@ function setupSlider(containerId, items, intervalMs = 6000){
       dotsWrap.appendChild(b);
     });
   }
-
   function updateDots(){
     if(!dotsWrap) return;
     Array.from(dotsWrap.children).forEach((d, idx)=>{
@@ -269,14 +220,18 @@ function setupSlider(containerId, items, intervalMs = 6000){
     const it = items[idx];
     if(!it) return;
 
-    // normalize any Drive link to direct-view URL
     const src   = driveToDirect(it.src || it.ImageURL || '');
     const title = it.name || it.brand || it.category || 'Image';
+
+    // Make Drive happier + speed up paint
+    img.decoding = 'async';
+    img.referrerPolicy = 'no-referrer';
 
     // error fallback: try next candidate if the image fails
     img.onerror = () => {
       if (!tryNextDriveCandidate(img)) {
         img.onerror = null; // stop retrying if nothing works
+        img.src = PLACEHOLDER_IMG;
       }
     };
 
@@ -350,131 +305,116 @@ async function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
-  // Sliders
-  // Sliders (normalize Drive links first)
-const cars = (cfg.GALLERIES && cfg.GALLERIES.cars) || [];
-const deliveries = (cfg.GALLERIES && cfg.GALLERIES.deliveries) || [];
+  // Normalize images (Drive) for sliders
+  const carsForSlider = ((cfg.GALLERIES && cfg.GALLERIES.cars) || []).map(normalizeItem);
+  const deliveriesForSlider = ((cfg.GALLERIES && cfg.GALLERIES.deliveries) || []).map(normalizeItem);
 
-// normalize each image URL
-cars.forEach(x => x.src = driveToDirect(x.src));
-deliveries.forEach(x => x.src = driveToDirect(x.src));
+  setupSlider('slider-cars', carsForSlider);
+  setupSlider('slider-deliveries', deliveriesForSlider);
 
-// Sliders (normalized)
-const carsForSlider = ((cfg.GALLERIES && cfg.GALLERIES.cars) || []).map(normalizeItem);
-const deliveriesForSlider = ((cfg.GALLERIES && cfg.GALLERIES.deliveries) || []).map(normalizeItem);
-setupSlider('slider-cars', carsForSlider);
-setupSlider('slider-deliveries', deliveriesForSlider);
-
-// Brand + Category filters (grid preview)
-const brands = cfg.BRANDS || [];
-const cats = cfg.CATEGORIES || [];
-const items = carsForSlider; // use normalized cars
+  // Brand + Category filters (grid preview)
+  const brands = cfg.BRANDS || [];
+  const cats   = cfg.CATEGORIES || [];
+  const items  = carsForSlider; // use normalized cars
 
   const brandSel = document.getElementById('brandSelect');
-  const catSel = document.getElementById('categorySelect');
-  const grid = document.getElementById('brandGrid');
+  const catSel   = document.getElementById('categorySelect');
+  const grid     = document.getElementById('brandGrid');
 
   if(brandSel && catSel && grid){
     brandSel.innerHTML = ['All', ...brands].map(b=>`<option value="${b}">${b}</option>`).join('');
-    catSel.innerHTML = ['All', ...cats].map(c=>`<option value="${c}">${c}</option>`).join('');
+    catSel.innerHTML   = ['All', ...cats].map(c=>`<option value="${c}">${c}</option>`).join('');
 
-    const render = ()=>{
-  const bVal = (brandSel.value || 'All').toLowerCase();
-  const cVal = (catSel.value   || 'All').toLowerCase();
-  grid.innerHTML = '';
+    const renderGrid = ()=>{
+      const bVal = (brandSel.value || 'All').trim().toLowerCase();
+      const cVal = (catSel.value   || 'All').trim().toLowerCase();
+      grid.innerHTML = '';
 
-  const filtered = items.filter(it=>{
-    const brandOk = (bVal === 'all') || ((it.brand||'').toLowerCase() === bVal);
-    const catOk   = (cVal === 'all') || ((it.category||'').toLowerCase() === cVal);
-    return brandOk && catOk;
-  });
+      const filtered = items.filter(it=>{
+        const brandOk = (bVal === 'all') || ((it.brand||'').trim().toLowerCase() === bVal);
+        const catOk   = (cVal === 'all') || ((it.category||'').trim().toLowerCase() === cVal);
+        return brandOk && catOk;
+      });
 
-  const show = filtered.length ? filtered : items.slice(0,6);
-
-  show.slice(0,12).forEach(it=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.style.cursor = 'pointer';
-
-    const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
-
-    const h3 = document.createElement('h3');
-    h3.textContent = title;
-    card.appendChild(h3);
-
-    const meta = document.createElement('p');
-    meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
-      || 'Models & images coming soon.';
-    card.appendChild(meta);
-
-    if (it.src) {
-      const imgEl = document.createElement('img');
-      imgEl.src = it.src;
-      imgEl.alt = title;
-      imgEl.loading = 'lazy';
-      imgEl.style.width = '100%';
-      imgEl.style.height = '160px';
-      imgEl.style.objectFit = 'cover';
-      imgEl.style.borderRadius = '10px';
-      imgEl.style.border = '1px solid #eee';
-      imgEl.style.marginTop = '6px';
-
-      // Fallback if Drive blocks or link is bad
-      imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = PLACEHOLDER_IMG; };
-
-      card.appendChild(imgEl);
-    }
-
-    // 🔔 Click-to-inquire: confirm → WhatsApp OR Email
-    card.addEventListener('click', ()=>{
-      const imgUrl = it.src || '';
-      const message = `Hi CARJU Japan, I'm interested in: ${title} (${it.brand||''} · ${it.category||''} ${it.year||''}). Image: ${imgUrl}`;
-      const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
-      const mail  = `mailto:carjuautoagency@gmail.com?subject=${
-        encodeURIComponent('Vehicle Inquiry: '+title)
-      }&body=${
-        encodeURIComponent(message)
-      }`;
-
-      if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
-        window.open(whats, '_blank');
-      } else {
-        window.location.href = mail;
-      }
-    });
-
-    grid.appendChild(card);
-  });
-
-  if (!items.length){
-    const msg = el('div', {class:'muted small'},
-      'Add items in Google Sheets (Cars tab) or in data/content.json');
-    grid.appendChild(msg);
-  }
-};
       const show = filtered.length ? filtered : items.slice(0,6);
+
       show.slice(0,12).forEach(it=>{
-        const card = el('div', {class:'card'});
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.cursor = 'pointer';
+
         const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
-        card.innerHTML = `
-          <h3>${title}</h3>
-          <p>${[it.brand, it.category, it.year].filter(Boolean).join(' · ') || 'Models & images coming soon.'}</p>
-          ${it.src ? `<img src="${it.src}" alt="${title}" loading="lazy" style="width:100%;height:160px;object-fit:cover;border-radius:10px;border:1px solid #eee;margin-top:6px">` : ''}
-        `;
+
+        const h3 = document.createElement('h3');
+        h3.textContent = title;
+        card.appendChild(h3);
+
+        const meta = document.createElement('p');
+        meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
+          || 'Models & images coming soon.';
+        card.appendChild(meta);
+
+        if (it.src) {
+          const imgEl = document.createElement('img');
+          imgEl.src = it.src;
+          imgEl.alt = title;
+          imgEl.loading = 'lazy';
+          imgEl.decoding = 'async';
+          imgEl.referrerPolicy = 'no-referrer';
+          imgEl.style.width = '100%';
+          imgEl.style.height = '160px';
+          imgEl.style.objectFit = 'cover';
+          imgEl.style.borderRadius = '10px';
+          imgEl.style.border = '1px solid #eee';
+          imgEl.style.marginTop = '6px';
+
+          // If Drive blocks the first URL, try next candidate; then fallback to placeholder
+          imgEl.onerror = () => {
+            if (!tryNextDriveCandidate(imgEl)) {
+              imgEl.onerror = null;
+              imgEl.src = PLACEHOLDER_IMG;
+            }
+          };
+
+          card.appendChild(imgEl);
+        }
+
+        // 🔔 Click-to-inquire: confirm → WhatsApp OR Email
+        card.addEventListener('click', ()=>{
+          const imgUrl = it.src || '';
+          const message = `Hi CARJU Japan, I'm interested in: ${title} (${it.brand||''} · ${it.category||''} ${it.year||''}). Image: ${imgUrl}`;
+          const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
+          const mail  = `mailto:carjuautoagency@gmail.com?subject=${
+            encodeURIComponent('Vehicle Inquiry: '+title)
+          }&body=${
+            encodeURIComponent(message)
+          }`;
+
+          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
+            window.open(whats, '_blank');
+          } else {
+            window.location.href = mail;
+          }
+        });
+
         grid.appendChild(card);
       });
-      if(!items.length){
-        const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
+
+      if (!items.length){
+        const msg = el('div', {class:'muted small'},
+          'Add items in Google Sheets (Cars tab) or in data/content.json');
         grid.appendChild(msg);
       }
     };
-    brandSel.addEventListener('change', render);
-    catSel.addEventListener('change', render);
+
+    brandSel.addEventListener('change', renderGrid);
+    catSel.addEventListener('change', renderGrid);
     if(brands.length) brandSel.value = 'All';
-    if(cats.length) catSel.value = 'All';
-    render();
+    if(cats.length)   catSel.value = 'All';
+    renderGrid();
   }
 }
+
 // ===== INIT (language + data + promo) =====
 document.addEventListener('DOMContentLoaded', () => {
   // language buttons
@@ -483,24 +423,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   setLang(state.lang);
 
-  // load Google Sheets data and build UI
+  // load Google Sheets / config / fallback and build UI
   buildFromConfig().catch(err=>{
     console.error('[CARJU] buildFromConfig failed:', err);
   });
 
   // Sticky promo banner — show on every page load (no memory)
-const promoBar = document.getElementById('promo-bar');
-const promoBarClose = document.getElementById('promo-bar-close');
-if (promoBar) {
-  promoBar.classList.remove('hidden'); // always show each load
-  if (promoBarClose) {
-    promoBarClose.addEventListener('click', () => {
-      promoBar.classList.add('hidden'); // hide until next refresh
-    });
+  const promoBar = document.getElementById('promo-bar');
+  const promoBarClose = document.getElementById('promo-bar-close');
+  if (promoBar) {
+    promoBar.classList.remove('hidden'); // always show each load
+    if (promoBarClose) {
+      promoBarClose.addEventListener('click', () => {
+        promoBar.classList.add('hidden'); // hide until next refresh
+      });
+    }
   }
-}
-
-  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 
   // 🔧 Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
   setTimeout(() => {
@@ -519,7 +457,6 @@ if (promoBar) {
       grid.appendChild(msg);
     }
   }, 1000);
+
+  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
-
-
-
