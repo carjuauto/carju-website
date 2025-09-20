@@ -24,7 +24,77 @@ function el(tag, attrs={}, html=''){
   return n;
 }
 function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
+/* =========================
+   Google Drive helpers
+   ========================= */
+// Convert any Google Drive link to a direct image candidate list
+function driveToDirect(u){
+  if(!u) return u;
+  try{
+    const idMatch = String(u).match(/[-\w]{25,}/);
+    if(!idMatch) return u;
+    const id = idMatch[0];
+    const candidates = [
+      `https://drive.google.com/uc?export=view&id=${id}`,
+      `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
+      `https://lh3.googleusercontent.com/d/${id}=w1600`
+    ];
+    return candidates[0] + `#gdcandidates=${encodeURIComponent(JSON.stringify(candidates))}`;
+  }catch(e){ return u; }
+}
 
+// If an image fails, try the next candidate URL
+function tryNextDriveCandidate(imgEl){
+  try{
+    const hash = imgEl.src.split('#gdcandidates=')[1];
+    if(!hash) return false;
+    const list = JSON.parse(decodeURIComponent(hash));
+    const current = imgEl.src.split('#')[0];
+    const idx = list.findIndex(x => current.startsWith(x.split('#')[0]));
+    const next = list[idx+1];
+    if(next){
+      imgEl.src = next + `#gdcandidates=${encodeURIComponent(JSON.stringify(list))}`;
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+/* =========================
+   Google Drive helpers
+   ========================= */
+// Convert any Google Drive link into a direct image candidate list
+function driveToDirect(u){
+  if(!u) return u;
+  try{
+    const idMatch = String(u).match(/[-\w]{25,}/);
+    if(!idMatch) return u;
+    const id = idMatch[0];
+    const candidates = [
+      `https://drive.google.com/uc?export=view&id=${id}`,
+      `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
+      `https://lh3.googleusercontent.com/d/${id}=w1600`
+    ];
+    // attach candidates list in the hash so onerror can try next
+    return candidates[0] + `#gdcandidates=${encodeURIComponent(JSON.stringify(candidates))}`;
+  }catch(e){ return u; }
+}
+
+// If an image fails, try the next candidate URL
+function tryNextDriveCandidate(imgEl){
+  try{
+    const hash = imgEl.src.split('#gdcandidates=')[1];
+    if(!hash) return false;
+    const list = JSON.parse(decodeURIComponent(hash));
+    const current = imgEl.src.split('#')[0];
+    const idx = list.findIndex(x => current.startsWith(x.split('#')[0]));
+    const next = list[idx+1];
+    if(next){
+      imgEl.src = next + `#gdcandidates=${encodeURIComponent(JSON.stringify(list))}`;
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
 /* =========================
    Google Sheets integration
    ========================= */
@@ -160,6 +230,7 @@ function setupSlider(containerId, items, intervalMs = 6000){
       dotsWrap.appendChild(b);
     });
   }
+
   function updateDots(){
     if(!dotsWrap) return;
     Array.from(dotsWrap.children).forEach((d, idx)=>{
@@ -167,25 +238,41 @@ function setupSlider(containerId, items, intervalMs = 6000){
     });
   }
 
-  function render(idx, animate=true){
+  // === Updated render with Google Drive support ===
+  function render(idx, animate = true){
     const it = items[idx];
     if(!it) return;
-    if(animate){
+
+    // normalize any Drive link to direct-view URL
+    const src   = driveToDirect(it.src || it.ImageURL || '');
+    const title = it.name || it.brand || it.category || 'Image';
+
+    // error fallback: try next candidate if the image fails
+    img.onerror = () => {
+      if (!tryNextDriveCandidate(img)) {
+        img.onerror = null; // stop retrying if nothing works
+      }
+    };
+
+    const apply = () => {
+      img.src = src;
+      img.alt = title;
+      cap.innerHTML = htmlCaption(it);
+    };
+
+    if (animate){
       img.classList.remove('slide-enter','slide-exit');
       img.classList.add('slide-exit');
       setTimeout(()=>{
         img.classList.remove('slide-exit');
-        img.src = it.src;
-        img.alt = it.name || it.brand || it.category || 'Image';
-        cap.innerHTML = htmlCaption(it);
+        apply();
         img.classList.add('slide-enter');
         setTimeout(()=> img.classList.remove('slide-enter'), 520);
       }, 200);
-    }else{
-      img.src = it.src;
-      img.alt = it.name || it.brand || it.category || 'Image';
-      cap.innerHTML = htmlCaption(it);
+    } else {
+      apply();
     }
+
     updateDots();
   }
 
@@ -238,8 +325,16 @@ async function buildFromConfig(){
   }
 
   // Sliders
-  setupSlider('slider-cars', (cfg.GALLERIES && cfg.GALLERIES.cars) || []);
-  setupSlider('slider-deliveries', (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []);
+  // Sliders (normalize Drive links first)
+const cars = (cfg.GALLERIES && cfg.GALLERIES.cars) || [];
+const deliveries = (cfg.GALLERIES && cfg.GALLERIES.deliveries) || [];
+
+// normalize each image URL
+cars.forEach(x => x.src = driveToDirect(x.src));
+deliveries.forEach(x => x.src = driveToDirect(x.src));
+
+setupSlider('slider-cars', cars);
+setupSlider('slider-deliveries', deliveries);
 
   // Brand + Category filters (grid preview)
   const brands = cfg.BRANDS || [];
@@ -331,4 +426,5 @@ if (promoBar) {
     }
   }, 1000);
 });
+
 
