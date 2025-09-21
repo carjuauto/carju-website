@@ -330,15 +330,27 @@ async function buildFromConfig(){
       const cVal = (catSel.value   || 'All').trim().toLowerCase();
       grid.innerHTML = '';
 
+      // NEW: If both are "All", show a small hint and no cards
+      if (bVal === 'all' && cVal === 'all') {
+        grid.appendChild(el('div',{class:'muted small'},
+          'Select a Brand and/or Category to see up to 6 examples.'));
+        return;
+      }
+
       const filtered = items.filter(it=>{
         const brandOk = (bVal === 'all') || ((it.brand||'').trim().toLowerCase() === bVal);
         const catOk   = (cVal === 'all') || ((it.category||'').trim().toLowerCase() === cVal);
         return brandOk && catOk;
       });
 
-      const show = filtered.length ? filtered : items.slice(0,6);
+      const show = filtered.slice(0,6); // cap at 6
 
-      show.slice(0,12).forEach(it=>{
+      if (!show.length){
+        grid.appendChild(el('div',{class:'muted small'},'No matches. Try another Brand/Category.'));
+        return;
+      }
+
+      show.forEach(it=>{
         const card = document.createElement('div');
         card.className = 'card';
         card.style.cursor = 'pointer';
@@ -380,31 +392,30 @@ async function buildFromConfig(){
         }
 
         // 🔔 Click-to-inquire: confirm → WhatsApp OR Email
-        card.addEventListener('click', ()=>{
-          const imgUrl = it.src || '';
-          const message = `Hi CARJU Japan, I'm interested in: ${title} (${it.brand||''} · ${it.category||''} ${it.year||''}). Image: ${imgUrl}`;
-          const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
-          const mail  = `mailto:carjuautoagency@gmail.com?subject=${
-            encodeURIComponent('Vehicle Inquiry: '+title)
-          }&body=${
-            encodeURIComponent(message)
-          }`;
+card.addEventListener('click', ()=>{
+  const brand = it.brand || '';
+  const category = it.category || '';
+  const year = it.year || '';
+  const title = it.name || `${brand} ${category} ${year}`.trim();
 
-          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
-            window.open(whats, '_blank');
-          } else {
-            window.location.href = mail;
-          }
-        });
+  const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}. Could you please confirm availability and advise me on the next steps?`;
+
+  const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
+  const mail  = `mailto:carjuautoagency@gmail.com?subject=${
+    encodeURIComponent('Vehicle Inquiry: '+title)
+  }&body=${
+    encodeURIComponent(message)
+  }`;
+
+  if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
+    window.open(whats, '_blank');
+  } else {
+    window.location.href = mail;
+  }
+});
 
         grid.appendChild(card);
       });
-
-      if (!items.length){
-        const msg = el('div', {class:'muted small'},
-          'Add items in Google Sheets (Cars tab) or in data/content.json');
-        grid.appendChild(msg);
-      }
     };
 
     brandSel.addEventListener('change', renderGrid);
@@ -453,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catSel.innerHTML = ['All', ...DEFAULT_CATEGORIES].map(c=>`<option value="${c}">${c}</option>`).join('');
     }
     if (grid && grid.children.length === 0) {
-      const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
+      const msg = el('div', {class:'muted small'}, 'Select a Brand and/or Category to see examples.');
       grid.appendChild(msg);
     }
   }, 1000);
