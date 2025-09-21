@@ -78,44 +78,33 @@
   <h1 data-i18n="en">Fees</h1>
   <h1 class="hidden" data-i18n="ja">料金</h1>
 
-  <!-- 🔹 Dynamic fees table will render here from the Google Sheet -->
-<div class="card" data-i18n="en">
-  <h3>Agency Fees Structure</h3>
-  <div class="table-wrap">
-    <table class="table" id="feesTable"></table>
+  <!-- English card -->
+  <div class="card" data-i18n="en">
+    <h3>Agency Fee Structure</h3>
+    <div class="table-wrap">
+      <table class="table" id="feesTable"></table>
+    </div>
+
+    <p class="muted" style="margin-top:10px">
+      <em>Deposit:</em> A <strong>¥150,000 auction deposit</strong> is required to start bidding.
+      If you win and pay the balance within three business days, this deposit is credited to
+      your invoice. If you win but fail to pay, auction houses may retain the deposit.
+    </p>
   </div>
 
-  <p class="muted" style="margin-top:10px">
-    <em>Deposit:</em> A <strong>¥150,000 deposit</strong> is required to start bidding.
-    If you win and pay the balance within three business days, this deposit is credited to your invoice.
-    If you win but fail to pay, auction houses may retain the deposit.
-  </p>
-</div>
-
-  <!-- 🔹 Fallback static content (only shows if JS/Sheet fails) -->
-  <noscript>
-    <div class="card" data-i18n="en">
-      <h3>Agency Fee Structure (tax included)</h3>
-      <ul>
-        <li>Vehicle price ¥0 – ¥500,000 → <strong>¥55,000</strong></li>
-        <li>¥500,000 – ¥1,000,000 → <strong>¥77,000</strong></li>
-        <li>¥1,000,000 and above → <strong>¥99,000</strong></li>
-        <li>Heavy machinery → <strong>Negotiable</strong></li>
-      </ul>
-      <p><em>Deposit:</em> A <strong>¥150,000 auction deposit</strong> is required to start bidding. If you win and pay the balance within three business days, this deposit is credited to your invoice. If you win but fail to pay, auction houses may retain the deposit.</p>
+  <!-- Japanese card -->
+  <div class="card hidden" data-i18n="ja">
+    <h3>手数料</h3>
+    <div class="table-wrap">
+      <table class="table" id="feesTable"></table>
     </div>
 
-    <div class="card hidden" data-i18n="ja">
-      <h3>手数料（消費税込）</h3>
-      <ul>
-        <li>車両価格 ¥0 ～ ¥500,000 → <strong>¥55,000</strong></li>
-        <li>¥500,000 ～ ¥1,000,000 → <strong>¥77,000</strong></li>
-        <li>¥1,000,000 以上 → <strong>¥99,000</strong></li>
-        <li>重機 → <strong>要相談</strong></li>
-      </ul>
-      <p><em>保証金:</em> 入札開始には <strong>¥150,000</strong> が必要です。落札後3営業日以内に残額をお支払いいただいた場合、保証金は請求額に充当されます。落札後に未払いの場合、オークション規定により没収されることがあります。</p>
-    </div>
-  </noscript>
+    <p class="muted" style="margin-top:10px">
+      <em>保証金:</em> 入札開始には <strong>¥150,000</strong> の保証金が必要です。
+      落札後3営業日以内に残額をお支払いいただいた場合、保証金は請求額に充当されます。
+      未払いの場合はオークション規定により没収されることがあります。
+    </p>
+  </div>
 </main>
 
 <footer class="footer">
@@ -130,6 +119,7 @@
 </div>
 </body>
 </html>
+
 
 
 
