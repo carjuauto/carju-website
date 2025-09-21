@@ -35,6 +35,17 @@ function clean(s){
     .replace(/\s+/g, ' ');
 }
 
+// Simple JPY formatter (keeps whatever you typed if it’s already text)
+function formatJPY(val){
+  if(val === undefined || val === null) return '';
+  if (typeof val === 'number' && !Number.isNaN(val)){
+    return new Intl.NumberFormat('ja-JP', { style:'currency', currency:'JPY', maximumFractionDigits:0 }).format(val);
+  }
+  const num = Number(String(val).replace(/[^\d.-]/g,''));
+  if(!Number.isFinite(num)) return String(val);
+  return new Intl.NumberFormat('ja-JP', { style:'currency', currency:'JPY', maximumFractionDigits:0 }).format(num);
+}
+
 // Small inline placeholder used when an image fails to load
 const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
 
@@ -80,6 +91,11 @@ function normalizeItem(it){
   const brand = (it.brand || it.Brand || '').trim();
   const category = (it.category || it.Category || '').trim();
   const year = it.year ?? it.Year ?? '';
+  // MarketPrice can be a number or text (handle both)
+  const marketPriceRaw = it.MarketPrice ?? it.marketPrice ?? it.Price ?? '';
+  let marketPriceNum = Number(String(marketPriceRaw).replace(/[^\d.-]/g,''));
+  if(!Number.isFinite(marketPriceNum)) marketPriceNum = undefined;
+
   return {
     ...it,
     brand, category, year,
@@ -87,7 +103,9 @@ function normalizeItem(it){
     _brand: brand.toLowerCase(),
     _cat: category.toLowerCase(),
     _brandClean: clean(brand),
-    _catClean: clean(category)
+    _catClean: clean(category),
+    marketPriceRaw,
+    marketPriceNum
   };
 }
 
@@ -97,8 +115,9 @@ function normalizeItem(it){
 /** ✅ YOUR SHEET ID **/
 const SHEET_ID = "1vRa9U4sMmZDWdh4pp4Gkig53XUmGr1mFxIB24Zcj_UE";
 /** Tab names (must match your sheet tabs exactly) **/
-const SHEET_CARS_TAB = "Cars";            // columns: Name | Brand | Category | Year | ImageURL
+const SHEET_CARS_TAB = "Cars";            // columns: Name | Brand | Category | Year | ImageURL | MarketPrice
 const SHEET_DELIVERIES_TAB = "Deliveries"; // columns: Caption | ImageURL
+const SHEET_FEES_TAB = "Fees";             // any columns; will render dynamically
 
 // Master lists so dropdowns never shrink even if the sheet has few entries
 const DEFAULT_BRANDS = [
@@ -117,7 +136,8 @@ function mapCarRow(r){
     brand: (r.Brand || "").trim(),
     category: (r.Category || "").trim(),
     year: isNaN(year) ? undefined : year,
-    src: (r.ImageURL || "").trim()
+    src: (r.ImageURL || "").trim(),
+    MarketPrice: r.MarketPrice // keep raw; normalize later
   };
 }
 function mapDeliveryRow(r){
@@ -135,12 +155,13 @@ async function fetchSheetJSON(tabName){
    Content loader with fallbacks
    ========================= */
 async function loadContent(){
-  // 1) Try Google Sheets
+  // 1) Try Google Sheets (Cars, Deliveries, Fees)
   try {
     if(SHEET_ID){
-      const [carsRows, deliveriesRows] = await Promise.all([
+      const [carsRows, deliveriesRows, feesRows] = await Promise.all([
         fetchSheetJSON(SHEET_CARS_TAB),
-        fetchSheetJSON(SHEET_DELIVERIES_TAB)
+        fetchSheetJSON(SHEET_DELIVERIES_TAB),
+        fetchSheetJSON(SHEET_FEES_TAB)
       ]);
       const cars = (carsRows || []).map(mapCarRow).filter(x => x.src);
       const deliveries = (deliveriesRows || []).map(mapDeliveryRow).filter(x => x.src);
@@ -153,7 +174,8 @@ async function loadContent(){
         TIKTOK: "https://www.tiktok.com/@yourhandle",
         BRANDS: brands,
         CATEGORIES: categories,
-        GALLERIES: { cars, deliveries }
+        GALLERIES: { cars, deliveries },
+        FEES: feesRows || []
       };
     }
   } catch (e) {
@@ -170,7 +192,8 @@ async function loadContent(){
         TIKTOK: json.TIKTOK || "",
         BRANDS: uniqueList([...DEFAULT_BRANDS, ...(json.BRANDS || [])]),
         CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(json.CATEGORIES || [])]),
-        GALLERIES: { cars: json.cars || [], deliveries: json.deliveries || [] }
+        GALLERIES: { cars: json.cars || [], deliveries: json.deliveries || [] },
+        FEES: json.FEES || []
       };
     }
   } catch (e) { /* continue */ }
@@ -185,7 +208,8 @@ async function loadContent(){
     GALLERIES: {
       cars: (cfg.GALLERIES && cfg.GALLERIES.cars) || [],
       deliveries: (cfg.GALLERIES && cfg.GALLERIES.deliveries) || []
-    }
+    },
+    FEES: cfg.FEES || []
   };
 }
 
@@ -207,11 +231,13 @@ function setupSlider(containerId, items, intervalMs = 6000){
   let timer = null;
 
   function htmlCaption(it){
+    const priceTxt = it.marketPriceNum || it.marketPriceRaw ? ` · ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)}` : '';
     return [
       it.name ? `<strong>${it.name}</strong>` : '',
       it.brand ? ` — ${it.brand}` : '',
       it.category ? ` · ${it.category}` : '',
-      it.year ? ` (${it.year})` : ''
+      it.year ? ` (${it.year})` : '',
+      priceTxt
     ].join('');
   }
 
@@ -378,10 +404,19 @@ async function buildFromConfig(){
         h3.textContent = title;
         card.appendChild(h3);
 
+        // meta line + optional market price line
         const meta = document.createElement('p');
         meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
           || 'Models & images coming soon.';
         card.appendChild(meta);
+
+        if (it.marketPriceNum || it.marketPriceRaw){
+          const price = document.createElement('p');
+          price.style.marginTop = '4px';
+          price.style.fontWeight = '600';
+          price.textContent = `Market price: ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)}`;
+          card.appendChild(price);
+        }
 
         if (it.src) {
           const imgEl = document.createElement('img');
@@ -414,7 +449,8 @@ async function buildFromConfig(){
           const year = it.year || '';
           const cleanTitle = it.name || `${brand} ${category} ${year}`.trim();
 
-          const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}. Could you please confirm availability and advise me on the next steps?`;
+          const priceBit = (it.marketPriceNum || it.marketPriceRaw) ? ` (current market ~ ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)})` : '';
+          const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}${priceBit}. Could you please confirm availability and advise me on the next steps?`;
           const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
           const mail  = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+cleanTitle)}&body=${encodeURIComponent(message)}`;
 
@@ -434,6 +470,62 @@ async function buildFromConfig(){
     brandSel.value = 'All';
     catSel.value   = 'All';
     renderGrid();
+  }
+
+  /* ===== Fees table (if fees page is open) ===== */
+  const feesMount = document.getElementById('feesTable');
+  if (feesMount){
+    const rows = cfg.FEES || [];
+    feesMount.innerHTML = '';
+
+    if(!rows.length){
+      feesMount.appendChild(el('div', {class:'muted small'}, 'Fees: sheet tab is empty or unavailable.'));
+    }else{
+      // Build a table from whatever headers exist in the first row
+      const headers = Object.keys(rows[0]);
+      const table = document.createElement('table');
+      table.className = 'table';
+
+      // thead
+      const thead = document.createElement('thead');
+      const trh = document.createElement('tr');
+      headers.forEach(h=>{
+        const th = document.createElement('th');
+        th.textContent = h;
+        trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+      table.appendChild(thead);
+
+      // tbody
+      const tbody = document.createElement('tbody');
+      rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        headers.forEach(h=>{
+          const td = document.createElement('td');
+          let val = r[h];
+
+          // If this looks like money, pretty format it (won’t break text)
+          if (typeof val === 'string' && /price|fee|amount|jpy/i.test(h)){
+            td.textContent = formatJPY(val);
+          } else {
+            td.textContent = val ?? '';
+          }
+
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+
+      // Wrap in a card with title
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.appendChild(el('h3', {}, 'Agency Fee Structure (live from Google Sheet)'));
+      card.appendChild(table);
+
+      feesMount.appendChild(card);
+    }
   }
 }
 
