@@ -79,7 +79,12 @@
   <h1 class="hidden" data-i18n="ja">料金</h1>
 
   <!-- 🔹 Dynamic fees table will render here from the Google Sheet -->
-  <div id="feesTable" class="card"></div>
+  <div class="card" data-i18n="en">
+  <h3>Agency Fee Structure (live from Google Sheet)</h3>
+  <div class="table-wrap">
+    <table class="table" id="feesTable"></table>
+  </div>
+</div>
 
   <!-- 🔹 Fallback static content (only shows if JS/Sheet fails) -->
   <noscript>
@@ -119,6 +124,7 @@
 </div>
 </body>
 </html>
+
 
 
 
