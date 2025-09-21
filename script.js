@@ -521,7 +521,7 @@ async function buildFromConfig(){
       // Wrap in a card with title
       const card = document.createElement('div');
       card.className = 'card';
-      card.appendChild(el('h3', {}, 'Agency Fee Structure (live from Google Sheet)'));
+      card.appendChild(el('h3', {}, 'Agency Fee Structure'));
       card.appendChild(table);
 
       feesMount.appendChild(card);
@@ -574,3 +574,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
