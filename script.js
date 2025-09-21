@@ -24,6 +24,8 @@ function el(tag, attrs={}, html=''){
   return n;
 }
 function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+function pick(arr, n){ return arr.length <= n ? arr.slice() : shuffle(arr).slice(0, n); }
 
 // Small inline placeholder used when an image fails to load
 const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
@@ -65,11 +67,17 @@ function tryNextDriveCandidate(imgEl){
   return false;
 }
 
-// Normalize one car/delivery item
+// Normalize one car/delivery item (keep original fields + normalized copies)
 function normalizeItem(it){
+  const brand = (it.brand || it.Brand || '').trim();
+  const category = (it.category || it.Category || '').trim();
+  const year = it.year ?? it.Year ?? '';
   return {
     ...it,
-    src: driveToDirect(it.src || it.ImageURL || '')
+    brand, category, year,
+    src: driveToDirect(it.src || it.ImageURL || ''),
+    _brand: brand.toLowerCase(),
+    _cat: category.toLowerCase()
   };
 }
 
@@ -215,7 +223,7 @@ function setupSlider(containerId, items, intervalMs = 6000){
     });
   }
 
-  // === Updated render with Google Drive support ===
+  // Render with Drive support
   function render(idx, animate = true){
     const it = items[idx];
     if(!it) return;
@@ -223,14 +231,12 @@ function setupSlider(containerId, items, intervalMs = 6000){
     const src   = driveToDirect(it.src || it.ImageURL || '');
     const title = it.name || it.brand || it.category || 'Image';
 
-    // Make Drive happier + speed up paint
     img.decoding = 'async';
     img.referrerPolicy = 'no-referrer';
 
-    // error fallback: try next candidate if the image fails
     img.onerror = () => {
       if (!tryNextDriveCandidate(img)) {
-        img.onerror = null; // stop retrying if nothing works
+        img.onerror = null;
         img.src = PLACEHOLDER_IMG;
       }
     };
@@ -315,7 +321,8 @@ async function buildFromConfig(){
   // Brand + Category filters (grid preview)
   const brands = cfg.BRANDS || [];
   const cats   = cfg.CATEGORIES || [];
-  const items  = carsForSlider; // use normalized cars
+  // normalized list with _brand / _cat for reliable matching
+  const items  = carsForSlider.map(x => ({...x}));
 
   const brandSel = document.getElementById('brandSelect');
   const catSel   = document.getElementById('categorySelect');
@@ -330,23 +337,21 @@ async function buildFromConfig(){
       const cVal = (catSel.value   || 'All').trim().toLowerCase();
       grid.innerHTML = '';
 
-      // NEW: If both are "All", show a small hint and no cards
-      if (bVal === 'all' && cVal === 'all') {
-        grid.appendChild(el('div',{class:'muted small'},
-          'Select a Brand and/or Category to see up to 6 examples.'));
-        return;
-      }
-
       const filtered = items.filter(it=>{
-        const brandOk = (bVal === 'all') || ((it.brand||'').trim().toLowerCase() === bVal);
-        const catOk   = (cVal === 'all') || ((it.category||'').trim().toLowerCase() === cVal);
+        const ib = (it._brand ?? (it.brand||'').toLowerCase());
+        const ic = (it._cat   ?? (it.category||'').toLowerCase());
+        const brandOk = (bVal === 'all') || (ib === bVal);
+        const catOk   = (cVal === 'all') || (ic === cVal);
         return brandOk && catOk;
       });
 
-      const show = filtered.slice(0,6); // cap at 6
+      // Show up to 6, shuffled. If both are "All", limit to 6 random items from the whole set.
+      const source = (bVal === 'all' && cVal === 'all') ? items : filtered;
+      const show = pick(source, 6);
 
       if (!show.length){
-        grid.appendChild(el('div',{class:'muted small'},'No matches. Try another Brand/Category.'));
+        const msg = el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.');
+        grid.appendChild(msg);
         return;
       }
 
@@ -380,7 +385,6 @@ async function buildFromConfig(){
           imgEl.style.border = '1px solid #eee';
           imgEl.style.marginTop = '6px';
 
-          // If Drive blocks the first URL, try next candidate; then fallback to placeholder
           imgEl.onerror = () => {
             if (!tryNextDriveCandidate(imgEl)) {
               imgEl.onerror = null;
@@ -391,28 +395,23 @@ async function buildFromConfig(){
           card.appendChild(imgEl);
         }
 
-        // 🔔 Click-to-inquire: confirm → WhatsApp OR Email
-card.addEventListener('click', ()=>{
-  const brand = it.brand || '';
-  const category = it.category || '';
-  const year = it.year || '';
-  const title = it.name || `${brand} ${category} ${year}`.trim();
+        // 🔔 Click-to-inquire: confirm → WhatsApp OR Email (clean message; no image URL)
+        card.addEventListener('click', ()=>{
+          const brand = it.brand || '';
+          const category = it.category || '';
+          const year = it.year || '';
+          const cleanTitle = it.name || `${brand} ${category} ${year}`.trim();
 
-  const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}. Could you please confirm availability and advise me on the next steps?`;
+          const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}. Could you please confirm availability and advise me on the next steps?`;
+          const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
+          const mail  = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+cleanTitle)}&body=${encodeURIComponent(message)}`;
 
-  const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
-  const mail  = `mailto:carjuautoagency@gmail.com?subject=${
-    encodeURIComponent('Vehicle Inquiry: '+title)
-  }&body=${
-    encodeURIComponent(message)
-  }`;
-
-  if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
-    window.open(whats, '_blank');
-  } else {
-    window.location.href = mail;
-  }
-});
+          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
+            window.open(whats, '_blank');
+          } else {
+            window.location.href = mail;
+          }
+        });
 
         grid.appendChild(card);
       });
@@ -426,7 +425,7 @@ card.addEventListener('click', ()=>{
   }
 }
 
-// ===== INIT (language + data + promo) =====
+/* ===== INIT (language + data + promo) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   // language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
@@ -451,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 🔧 Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
+  // Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
   setTimeout(() => {
     const brandSel = document.getElementById('brandSelect');
     const catSel   = document.getElementById('categorySelect');
@@ -464,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catSel.innerHTML = ['All', ...DEFAULT_CATEGORIES].map(c=>`<option value="${c}">${c}</option>`).join('');
     }
     if (grid && grid.children.length === 0) {
-      const msg = el('div', {class:'muted small'}, 'Select a Brand and/or Category to see examples.');
+      const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
       grid.appendChild(msg);
     }
   }, 1000);
