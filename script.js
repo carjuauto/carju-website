@@ -27,6 +27,14 @@ function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
 function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
 function pick(arr, n){ return arr.length <= n ? arr.slice() : shuffle(arr).slice(0, n); }
 
+// Normalize strings for matching (trim + lowercase + collapse spaces)
+function clean(s){
+  return String(s || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
+}
+
 // Small inline placeholder used when an image fails to load
 const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
 
@@ -77,7 +85,9 @@ function normalizeItem(it){
     brand, category, year,
     src: driveToDirect(it.src || it.ImageURL || ''),
     _brand: brand.toLowerCase(),
-    _cat: category.toLowerCase()
+    _cat: category.toLowerCase(),
+    _brandClean: clean(brand),
+    _catClean: clean(category)
   };
 }
 
@@ -319,9 +329,13 @@ async function buildFromConfig(){
   setupSlider('slider-deliveries', deliveriesForSlider);
 
   // Brand + Category filters (grid preview)
-  const brands = cfg.BRANDS || [];
-  const cats   = cfg.CATEGORIES || [];
-  // normalized list with _brand / _cat for reliable matching
+  // Build option lists from the actual items (prevents mismatches)
+  const itemBrands = uniqueList(carsForSlider.map(it => (it.brand || '').trim()).filter(Boolean));
+  const itemCats   = uniqueList(carsForSlider.map(it => (it.category || '').trim()).filter(Boolean));
+  const brands     = uniqueList([ 'All', ...itemBrands, ...(cfg.BRANDS || []) ]);
+  const cats       = uniqueList([ 'All', ...itemCats,   ...(cfg.CATEGORIES || []) ]);
+
+  // normalized list with _brand/_cat for reliable matching
   const items  = carsForSlider.map(x => ({...x}));
 
   const brandSel = document.getElementById('brandSelect');
@@ -329,19 +343,17 @@ async function buildFromConfig(){
   const grid     = document.getElementById('brandGrid');
 
   if(brandSel && catSel && grid){
-    brandSel.innerHTML = ['All', ...brands].map(b=>`<option value="${b}">${b}</option>`).join('');
-    catSel.innerHTML   = ['All', ...cats].map(c=>`<option value="${c}">${c}</option>`).join('');
+    brandSel.innerHTML = brands.map(b=>`<option value="${b}">${b}</option>`).join('');
+    catSel.innerHTML   = cats.map(c=>`<option value="${c}">${c}</option>`).join('');
 
     const renderGrid = ()=>{
-      const bVal = (brandSel.value || 'All').trim().toLowerCase();
-      const cVal = (catSel.value   || 'All').trim().toLowerCase();
+      const bVal = clean(brandSel.value || 'All');
+      const cVal = clean(catSel.value   || 'All');
       grid.innerHTML = '';
 
       const filtered = items.filter(it=>{
-        const ib = (it._brand ?? (it.brand||'').toLowerCase());
-        const ic = (it._cat   ?? (it.category||'').toLowerCase());
-        const brandOk = (bVal === 'all') || (ib === bVal);
-        const catOk   = (cVal === 'all') || (ic === cVal);
+        const brandOk = (bVal === 'all') || (it._brandClean === bVal);
+        const catOk   = (cVal === 'all') || (it._catClean   === cVal);
         return brandOk && catOk;
       });
 
@@ -419,8 +431,8 @@ async function buildFromConfig(){
 
     brandSel.addEventListener('change', renderGrid);
     catSel.addEventListener('change', renderGrid);
-    if(brands.length) brandSel.value = 'All';
-    if(cats.length)   catSel.value = 'All';
+    brandSel.value = 'All';
+    catSel.value   = 'All';
     renderGrid();
   }
 }
