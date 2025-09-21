@@ -287,6 +287,15 @@ input:focus,textarea:focus{outline:2px solid rgba(227,28,35,.12);border-color:va
   font-size: 20px; line-height:1; padding:0 6px; margin-left:4px;
 }
 .promo-bar.hidden{ display:none !important; }
+/* Mobile-friendly horizontal scroll for wide tables */
+.table-wrap{
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+}
+.table{
+  min-width: 560px; /* keep columns readable on small screens */
+}
 
 
 
