@@ -4,12 +4,13 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>FAQ — CARJU JAPAN Co., LTD</title>
-  <meta name="description" content="Frequently asked questions about buying and exporting vehicles and machinery from Japan.">
+  <meta name="description" content="Frequently asked questions about buying vehicles and machinery from Japan with CARJU JAPAN.">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
   <script src="config.js"></script>
 </head>
+
 <!-- Sticky Promo Banner -->
 <div id="promo-bar" class="promo-bar" role="region" aria-label="Promotion">
   <span data-i18n="en">🎉 Limited Offer: <strong>50% OFF</strong> agency fees for your first purchase.</span>
@@ -19,6 +20,7 @@
      target="_blank">💬 <span data-i18n="en">Claim via WhatsApp</span><span class="hidden" data-i18n="ja">WhatsAppで申請</span></a>
   <button id="promo-bar-close" class="promo-bar-close" aria-label="Close">&times;</button>
 </div>
+
 <body>
 <header class="header container">
   <div class="brand">
@@ -30,18 +32,16 @@
     </div>
   </div>
 
-  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
+  <!-- NEW: mobile hamburger that your CSS already supports -->
+  <button class="hamburger" aria-controls="site-menu" aria-expanded="false">☰ Menu</button>
 
-  <nav class="nav" id="siteNav">
+  <nav id="site-menu" class="nav">
     <a href="services.html" data-i18n="en">Services</a>
     <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
-
     <a href="fees.html" data-i18n="en">Fees</a>
     <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
-
     <a href="contact.html" data-i18n="en">Contact</a>
     <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
-
     <a href="faq.html" data-i18n="en">FAQ</a>
     <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
   </nav>
@@ -52,76 +52,121 @@
   </div>
 </header>
 
-<main class="container">
-  <h1 data-i18n="en">Frequently Asked Questions</h1>
-  <h1 class="hidden" data-i18n="ja">よくある質問</h1>
+<!-- ✨ Hero -->
+<section class="faq-hero">
+  <div class="container faq-hero-inner">
+    <h1>Frequently Asked Questions</h1>
+    <p class="faq-sub">Quick answers about deposits, timelines, auctions, shipping, and payments.</p>
 
-  <section class="card">
-    <div class="faq">
-      <!-- Each .qa is one question/answer -->
-      <details class="qa">
-        <summary>How do I start buying a car from Japan with CARJU?</summary>
-        <p>First, we discuss your budget and preferred vehicle. Then you place a refundable deposit (¥150,000). We begin bidding at auctions and once you win, we arrange shipment and all paperwork.</p>
-      </details>
-
-      <details class="qa">
-        <summary>What is the agency fee and what does it cover?</summary>
-        <p>Our fee (¥55,000 – ¥99,000 depending on vehicle price) covers auction access, inspection, bidding, and paperwork. It does not include shipping, import duty, or local taxes.</p>
-      </details>
-
-      <details class="qa">
-        <summary>How long does it take to receive my car?</summary>
-        <p>On average 4–6 weeks after purchase, depending on shipping schedules and destination port.</p>
-      </details>
-
-      <details class="qa">
-        <summary>Can you ship to any African country?</summary>
-        <p>Yes, we mainly ship to East Africa (Mombasa, Dar es Salaam, Kampala) but can arrange shipping worldwide.</p>
-      </details>
-
-      <details class="qa">
-        <summary>What if I don’t win the auction?</summary>
-        <p>Your deposit is kept safely. You can continue bidding on other vehicles or request a refund.</p>
-      </details>
-
-      <details class="qa">
-        <summary>Do you also export trucks and machinery?</summary>
-        <p>Yes, we handle SUVs, trucks, vans, buses, and heavy machinery.</p>
-      </details>
+    <div class="faq-search">
+      <input id="faqSearch" type="search" placeholder="Type to filter… e.g., deposit, shipping, payment" aria-label="Search FAQs" />
     </div>
+
+    <div class="faq-quick">
+      <button class="chip" data-tag="deposit">Deposit</button>
+      <button class="chip" data-tag="auction">Auction</button>
+      <button class="chip" data-tag="shipping">Shipping</button>
+      <button class="chip" data-tag="fees">Fees</button>
+      <button class="chip" data-tag="payment">Payment</button>
+      <button class="chip" data-tag="documents">Documents</button>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+  <!-- Accordion -->
+  <section class="faq-grid">
+    <!-- Each .faq-item can include data-tags for filtering -->
+    <article class="faq-item" data-tags="deposit,fees,payment">
+      <button class="faq-q" aria-expanded="false">
+        <span>How much deposit is required to start bidding?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>We require a <strong>¥150,000 auction deposit</strong> to activate bidding. If you win and settle within three business days, we credit the deposit to your final invoice. If you win but fail to pay, auction houses may retain the deposit per their policy.</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="auction,timeline,process">
+      <button class="faq-q" aria-expanded="false">
+        <span>How does the auction process work?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>Tell us your target vehicle and budget. We shortlist units using real auction sheets and photos, then bid on your approval. If we win, we handle payment, de-registration, export docs, and booking.</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="timeline,shipping,docs">
+      <button class="faq-q" aria-expanded="false">
+        <span>How long does shipping take after purchase?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>Typical lead time is <strong>3–6 weeks</strong> to East Africa depending on sailing schedules and port congestion. We’ll keep you updated from purchase to Bill of Lading (B/L).</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="fees,pricing,service">
+      <button class="faq-q" aria-expanded="false">
+        <span>What fees do you charge?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>Our agency fees are transparent and tiered by purchase price. See the full breakdown on the <a href="fees.html">Fees</a> page. No hidden charges.</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="payment,bank">
+      <button class="faq-q" aria-expanded="false">
+        <span>How do I pay? Do you accept installments?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>Payment is via bank transfer to our corporate account in Japan. Installments are not available for winning bids, but we can discuss phased purchasing for multiple units.</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="documents,inspection,transparency">
+      <button class="faq-q" aria-expanded="false">
+        <span>What documents do I receive?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>Export certificate, invoice, B/L, and inspection certificate when required. We share auction sheets and photos up-front so you know what you’re buying.</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="inventory,agency">
+      <button class="faq-q" aria-expanded="false">
+        <span>Do you keep stock or only source on demand?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>We are an <strong>agency</strong>—we source to your spec from auctions and vetted partners. This keeps overhead low and choice wide.</p>
+      </div>
+    </article>
+
+    <article class="faq-item" data-tags="support,whatsapp,contact">
+      <button class="faq-q" aria-expanded="false">
+        <span>How do I get the fastest support?</span>
+        <i class="chev">▾</i>
+      </button>
+      <div class="faq-a">
+        <p>Message us on WhatsApp for the quickest response: <a href="https://wa.me/818047909663" target="_blank">+81 80 4790 9663</a>. You can also use the <a href="contact.html">contact form</a>.</p>
+      </div>
+    </article>
   </section>
 
-  <section class="card hidden" data-i18n="ja">
-    <div class="faq">
-      <details class="qa">
-        <summary>購入の流れを教えてください。</summary>
-        <p>まずご予算と希望車種をお伺いします。次に保証金（¥150,000）をご入金いただき、オークションで入札します。落札後は輸送と書類手続きを当社で手配します。</p>
-      </details>
-
-      <details class="qa">
-        <summary>手数料の内容は？</summary>
-        <p>手数料（車両価格により¥55,000〜¥99,000）には、オークションアクセス、検査、入札、書類作成が含まれます。船賃、輸入税、現地税は含まれません。</p>
-      </details>
-
-      <details class="qa">
-        <summary>納期はどのくらい？</summary>
-        <p>通常は購入から4〜6週間です。船のスケジュールや到着港により前後します。</p>
-      </details>
-
-      <details class="qa">
-        <summary>アフリカ各国へ出荷できますか？</summary>
-        <p>主に東アフリカ（モンバサ、ダルエスサラーム、カンパラ）向けに手配していますが、世界各地への発送にも対応します。</p>
-      </details>
-
-      <details class="qa">
-        <summary>落札できなかった場合は？</summary>
-        <p>保証金はそのままお預かりします。引き続き入札を続けるか、返金をご依頼いただけます。</p>
-      </details>
-
-      <details class="qa">
-        <summary>トラックや重機にも対応していますか？</summary>
-        <p>はい、SUV、トラック、バン、バス、重機も取り扱っています。</p>
-      </details>
+  <!-- CTA -->
+  <section class="faq-cta card">
+    <div class="faq-cta-left">
+      <h3>Still have questions?</h3>
+      <p class="muted">Tell us what you’re looking for and we’ll show you real examples with current market prices.</p>
+    </div>
+    <div class="faq-cta-actions">
+      <a class="btn" href="contact.html">Get a Quote</a>
+      <a class="btn" target="_blank" href="https://wa.me/818047909663?text=Hi%20CARJU%20Japan%2C%20I%27d%20like%20to%20ask%20about%20buying%20from%20Japan.">Chat on WhatsApp</a>
     </div>
   </section>
 </main>
@@ -136,5 +181,65 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- Tiny inline script only for this page (accordion + search).
+     This does NOT modify global behavior elsewhere. -->
+<script>
+  // mobile menu toggle (uses the CSS you already have)
+  const ham = document.querySelector('.hamburger');
+  const nav = document.getElementById('site-menu');
+  if(ham && nav){
+    ham.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      const panel = btn.nextElementSibling;
+      panel.style.maxHeight = open ? null : (panel.scrollHeight + 24) + 'px';
+    });
+  });
+
+  // Expand first item by default (nice touch)
+  const firstBtn = document.querySelector('.faq-q');
+  if(firstBtn){
+    firstBtn.click();
+  }
+
+  // Live search + chips
+  const search = document.getElementById('faqSearch');
+  const items = Array.from(document.querySelectorAll('.faq-item'));
+  function filterFaq(q){
+    const s = (q||'').trim().toLowerCase();
+    items.forEach(it=>{
+      const text = it.innerText.toLowerCase();
+      it.style.display = text.includes(s) ? '' : 'none';
+    });
+  }
+  if(search){
+    search.addEventListener('input', e=> filterFaq(e.target.value));
+  }
+  document.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      const tag = ch.dataset.tag || '';
+      search.value = tag;
+      filterFaq(tag);
+    });
+  });
+
+  // Resize observer keeps open panel height correct on reflow
+  const ro = new ResizeObserver(() => {
+    document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(btn=>{
+      const panel = btn.nextElementSibling;
+      panel.style.maxHeight = (panel.scrollHeight + 24) + 'px';
+    });
+  });
+  document.querySelectorAll('.faq-a').forEach(p => ro.observe(p));
+</script>
 </body>
 </html>
