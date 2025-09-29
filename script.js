@@ -536,7 +536,24 @@ document.addEventListener('DOMContentLoaded', () => {
     b.addEventListener('click', ()=> setLang(b.getAttribute('data-lang-btn')));
   });
   setLang(state.lang);
-
+// === Mobile nav toggle (hamburger) ===
+  const nav = document.getElementById('siteNav');
+  const navBtn = document.getElementById('navToggle');
+  if (nav && navBtn) {
+    navBtn.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    // Close menu when a link is clicked (mobile)
+    nav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          navBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  }
   // load Google Sheets / config / fallback and build UI
   buildFromConfig().catch(err=>{
     console.error('[CARJU] buildFromConfig failed:', err);
@@ -574,5 +591,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
 
 
