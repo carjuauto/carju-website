@@ -13,26 +13,42 @@
 <body>
 <header class="header container">
   <div class="brand">
-    <a href="index.html" class="brandlink"><img src="assets/logo.png" alt="CARJU JAPAN logo" onerror="this.style.display='none'"/></a>
-    <div><a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
+    <a href="index.html" class="brandlink">
+      <img src="assets/logo.png" alt="CARJU JAPAN logo" onerror="this.style.display='none'"/>
+    </a>
+    <div>
+      <a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
       <div class="kicker" data-i18n="en">Vehicle & Heavy Machinery Sourcing Agency</div>
       <div class="kicker hidden" data-i18n="ja">車両・重機ソーシング代理店</div>
     </div>
   </div>
-  <nav class="nav">
+
+  <!-- 👇 Add this button (mobile hamburger) -->
+  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+    ☰
+  </button>
+
+  <!-- 👇 Give the nav an id for toggling + add FAQ link -->
+  <nav class="nav" id="siteNav">
     <a href="services.html" data-i18n="en">Services</a>
     <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+
     <a href="fees.html" data-i18n="en">Fees</a>
     <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
+
     <a href="contact.html" data-i18n="en">Contact</a>
     <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
+
+    <!-- NEW -->
+    <a href="faq.html" data-i18n="en">FAQ</a>
+    <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
   </nav>
+
   <div class="lang">
     <button data-lang-btn="en">EN</button>
     <button data-lang-btn="ja" class="badge">日本語</button>
   </div>
 </header>
-
 <!-- Banner -->
 <!-- ===== Animation Banner ===== -->
 <div class="anim-banner">
@@ -112,6 +128,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
