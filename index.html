@@ -92,27 +92,30 @@
 
 <main class="container">
   <!-- HERO -->
-  <section class="hero">
-    <div class="card" data-i18n="en">
-      <h1>Buy in Japan, As If You’re Here Yourself.</h1>
-      <p>We don’t just ship cars. We represent you here in Japan with <strong>Honesty, Integrity and Transparency</strong> from auction floors, local dealers, and even private owners — so you get the same experience as if you were standing here choosing for yourself. Our role is to give you options, savings, and peace of mind, not to push inventory.</p>
-      <ul style="margin:8px 0 12px 18px">
-        <li><strong>Honesty</strong> Real auction data, real photos, real timelines.</li>
-        <li><strong>Integrity</strong> We say what we’ll do and we do it.</li>
-        <li><strong>Transparency</strong> Itemized costs and deposit terms upfront.</li>
-      </ul>
-      <p><a class="btn" href="contact.html">Get a Quote</a></p>
+  <section class="hero-banner">
+   <div class="hero-inner">
+    <div class="hero-copy">
+      <h1>Buy from Japan like you’re here.</h1>
+      <p>We search auctions, local dealers, and private sellers on your behalf—so you get more options, better prices, and clean paperwork.</p>
+      <div class="hero-cta">
+        <a class="btn" href="contact.html">Start a Search</a>
+        <a class="btn" style="background:#fff;color:var(--brand);border-color:#ddd" href="services.html">How It Works</a>
+      </div>
     </div>
-    <div class="card hidden" data-i18n="ja">
-      <h1>日本からあなたへ—シンプルに、誠実に。</h1>
-      <p><strong>Honesty・Integrity・Transparency</strong> を大切に、日本のオークションや仕入先から車両・重機を調達。入札からB/L（船荷証券）まで、費用も進捗も明確にご案内します。</p>
-      <ul style="margin:8px 0 12px 18px">
-        <li><strong>Honesty（誠実）</strong> 実際のオークション情報・写真・スケジュールを共有。</li>
-        <li><strong>Integrity（信頼）</strong> 約束したことを確実に実行。</li>
-        <li><strong>Transparency（透明性）</strong> 料金内訳とデポジット条件を事前に明示。</li>
-      </ul>
-      <p><a class="btn" href="contact.html">見積り依頼</a></p>
+
+    <div class="hero-panel">
+      <h3>Quick Request</h3>
+      <div class="field"><input type="text" placeholder="Your Name"></div>
+      <div class="field"><input type="email" placeholder="Email / WhatsApp"></div>
+      <div class="field">
+        <select>
+          <option value="">What are you looking for?</option>
+          <option>Sedan</option><option>SUV</option><option>Truck</option><option>Machinery</option>
+        </select>
+      </div>
+      <button class="btn">Request a Callback</button>
     </div>
+  </div>
 
     <!-- Browse by brand & category -->
     <div class="card">
@@ -131,20 +134,84 @@
       <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
     </div>
   </section>
+<!-- ===== Icon Strip ===== -->
+<section class="feature-strip">
+  <div class="strip-inner">
+    <div class="feature-card"><img src="assets/i-auction.svg" alt=""><span>Auction Access</span></div>
+    <div class="feature-card"><img src="assets/i-dealers.svg" alt=""><span>Local Dealers</span></div>
+    <div class="feature-card"><img src="assets/i-private.svg" alt=""><span>Private Sellers</span></div>
+    <div class="feature-card"><img src="assets/i-check.svg" alt=""><span>Condition Checks</span></div>
+    <div class="feature-card"><img src="assets/i-docs.svg" alt=""><span>Paperwork</span></div>
+    <div class="feature-card"><img src="assets/i-ship.svg" alt=""><span>Shipping</span></div>
+  </div>
+</section>
+ <!-- WHY US (premium, expandable) -->
+<section class="why-us">
+  <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
+  <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
 
-  <!-- WHY US -->
-  <section class="why-us">
-    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
-    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
-    <div class="grid">
-      <div class="point"><h3>HIT Values</h3><p>Honesty • Integrity • Transparency.</p></div>
-      <div class="point"><h3>Agency Model</h3><p>We’re not car sellers with stock to push. We’re your buying agents. Our job is to search auctions, suppliers, and individuals. We compare prices, check condition, and negotiate so you only pay for the right car, not someone’s unsold stock.</p></div>
-      <div class="point"><h3>Auctions + Partners</h3><p>We have full access to Japan’s biggest auctions, plus networks of trusted suppliers and local contacts. Unlike websites that only show you their own cars, we search the whole market... auctions, dealers, and private sellers to find the exact match for your budget and preference.</p></div>
-      <div class="point"><h3>East Africa Focus</h3><p>We know what works for Uganda and East Africa... the models that sell, the specs that survive, and the best way to ship.</p></div>
-      <div class="point"><h3>End-to-Port</h3><p>We handle inspection, export documents, and shipping. You handle clearance at your port and we can also recommend reliable agents..</p></div>
-      <div class="point"><h3>Clear Deposit</h3><p>¥150,000 auction deposit that will be credited to your balance once you win the Bid.</p></div>
-    </div>
-  </section>
+  <div class="why-grid">
+    <!-- 1 -->
+    <article class="why-item">
+      <h3>We search everywhere</h3>
+      <p class="teaser">Auctions, local dealers, and private owners — we compare all options for you.</p>
+      <div class="more hidden">
+        <p>Most sites only show their own cars. We check major auctions, small yards, and even individuals who want to sell. You get more choice and better odds of finding “your” car at the right price.</p>
+      </div>
+      <a href="#" class="why-more" data-expand>Read more</a>
+    </article>
+
+    <!-- 2 -->
+    <article class="why-item">
+      <h3>Agent on your side</h3>
+      <p class="teaser">We don’t push stock — we buy on your behalf and protect your budget.</p>
+      <div class="more hidden">
+        <p>No inventory means no pressure to clear cars. Our job is to represent you: find options, compare condition and costs, and guide you to the best value — not the fastest sale.</p>
+      </div>
+      <a href="#" class="why-more" data-expand>Read more</a>
+    </article>
+
+    <!-- 3 -->
+    <article class="why-item">
+      <h3>Real checks, real photos</h3>
+      <p class="teaser">We verify condition and paperwork before you commit.</p>
+      <div class="more hidden">
+        <p>We review auction sheets, service history (when available), and seller info. If anything looks off, we skip it. If it looks good, we share photos/details and you choose.</p>
+      </div>
+      <a href="#" class="why-more" data-expand>Read more</a>
+    </article>
+
+    <!-- 4 -->
+    <article class="why-item">
+      <h3>Clear costs</h3>
+      <p class="teaser">No hidden surprises — we break down every fee.</p>
+      <div class="more hidden">
+        <p>You’ll see itemized costs from bid to Bill of Lading: car price, auction/seller fees, our agent fee, transport, and shipping. You always know what you’re paying for.</p>
+      </div>
+      <a href="#" class="why-more" data-expand>Read more</a>
+    </article>
+
+    <!-- 5 -->
+    <article class="why-item">
+      <h3>East Africa know-how</h3>
+      <p class="teaser">Uganda & the region — we know what sells and how to ship it.</p>
+      <div class="more hidden">
+        <p>We help you pick models that fit your roads, fuel, maintenance, and resale. We coordinate to your port and can suggest clearance agents if needed.</p>
+      </div>
+      <a href="#" class="why-more" data-expand>Read more</a>
+    </article>
+
+    <!-- 6 -->
+    <article class="why-item">
+      <h3>End-to-port support</h3>
+      <p class="teaser">Inspection, documents, and shipping — handled.</p>
+      <div class="more hidden">
+        <p>From inspection to export paperwork to vessel booking and B/L, we keep you updated. You focus on picking the car — we handle the logistics to port.</p>
+      </div>
+      <a href="#" class="why-more" data-expand>Read more</a>
+    </article>
+  </div>
+</section>
 
   <!-- Inventory Slider -->
   <section class="gallery-section">
@@ -183,6 +250,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
