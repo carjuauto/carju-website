@@ -535,9 +535,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // enable “Read more” toggles on WHY US cards
   initWhyToggles();
-
-  // ...your existing code...
-});
   // language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
     b.addEventListener('click', ()=> setLang(b.getAttribute('data-lang-btn')));
@@ -613,5 +610,6 @@ function initWhyToggles(){
     });
   });
 }
+
 
 
