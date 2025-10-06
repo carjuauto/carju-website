@@ -532,9 +532,6 @@ async function buildFromConfig(){
 /* ===== INIT (language + data + promo) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   // ...your existing code...
-
-  // enable “Read more” toggles on WHY US cards
-  initWhyToggles();
   // language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
     b.addEventListener('click', ()=> setLang(b.getAttribute('data-lang-btn')));
@@ -596,20 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
 
-function initWhyToggles(){
-  document.querySelectorAll('.why-item').forEach(card=>{
-    const btn  = card.querySelector('[data-expand]');
-    const more = card.querySelector('.more');
-    if(!btn || !more) return;
 
-    btn.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const open = !more.classList.contains('hidden');
-      more.classList.toggle('hidden', open);
-      btn.textContent = open ? 'Read more' : 'Show less';
-    });
-  });
-}
 
 
 
