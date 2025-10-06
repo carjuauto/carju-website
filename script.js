@@ -554,7 +554,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
-  }
+  }    
+
   // load Google Sheets / config / fallback and build UI
   buildFromConfig().catch(err=>{
     console.error('[CARJU] buildFromConfig failed:', err);
@@ -589,9 +590,27 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(msg);
     }
   }, 1000);
+// === Expand/collapse for "Read more" on Why Choose CARJU (event delegation) ===
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.read-more');
+    if (!btn) return;
 
+    e.preventDefault(); // stop any default anchor behavior if present
+    const card = btn.closest('.point');
+    const body = card ? card.querySelector('.hidden-text') : null;
+    if (!body) return;
+
+    const isOpen = body.classList.toggle('open');
+    btn.textContent = isOpen ? 'Read less' : 'Read more';
+
+    // optional: smooth scroll into view when opening on mobile
+    if (isOpen && window.matchMedia('(max-width: 860px)').matches) {
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    }
+  });
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
 
 
 
