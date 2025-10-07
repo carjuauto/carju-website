@@ -445,99 +445,89 @@ async function buildFromConfig(){
     brandSel.innerHTML = brands.map(b=>`<option value="${b}">${b}</option>`).join('');
     catSel.innerHTML   = cats.map(c=>`<option value="${c}">${c}</option>`).join('');
 
-    const renderGrid = ()=>{
-      const bVal = clean(brandSel.value || 'All');
-      const cVal = clean(catSel.value   || 'All');
-      grid.innerHTML = '';
+    const renderGrid = () => {
+  const bVal = clean(brandSel.value || 'All');
+  const cVal = clean(catSel.value   || 'All');
+  grid.innerHTML = '';
 
-      const filtered = items.filter(it=>{
-        const brandOk = (bVal === 'all') || (it._brandClean === bVal);
-        const catOk   = (cVal === 'all') || (it._catClean   === cVal);
-        return brandOk && catOk;
-      });
+  const filtered = items.filter(it=>{
+    const brandOk = (bVal === 'all') || (it._brandClean === bVal);
+    const catOk   = (cVal === 'all') || (it._catClean   === cVal);
+    return brandOk && catOk;
+  });
 
-      // Show up to 6, shuffled
-      const source = (bVal === 'all' && cVal === 'all') ? items : filtered;
-      const show = pick(source, 6);
+  // Show up to 6, shuffled
+  const source = (bVal === 'all' && cVal === 'all') ? items : filtered;
+  const show = pick(source, 6);
 
-      if (!show.length){
-        const msg = el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.');
-        grid.appendChild(msg);
-        return;
-      }
+  if (!show.length){
+    const msg = el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.');
+    grid.appendChild(msg);
+    return;
+  }
 
-      show.forEach(it=>{
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.style.cursor = 'pointer';
+  show.forEach(it=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.cursor = 'pointer';
 
-        const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
+    const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
 
-        const h3 = document.createElement('h3');
-        h3.textContent = title;
-        card.appendChild(h3);
+    // title
+    const h3 = document.createElement('h3');
+    h3.textContent = title;
+    card.appendChild(h3);
 
-        // meta line + optional market price line
-        const meta = document.createElement('p');
-        meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
-          || 'Models & images coming soon.';
-        card.appendChild(meta);
+    // meta line + optional market price line
+    const meta = document.createElement('p');
+    meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
+      || 'Models & images coming soon.';
+    card.appendChild(meta);
 
-        if (it.marketPriceNum || it.marketPriceRaw){
-          const price = document.createElement('p');
-          price.style.marginTop = '4px';
-          price.style.fontWeight = '600';
-          price.textContent = `Market price: ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)}`;
-          card.appendChild(price);
+    if (it.marketPriceNum || it.marketPriceRaw){
+      const price = document.createElement('p');
+      price.style.marginTop = '4px';
+      price.style.fontWeight = '600';
+      price.textContent = `Market price: ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)}`;
+      card.appendChild(price);
+    }
+
+    // image
+    if (it.src) {
+      const imgEl = document.createElement('img');
+      imgEl.src = it.src;
+      imgEl.alt = title;
+      imgEl.loading = 'lazy';
+      imgEl.decoding = 'async';
+      imgEl.referrerPolicy = 'no-referrer';
+      imgEl.style.width = '100%';
+      imgEl.style.height = '160px';
+      imgEl.style.objectFit = 'cover';
+      imgEl.style.borderRadius = '10px';
+      imgEl.style.border = '1px solid #eee';
+      imgEl.style.marginTop = '6px';
+
+      imgEl.onerror = () => {
+        if (!tryNextDriveCandidate(imgEl)) {
+          imgEl.onerror = null;
+          imgEl.src = PLACEHOLDER_IMG;
         }
+      };
 
-        if (it.src) {
-          const imgEl = document.createElement('img');
-          imgEl.src = it.src;
-          imgEl.alt = title;
-          imgEl.loading = 'lazy';
-          imgEl.decoding = 'async';
-          imgEl.referrerPolicy = 'no-referrer';
-          imgEl.style.width = '100%';
-          imgEl.style.height = '160px';
-          imgEl.style.objectFit = 'cover';
-          imgEl.style.borderRadius = '10px';
-          imgEl.style.border = '1px solid #eee';
-          imgEl.style.marginTop = '6px';
+      card.appendChild(imgEl);
+    }
 
-          imgEl.onerror = () => {
-            if (!tryNextDriveCandidate(imgEl)) {
-              imgEl.onerror = null;
-              imgEl.src = PLACEHOLDER_IMG;
-            }
-          };
+    // 👉 open the preview modal (instead of confirm WhatsApp/email)
+    card.addEventListener('click', () => openImageModal(it));
 
-          card.appendChild(imgEl);
-        }
+    grid.appendChild(card);
+  });
 
-        // Click-to-inquire
-        card.addEventListener('click', ()=>{
-          const brand = it.brand || '';
-          const category = it.category || '';
-          const year = it.year || '';
-          const cleanTitle = it.name || `${brand} ${category} ${year}`.trim();
-
-          const priceBit = (it.marketPriceNum || it.marketPriceRaw) ? ` (current market ~ ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)})` : '';
-          const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}${priceBit}. Could you please confirm availability and advise me on the next steps?`;
-          const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
-          const mail  = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+cleanTitle)}&body=${encodeURIComponent(message)}`;
-
-          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
-            window.open(whats, '_blank');
-          } else {
-            window.location.href = mail;
-          }
-        });
-
-        grid.appendChild(card);
-      });
-    };
-
+  // nice staggered reveal if helper exists
+  if (typeof initScrollReveal === 'function') {
+    initScrollReveal('#brandGrid .card', 3, 70);
+  }
+};
     brandSel.addEventListener('change', renderGrid);
     catSel.addEventListener('change', renderGrid);
     brandSel.value = 'All';
@@ -727,60 +717,6 @@ document.addEventListener('click', (e) => {
   if (body.classList.contains('hidden')) {
     // .more.hidden → show
     body.classList.remove('hidden');
-    btn.textContent = 'Read less';
-  } else if (body.classList.contains('hidden-text')) {
-    // animated variant
-    body.classList.toggle('open');
-    btn.textContent = body.classList.contains('open') ? 'Read less' : 'Read more';
-  } else {
-    // plain div fallback (no classes)
-    const shown = body.style.display !== 'none';
-    body.style.display = shown ? 'none' : '';
-    btn.textContent = shown ? 'Read more' : 'Read less';
-  }
 
-  // smooth scroll when opening on mobile
-  if (window.matchMedia('(max-width: 860px)').matches) {
-    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-  }
-});
-
-  // Sticky promo bar
-  const promoBar = document.getElementById('promo-bar');
-  const promoBarClose = document.getElementById('promo-bar-close');
-  if (promoBar) {
-    promoBar.classList.remove('hidden');
-    if (promoBarClose) {
-      promoBarClose.addEventListener('click', () => {
-        promoBar.classList.add('hidden');
-      });
-    }
-  }
-
-  // Build dynamic content (sheets/config)
-  buildFromConfig().catch(err=>{
-    console.error('[CARJU] buildFromConfig failed:', err);
-  });
-
-  // Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
-  setTimeout(() => {
-    const brandSel = document.getElementById('brandSelect');
-    const catSel   = document.getElementById('categorySelect');
-    const grid     = document.getElementById('brandGrid');
-
-    if (brandSel && brandSel.options.length === 0) {
-      brandSel.innerHTML = ['All', ...DEFAULT_BRANDS].map(b=>`<option value="${b}">${b}</option>`).join('');
-    }
-    if (catSel && catSel.options.length === 0) {
-      catSel.innerHTML = ['All', ...DEFAULT_CATEGORIES].map(c=>`<option value="${c}">${c}</option>`).join('');
-    }
-    if (grid && grid.children.length === 0) {
-      const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
-      grid.appendChild(msg);
-    }
-  }, 1000);
-
-  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
-});
 
 
