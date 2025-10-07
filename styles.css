@@ -914,3 +914,6 @@ opacity: 1;
 .modal .btn.secondary {
   background:#fff; color:var(--brand); border:1px solid #ddd;
 }
+@media (max-width: 720px){
+  .why-grid { grid-template-columns: 1fr; }
+}
