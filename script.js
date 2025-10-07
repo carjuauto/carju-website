@@ -261,7 +261,6 @@ function setupSlider(containerId, items, intervalMs = 6000){
     });
   }
 
-  // Render with Drive support
   function render(idx, animate = true){
     const it = items[idx];
     if(!it || !img || !cap) return;
@@ -379,20 +378,17 @@ function renderFeesTables(rows){
   };
 
   mounts.forEach(m=>{
-    // If the mount is already a <table>, rebuild its thead/tbody directly
     if (m.tagName && m.tagName.toLowerCase() === 'table'){
       m.innerHTML = '';
       const built = buildTableNode();
       if (built && built.tagName && built.tagName.toLowerCase() === 'table'){
-        m.innerHTML = built.innerHTML; // copy sections into existing table
+        m.innerHTML = built.innerHTML;
       } else {
-        // fallback if rows empty
         const d = document.createElement('caption');
         d.textContent = 'No data.';
         m.appendChild(d);
       }
     } else {
-      // Mount is a div/container
       m.innerHTML = '';
       const card = document.createElement('div');
       card.className = 'card';
@@ -445,89 +441,99 @@ async function buildFromConfig(){
     brandSel.innerHTML = brands.map(b=>`<option value="${b}">${b}</option>`).join('');
     catSel.innerHTML   = cats.map(c=>`<option value="${c}">${c}</option>`).join('');
 
-    const renderGrid = () => {
-  const bVal = clean(brandSel.value || 'All');
-  const cVal = clean(catSel.value   || 'All');
-  grid.innerHTML = '';
+    const renderGrid = ()=>{
+      const bVal = clean(brandSel.value || 'All');
+      const cVal = clean(catSel.value   || 'All');
+      grid.innerHTML = '';
 
-  const filtered = items.filter(it=>{
-    const brandOk = (bVal === 'all') || (it._brandClean === bVal);
-    const catOk   = (cVal === 'all') || (it._catClean   === cVal);
-    return brandOk && catOk;
-  });
+      const filtered = items.filter(it=>{
+        const brandOk = (bVal === 'all') || (it._brandClean === bVal);
+        const catOk   = (cVal === 'all') || (it._catClean   === cVal);
+        return brandOk && catOk;
+      });
 
-  // Show up to 6, shuffled
-  const source = (bVal === 'all' && cVal === 'all') ? items : filtered;
-  const show = pick(source, 6);
+      // Show up to 6, shuffled
+      const source = (bVal === 'all' && cVal === 'all') ? items : filtered;
+      const show = pick(source, 6);
 
-  if (!show.length){
-    const msg = el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.');
-    grid.appendChild(msg);
-    return;
-  }
+      if (!show.length){
+        const msg = el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.');
+        grid.appendChild(msg);
+        return;
+      }
 
-  show.forEach(it=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.style.cursor = 'pointer';
+      show.forEach(it=>{
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.cursor = 'pointer';
 
-    const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
+        const title = it.name || `${it.brand||''} ${it.category||''}`.trim() || 'Vehicle';
 
-    // title
-    const h3 = document.createElement('h3');
-    h3.textContent = title;
-    card.appendChild(h3);
+        const h3 = document.createElement('h3');
+        h3.textContent = title;
+        card.appendChild(h3);
 
-    // meta line + optional market price line
-    const meta = document.createElement('p');
-    meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
-      || 'Models & images coming soon.';
-    card.appendChild(meta);
+        // meta line + optional market price line
+        const meta = document.createElement('p');
+        meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
+          || 'Models & images coming soon.';
+        card.appendChild(meta);
 
-    if (it.marketPriceNum || it.marketPriceRaw){
-      const price = document.createElement('p');
-      price.style.marginTop = '4px';
-      price.style.fontWeight = '600';
-      price.textContent = `Market price: ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)}`;
-      card.appendChild(price);
-    }
-
-    // image
-    if (it.src) {
-      const imgEl = document.createElement('img');
-      imgEl.src = it.src;
-      imgEl.alt = title;
-      imgEl.loading = 'lazy';
-      imgEl.decoding = 'async';
-      imgEl.referrerPolicy = 'no-referrer';
-      imgEl.style.width = '100%';
-      imgEl.style.height = '160px';
-      imgEl.style.objectFit = 'cover';
-      imgEl.style.borderRadius = '10px';
-      imgEl.style.border = '1px solid #eee';
-      imgEl.style.marginTop = '6px';
-
-      imgEl.onerror = () => {
-        if (!tryNextDriveCandidate(imgEl)) {
-          imgEl.onerror = null;
-          imgEl.src = PLACEHOLDER_IMG;
+        if (it.marketPriceNum || it.marketPriceRaw){
+          const price = document.createElement('p');
+          price.style.marginTop = '4px';
+          price.style.fontWeight = '600';
+          price.textContent = `Market price: ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)}`;
+          card.appendChild(price);
         }
-      };
 
-      card.appendChild(imgEl);
-    }
+        if (it.src) {
+          const imgEl = document.createElement('img');
+          imgEl.src = it.src;
+          imgEl.alt = title;
+          imgEl.loading = 'lazy';
+          imgEl.decoding = 'async';
+          imgEl.referrerPolicy = 'no-referrer';
+          imgEl.style.width = '100%';
+          imgEl.style.height = '160px';
+          imgEl.style.objectFit = 'cover';
+          imgEl.style.borderRadius = '10px';
+          imgEl.style.border = '1px solid #eee';
+          imgEl.style.marginTop = '6px';
 
-    // 👉 open the preview modal (instead of confirm WhatsApp/email)
-    card.addEventListener('click', () => openImageModal(it));
+          imgEl.onerror = () => {
+            if (!tryNextDriveCandidate(imgEl)) {
+              imgEl.onerror = null;
+              imgEl.src = PLACEHOLDER_IMG;
+            }
+          };
 
-    grid.appendChild(card);
-  });
+          card.appendChild(imgEl);
+        }
 
-  // nice staggered reveal if helper exists
-  if (typeof initScrollReveal === 'function') {
-    initScrollReveal('#brandGrid .card', 3, 70);
-  }
-};
+        // 🔔 Click-to-inquire (WhatsApp or Email)
+        card.addEventListener('click', ()=>{
+          const brand = it.brand || '';
+          const category = it.category || '';
+          const year = it.year || '';
+          const cleanTitle = it.name || `${brand} ${category} ${year}`.trim();
+
+          const priceBit = (it.marketPriceNum || it.marketPriceRaw) ? ` (current market ~ ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)})` : '';
+          const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}${priceBit}. Could you please confirm availability and advise me on the next steps?`;
+          const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
+          const mail  = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+cleanTitle)}&body=${encodeURIComponent(message)}`;
+
+          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
+            window.open(whats, '_blank');
+          } else {
+            window.location.href = mail;
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    };
+
     brandSel.addEventListener('change', renderGrid);
     catSel.addEventListener('change', renderGrid);
     brandSel.value = 'All';
@@ -540,97 +546,7 @@ async function buildFromConfig(){
     renderFeesTables(cfg.FEES);
   }
 }
-/* ===== Scroll Reveal (generic) ===== */
-function initScrollReveal(selector, columns = 3, baseDelay = 80){
-  const els = Array.from(document.querySelectorAll(selector));
-  if (!els.length) return;
 
-  // Mark all as reveal targets (idempotent)
-  els.forEach(el => el.classList.add('reveal'));
-
-  if (!('IntersectionObserver' in window)){
-    els.forEach(el => el.classList.add('in-view'));
-    return;
-    }
-
-  // Simple stagger: delay by column index on desktop-ish
-  els.forEach((el, i) => {
-    const col = i % Math.max(1, columns);
-    el.style.transitionDelay = (col * baseDelay) + 'ms';
-  });
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: .15, rootMargin: '0px 0px -8% 0px' });
-
-  els.forEach(el => io.observe(el));
-}
-
-/* ===== Modal (image preview + actions) ===== */
-function ensureModal(){
-  if (document.getElementById('carju-modal')) return;
-  const wrap = document.createElement('div');
-  wrap.className = 'modal-backdrop';
-  wrap.id = 'carju-modal';
-  wrap.innerHTML = `
-    <div class="modal glass">
-      <div class="modal-header">
-        <div class="modal-title" id="carju-modal-title"></div>
-        <button class="modal-close" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <img id="carju-modal-img" alt="">
-        <p id="carju-modal-meta" class="muted" style="margin:8px 2px 0"></p>
-        <div class="modal-actions">
-          <a id="carju-modal-wa" class="btn" target="_blank" rel="noopener">Ask on WhatsApp</a>
-          <a id="carju-modal-mail" class="btn secondary">Ask by Email</a>
-        </div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(wrap);
-
-  // Close handlers
-  const close = () => wrap.classList.remove('open');
-  wrap.addEventListener('click', (e) => {
-    if (e.target === wrap) close();
-  });
-  wrap.querySelector('.modal-close').addEventListener('click', close);
-}
-
-function openImageModal(item){
-  ensureModal();
-  const wrap = document.getElementById('carju-modal');
-  const titleEl = document.getElementById('carju-modal-title');
-  const imgEl   = document.getElementById('carju-modal-img');
-  const metaEl  = document.getElementById('carju-modal-meta');
-  const waEl    = document.getElementById('carju-modal-wa');
-  const mailEl  = document.getElementById('carju-modal-mail');
-
-  const brand = item.brand || '';
-  const category = item.category || '';
-  const year = item.year || '';
-  const title = item.name || `${brand} ${category} ${year}`.trim() || 'Vehicle';
-  const priceBit = (item.marketPriceNum || item.marketPriceRaw)
-    ? ` · Market ~ ${formatJPY(item.marketPriceNum ?? item.marketPriceRaw)}`
-    : '';
-
-  titleEl.textContent = title;
-  imgEl.src = item.src || item.ImageURL || '';
-  imgEl.alt = title;
-  metaEl.textContent = [brand, category, year].filter(Boolean).join(' · ') + priceBit;
-
-  const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}${priceBit}. Could you please confirm availability and advise me on the next steps?`;
-  waEl.href = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
-  mailEl.href = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+title)}&body=${encodeURIComponent(message)}`;
-
-  wrap.classList.add('open');
-}
 /* =========================
    INIT (language + data + promo + UI wiring)
    ========================= */
@@ -661,7 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Request a Callback (index page hero right card)
-  // Works with your current markup: .hero-panel inputs + its .btn
   const heroPanel = document.querySelector('.hero-panel');
   if (heroPanel){
     const nameEl = heroPanel.querySelector('input[type="text"]');
@@ -687,7 +602,6 @@ document.addEventListener('DOMContentLoaded', () => {
           `Please call me back or reply when you can.`
         ].join('\n');
 
-        // Ask user which channel
         if (confirm('Send via WhatsApp? (Cancel = Email)')){
           const msg = `Hi CARJU Japan, I’d like a callback.\nName: ${name}\nContact: ${contact}\nLooking for: ${looking}`;
           window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
@@ -699,24 +613,72 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === Why Choose CARJU: Read more / Read less (index + services) ===
-document.addEventListener('click', (e) => {
-  // match <a class="read-more">, <a class="why-more"> or anything with [data-expand]
-  const btn = e.target.closest('.read-more, .why-more, [data-expand]');
-  if (!btn) return;
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.read-more, .why-more, [data-expand]');
+    if (!btn) return;
 
-  e.preventDefault(); // stop "#" links from jumping to top
+    e.preventDefault(); // stop "#" links from jumping to top
 
-  const card = btn.closest('.why-item, .point, article');
-  if (!card) return;
+    const card = btn.closest('.why-item, .point, article');
+    if (!card) return;
 
-  // your HTML uses <div class="more hidden"> … </div>
-  // (also works if a page uses .hidden-text/open instead)
-  const body = card.querySelector('.more') || card.querySelector('.hidden-text');
-  if (!body) return;
+    // supports: <div class="more hidden">…</div> OR <div class="hidden-text">…</div>
+    const body = card.querySelector('.more') || card.querySelector('.hidden-text');
+    if (!body) return;
 
-  if (body.classList.contains('hidden')) {
-    // .more.hidden → show
-    body.classList.remove('hidden');
+    if (body.classList.contains('hidden')) {
+      body.classList.remove('hidden');        // show
+      btn.textContent = 'Read less';
+    } else if (body.classList.contains('hidden-text')) {
+      body.classList.toggle('open');          // animated variant
+      btn.textContent = body.classList.contains('open') ? 'Read less' : 'Read more';
+    } else {
+      // plain div fallback (toggle display)
+      const shown = body.style.display !== 'none';
+      body.style.display = shown ? 'none' : '';
+      btn.textContent = shown ? 'Read more' : 'Read less';
+    }
 
+    // smooth scroll when opening on mobile
+    if (window.matchMedia('(max-width: 860px)').matches) {
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    }
+  });
 
+  // Sticky promo bar
+  const promoBar = document.getElementById('promo-bar');
+  const promoBarClose = document.getElementById('promo-bar-close');
+  if (promoBar) {
+    promoBar.classList.remove('hidden');
+    if (promoBarClose) {
+      promoBarClose.addEventListener('click', () => {
+        promoBar.classList.add('hidden');
+      });
+    }
+  }
 
+  // Build dynamic content (sheets/config)
+  buildFromConfig().catch(err=>{
+    console.error('[CARJU] buildFromConfig failed:', err);
+  });
+
+  // Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
+  setTimeout(() => {
+    const brandSel = document.getElementById('brandSelect');
+    const catSel   = document.getElementById('categorySelect');
+    const grid     = document.getElementById('brandGrid');
+
+    if (brandSel && brandSel.options.length === 0) {
+      brandSel.innerHTML = ['All', ...DEFAULT_BRANDS].map(b=>`<option value="${b}">${b}</option>`).join('');
+    }
+    if (catSel && catSel.options.length === 0) {
+      catSel.innerHTML = ['All', ...DEFAULT_CATEGORIES].map(c=>`<option value="${c}">${c}</option>`).join('');
+    }
+    if (grid && grid.children.length === 0) {
+      const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
+      grid.appendChild(msg);
+    }
+  }, 1000);
+
+  console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
+});
