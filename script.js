@@ -26,39 +26,50 @@ function el(tag, attrs={}, html=''){
 function uniqueList(arr){ return [...new Set((arr||[]).filter(Boolean))]; }
 function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
 function pick(arr, n){ return arr.length <= n ? arr.slice() : shuffle(arr).slice(0, n); }
-function clean(s){ return String(s||'').trim().toLowerCase().replace(/\s+/g,' '); }
 
-// Money
+// Normalize strings for matching (trim + lowercase + collapse spaces)
+function clean(s){
+  return String(s || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
+}
+
+// Simple JPY formatter (keeps whatever you typed if it’s already text)
 function formatJPY(val){
   if(val === undefined || val === null) return '';
   if (typeof val === 'number' && !Number.isNaN(val)){
-    return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(val);
+    return new Intl.NumberFormat('ja-JP', { style:'currency', currency:'JPY', maximumFractionDigits:0 }).format(val);
   }
   const num = Number(String(val).replace(/[^\d.-]/g,''));
   if(!Number.isFinite(num)) return String(val);
-  return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(num);
+  return new Intl.NumberFormat('ja-JP', { style:'currency', currency:'JPY', maximumFractionDigits:0 }).format(num);
 }
 
-// Placeholder image
+// Small inline placeholder used when an image fails to load
 const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
 
 /* =========================
    Google Drive helpers
    ========================= */
+// Convert any Google Drive link into a direct image candidate list
 function driveToDirect(u){
   if(!u) return u;
   try{
     const idMatch = String(u).match(/[-\w]{25,}/);
-    if(!idMatch) return u;
+    if(!idMatch) return u; // not a Drive URL
     const id = idMatch[0];
     const candidates = [
       `https://drive.google.com/uc?export=view&id=${id}`,
       `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
       `https://lh3.googleusercontent.com/d/${id}=w1600`
     ];
+    // attach candidates list in the hash so onerror can try next
     return candidates[0] + `#gdcandidates=${encodeURIComponent(JSON.stringify(candidates))}`;
-  }catch{ return u; }
+  }catch(e){ return u; }
 }
+
+// If an image fails, try the next candidate URL
 function tryNextDriveCandidate(imgEl){
   try{
     const hash = imgEl.src.split('#gdcandidates=')[1];
@@ -71,17 +82,16 @@ function tryNextDriveCandidate(imgEl){
       imgEl.src = next + `#gdcandidates=${encodeURIComponent(JSON.stringify(list))}`;
       return true;
     }
-  }catch{}
+  }catch(e){}
   return false;
 }
 
-/* =========================
-   Normalize rows
-   ========================= */
+// Normalize one car/delivery item (keep original fields + normalized copies)
 function normalizeItem(it){
   const brand = (it.brand || it.Brand || '').trim();
   const category = (it.category || it.Category || '').trim();
   const year = it.year ?? it.Year ?? '';
+  // MarketPrice can be a number or text (handle both)
   const marketPriceRaw = it.MarketPrice ?? it.marketPrice ?? it.Price ?? '';
   let marketPriceNum = Number(String(marketPriceRaw).replace(/[^\d.-]/g,''));
   if(!Number.isFinite(marketPriceNum)) marketPriceNum = undefined;
@@ -94,18 +104,22 @@ function normalizeItem(it){
     _cat: category.toLowerCase(),
     _brandClean: clean(brand),
     _catClean: clean(category),
-    marketPriceRaw, marketPriceNum
+    marketPriceRaw,
+    marketPriceNum
   };
 }
 
 /* =========================
    Google Sheets integration
    ========================= */
+/** ✅ YOUR SHEET ID **/
 const SHEET_ID = "1vRa9U4sMmZDWdh4pp4Gkig53XUmGr1mFxIB24Zcj_UE";
-const SHEET_CARS_TAB = "Cars";
-const SHEET_DELIVERIES_TAB = "Deliveries";
-const SHEET_FEES_TAB = "Fees";
+/** Tab names (must match your sheet tabs exactly) **/
+const SHEET_CARS_TAB = "Cars";            // columns: Name | Brand | Category | Year | ImageURL | MarketPrice
+const SHEET_DELIVERIES_TAB = "Deliveries"; // columns: Caption | ImageURL
+const SHEET_FEES_TAB = "Fees";             // any columns; will render dynamically
 
+// Master lists so dropdowns never shrink even if the sheet has few entries
 const DEFAULT_BRANDS = [
   "Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi","Suzuki","Daihatsu","Isuzu","Hino","Lexus",
   "UD Trucks","Scania","Volvo","BMW","Mercedes-Benz","Audi","Volkswagen","Porsche","Maserati","Yamaha","Kawasaki"
@@ -123,7 +137,7 @@ function mapCarRow(r){
     category: (r.Category || "").trim(),
     year: isNaN(year) ? undefined : year,
     src: (r.ImageURL || "").trim(),
-    MarketPrice: r.MarketPrice
+    MarketPrice: r.MarketPrice // keep raw; normalize later
   };
 }
 function mapDeliveryRow(r){
@@ -141,6 +155,7 @@ async function fetchSheetJSON(tabName){
    Content loader with fallbacks
    ========================= */
 async function loadContent(){
+  // 1) Try Google Sheets (Cars, Deliveries, Fees)
   try {
     if(SHEET_ID){
       const [carsRows, deliveriesRows, feesRows] = await Promise.all([
@@ -167,7 +182,7 @@ async function loadContent(){
     console.warn("Sheets load failed, will fallback:", e);
   }
 
-  // Local JSON fallback
+  // 2) Fallback to local JSON (data/content.json)
   try {
     const res = await fetch('/data/content.json', { cache: 'no-store' });
     if (res.ok) {
@@ -181,9 +196,9 @@ async function loadContent(){
         FEES: json.FEES || []
       };
     }
-  } catch {}
+  } catch (e) { /* continue */ }
 
-  // Config fallback
+  // 3) Final fallback to window.CARJU_CONFIG
   const cfg = window.CARJU_CONFIG || {};
   return {
     WHATSAPP: cfg.WHATSAPP || "",
@@ -206,11 +221,13 @@ function setupSlider(containerId, items, intervalMs = 6000){
   if(!wrap || !items || !items.length){ return; }
 
   const fig = wrap.querySelector('figure');
-  const img = fig.querySelector('img');
-  const cap = fig.querySelector('figcaption');
+  const img = fig ? fig.querySelector('img') : null;
+  const cap = fig ? fig.querySelector('figcaption') : null;
   const prevBtn = wrap.querySelector('.slider-arrow.prev');
   const nextBtn = wrap.querySelector('.slider-arrow.next');
   const dotsWrap = wrap.querySelector('.slider-dots');
+
+  if(!img || !cap) return;
 
   let i = 0;
   let timer = null;
@@ -244,15 +261,17 @@ function setupSlider(containerId, items, intervalMs = 6000){
     });
   }
 
+  // Render with Drive support
   function render(idx, animate = true){
     const it = items[idx];
-    if(!it) return;
+    if(!it || !img || !cap) return;
 
     const src   = driveToDirect(it.src || it.ImageURL || '');
     const title = it.name || it.brand || it.category || 'Image';
 
     img.decoding = 'async';
     img.referrerPolicy = 'no-referrer';
+
     img.onerror = () => {
       if (!tryNextDriveCandidate(img)) {
         img.onerror = null;
@@ -278,6 +297,7 @@ function setupSlider(containerId, items, intervalMs = 6000){
     } else {
       apply();
     }
+
     updateDots();
   }
 
@@ -292,9 +312,11 @@ function setupSlider(containerId, items, intervalMs = 6000){
   if(prevBtn) prevBtn.addEventListener('click', ()=>{ prev(); resetTimer(); });
   if(nextBtn) nextBtn.addEventListener('click', ()=>{ next(); resetTimer(); });
 
+  // Pause on hover (desktop)
   wrap.addEventListener('mouseenter', stopTimer);
   wrap.addEventListener('mouseleave', startTimer);
 
+  // Swipe (mobile)
   let startX = null;
   wrap.addEventListener('touchstart', (e)=>{ startX = e.touches[0].clientX; }, {passive:true});
   wrap.addEventListener('touchend', (e)=>{
@@ -304,9 +326,82 @@ function setupSlider(containerId, items, intervalMs = 6000){
     startX = null;
   }, {passive:true});
 
+  // Init
   buildDots();
   render(i, false);
   startTimer();
+}
+
+/* =========================
+   FEES renderer (supports <div id="feesTable"> OR <table id="feesTable">, multiple)
+   ========================= */
+function renderFeesTables(rows){
+  const mounts = Array.from(document.querySelectorAll('#feesTable'));
+  if(!mounts.length) return;
+
+  // Build a table node from rows
+  const buildTableNode = ()=>{
+    if(!rows.length){
+      const d = el('div', {class:'muted small'}, 'Fees: sheet tab is empty or unavailable.');
+      return d;
+    }
+    const headers = Object.keys(rows[0] || {});
+    const table = document.createElement('table');
+    table.className = 'table';
+
+    const thead = document.createElement('thead');
+    const trh = document.createElement('tr');
+    headers.forEach(h=>{
+      const th = document.createElement('th');
+      th.textContent = h;
+      trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    rows.forEach(r=>{
+      const tr = document.createElement('tr');
+      headers.forEach(h=>{
+        const td = document.createElement('td');
+        const val = r[h];
+        if (typeof val === 'string' && /price|fee|amount|jpy/i.test(h)){
+          td.textContent = formatJPY(val);
+        } else {
+          td.textContent = val ?? '';
+        }
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    return table;
+  };
+
+  mounts.forEach(m=>{
+    // If the mount is already a <table>, rebuild its thead/tbody directly
+    if (m.tagName && m.tagName.toLowerCase() === 'table'){
+      m.innerHTML = '';
+      const built = buildTableNode();
+      if (built && built.tagName && built.tagName.toLowerCase() === 'table'){
+        m.innerHTML = built.innerHTML; // copy sections into existing table
+      } else {
+        // fallback if rows empty
+        const d = document.createElement('caption');
+        d.textContent = 'No data.';
+        m.appendChild(d);
+      }
+    } else {
+      // Mount is a div/container
+      m.innerHTML = '';
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.appendChild(el('h3', {}, 'Agency Fee Structure'));
+      const tableNode = buildTableNode();
+      card.appendChild(tableNode);
+      m.appendChild(card);
+    }
+  });
 }
 
 /* =========================
@@ -322,11 +417,14 @@ async function buildFromConfig(){
     const num = String(cfg.WHATSAPP).replace(/[^0-9]/g,'');
     if(num) wa.href = 'https://wa.me/' + num;
   }
-  if(tk && cfg.TIKTOK){ tk.href = cfg.TIKTOK; }
+  if(tk && cfg.TIKTOK){
+    tk.href = cfg.TIKTOK;
+  }
 
   // Normalize images (Drive) for sliders
   const carsForSlider = ((cfg.GALLERIES && cfg.GALLERIES.cars) || []).map(normalizeItem);
   const deliveriesForSlider = ((cfg.GALLERIES && cfg.GALLERIES.deliveries) || []).map(normalizeItem);
+
   setupSlider('slider-cars', carsForSlider);
   setupSlider('slider-deliveries', deliveriesForSlider);
 
@@ -336,6 +434,7 @@ async function buildFromConfig(){
   const brands     = uniqueList([ 'All', ...itemBrands, ...(cfg.BRANDS || []) ]);
   const cats       = uniqueList([ 'All', ...itemCats,   ...(cfg.CATEGORIES || []) ]);
 
+  // normalized list with _brand/_cat for reliable matching
   const items  = carsForSlider.map(x => ({...x}));
 
   const brandSel = document.getElementById('brandSelect');
@@ -357,11 +456,13 @@ async function buildFromConfig(){
         return brandOk && catOk;
       });
 
+      // Show up to 6, shuffled
       const source = (bVal === 'all' && cVal === 'all') ? items : filtered;
       const show = pick(source, 6);
 
       if (!show.length){
-        grid.appendChild(el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.'));
+        const msg = el('div', {class:'muted small'}, 'No matches. Try a different Brand/Category.');
+        grid.appendChild(msg);
         return;
       }
 
@@ -376,6 +477,7 @@ async function buildFromConfig(){
         h3.textContent = title;
         card.appendChild(h3);
 
+        // meta line + optional market price line
         const meta = document.createElement('p');
         meta.textContent = [it.brand, it.category, it.year].filter(Boolean).join(' · ')
           || 'Models & images coming soon.';
@@ -402,27 +504,34 @@ async function buildFromConfig(){
           imgEl.style.borderRadius = '10px';
           imgEl.style.border = '1px solid #eee';
           imgEl.style.marginTop = '6px';
+
           imgEl.onerror = () => {
             if (!tryNextDriveCandidate(imgEl)) {
               imgEl.onerror = null;
               imgEl.src = PLACEHOLDER_IMG;
             }
           };
+
           card.appendChild(imgEl);
         }
 
-        // click-to-inquire
+        // Click-to-inquire
         card.addEventListener('click', ()=>{
           const brand = it.brand || '';
           const category = it.category || '';
           const year = it.year || '';
           const cleanTitle = it.name || `${brand} ${category} ${year}`.trim();
+
           const priceBit = (it.marketPriceNum || it.marketPriceRaw) ? ` (current market ~ ${formatJPY(it.marketPriceNum ?? it.marketPriceRaw)})` : '';
           const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}${priceBit}. Could you please confirm availability and advise me on the next steps?`;
           const whats = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
           const mail  = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+cleanTitle)}&body=${encodeURIComponent(message)}`;
-          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) window.open(whats, '_blank');
-          else window.location.href = mail;
+
+          if (confirm('Send inquiry via WhatsApp? (Cancel = Email)')) {
+            window.open(whats, '_blank');
+          } else {
+            window.location.href = mail;
+          }
         });
 
         grid.appendChild(card);
@@ -436,59 +545,15 @@ async function buildFromConfig(){
     renderGrid();
   }
 
-  /* ===== Fees table (robust for <table> or wrapper) ===== */
-  const feesMount = document.getElementById('feesTable');
-  if (feesMount){
-    const rows = cfg.FEES || [];
-    const mountIsTable = feesMount.tagName === 'TABLE';
-    const table = mountIsTable ? feesMount : el('table',{class:'table'});
-    table.innerHTML = '';
-
-    if(!rows.length){
-      const msg = el('div',{class:'muted small'},'Fees: sheet tab is empty or unavailable.');
-      if (mountIsTable) {
-        const wrap = feesMount.parentElement || document.body;
-        wrap.insertBefore(msg, feesMount);
-      } else {
-        feesMount.appendChild(msg);
-      }
-      return;
-    }
-
-    const headers = Object.keys(rows[0]);
-
-    const thead = document.createElement('thead');
-    const trh = document.createElement('tr');
-    headers.forEach(h=>{
-      const th = document.createElement('th');
-      th.textContent = h;
-      trh.appendChild(th);
-    });
-    thead.appendChild(trh);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    rows.forEach(r=>{
-      const tr = document.createElement('tr');
-      headers.forEach(h=>{
-        const td = document.createElement('td');
-        let val = r[h];
-        if (typeof val === 'string' && /price|fee|amount|jpy/i.test(h)){
-          td.textContent = formatJPY(val);
-        } else {
-          td.textContent = val ?? '';
-        }
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-
-    if (!mountIsTable) feesMount.appendChild(table);
+  /* ===== Fees table (any page that has it) ===== */
+  if (cfg.FEES && cfg.FEES.length){
+    renderFeesTables(cfg.FEES);
   }
 }
 
-/* ===== INIT (language + data + promo + UI wiring) ===== */
+/* =========================
+   INIT (language + data + promo + UI wiring)
+   ========================= */
 document.addEventListener('DOMContentLoaded', () => {
   // language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
@@ -496,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   setLang(state.lang);
 
-  // Mobile nav toggle
+  // Mobile nav toggle (index/services share IDs)
   const nav = document.getElementById('siteNav');
   const navBtn = document.getElementById('navToggle');
   if (nav && navBtn) {
@@ -504,6 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const open = nav.classList.toggle('open');
       navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+    // Close menu when a link is clicked (mobile)
     nav.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         if (nav.classList.contains('open')) {
@@ -514,18 +580,97 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Build UI from config/sheets
-  buildFromConfig().catch(err=> console.error('[CARJU] buildFromConfig failed:', err));
+  // Request a Callback (index page hero right card)
+  // Works with your current markup: .hero-panel inputs + its .btn
+  const heroPanel = document.querySelector('.hero-panel');
+  if (heroPanel){
+    const nameEl = heroPanel.querySelector('input[type="text"]');
+    const contactEl = heroPanel.querySelector('input[type="email"]');
+    const selectEl = heroPanel.querySelector('select');
+    const cbBtn = heroPanel.querySelector('.btn');
 
-  // Promo banner
+    if (cbBtn){
+      cbBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const name = (nameEl && nameEl.value.trim()) || '';
+        const contact = (contactEl && contactEl.value.trim()) || '';
+        const looking = (selectEl && selectEl.value) || '';
+
+        const subject = `Callback request from ${name || 'client'}`;
+        const body = [
+          `Hello CARJU Japan,`,
+          ``,
+          `Name: ${name || '-'}`,
+          `Contact (Email/WhatsApp): ${contact || '-'}`,
+          `Looking for: ${looking || '-'}`,
+          ``,
+          `Please call me back or reply when you can.`
+        ].join('\n');
+
+        // Ask user which channel
+        if (confirm('Send via WhatsApp? (Cancel = Email)')){
+          const msg = `Hi CARJU Japan, I’d like a callback.\nName: ${name}\nContact: ${contact}\nLooking for: ${looking}`;
+          window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+          window.location.href = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+      });
+    }
+  }
+
+  // WHY CHOOSE — “Read more” (supports your current HTML)
+  // Works for: <a class="read-more"> and <a class="why-more" data-expand>
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.read-more, .why-more[data-expand]');
+    if (!btn) return;
+
+    e.preventDefault(); // stop default # behavior
+    const card = btn.closest('.why-item') || btn.closest('.point') || btn.closest('article');
+    if (!card) return;
+
+    // support both .more.hidden and .hidden-text mechanics
+    const bodyEl = card.querySelector('.more') || card.querySelector('.hidden-text');
+    if (!bodyEl) return;
+
+    // toggle visibility (your HTML uses .more.hidden)
+    const isHidden = bodyEl.classList.contains('hidden') ? true : bodyEl.classList.contains('open') ? false : true;
+
+    if (bodyEl.classList.contains('hidden')){
+      bodyEl.classList.remove('hidden');
+      btn.textContent = 'Read less';
+    } else if (bodyEl.classList.contains('open')) {
+      bodyEl.classList.remove('open');
+      btn.textContent = 'Read more';
+    } else {
+      // was visible without markers; use open/hidden-text animation if present
+      bodyEl.classList.add('open');
+      btn.textContent = 'Read less';
+    }
+
+    // smooth scroll on mobile
+    if (window.matchMedia('(max-width: 860px)').matches) {
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    }
+  });
+
+  // Sticky promo bar
   const promoBar = document.getElementById('promo-bar');
   const promoBarClose = document.getElementById('promo-bar-close');
   if (promoBar) {
     promoBar.classList.remove('hidden');
-    if (promoBarClose) promoBarClose.addEventListener('click', () => promoBar.classList.add('hidden'));
+    if (promoBarClose) {
+      promoBarClose.addEventListener('click', () => {
+        promoBar.classList.add('hidden');
+      });
+    }
   }
 
-  // Fallback fill if sheets slow
+  // Build dynamic content (sheets/config)
+  buildFromConfig().catch(err=>{
+    console.error('[CARJU] buildFromConfig failed:', err);
+  });
+
+  // Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
   setTimeout(() => {
     const brandSel = document.getElementById('brandSelect');
     const catSel   = document.getElementById('categorySelect');
@@ -538,88 +683,10 @@ document.addEventListener('DOMContentLoaded', () => {
       catSel.innerHTML = ['All', ...DEFAULT_CATEGORIES].map(c=>`<option value="${c}">${c}</option>`).join('');
     }
     if (grid && grid.children.length === 0) {
-      grid.appendChild(el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json'));
+      const msg = el('div', {class:'muted small'}, 'Add items in Google Sheets (Cars tab) or in data/content.json');
+      grid.appendChild(msg);
     }
   }, 1000);
-
-  /* === Request Callback (with fallback) === */
-  document.addEventListener('click', (e) => {
-    const cb = e.target.closest('[data-action="callback"], #requestCallback, .request-callback');
-    if (!cb) return;
-    e.preventDefault();
-
-    const modal = document.getElementById('callbackModal');
-    if (modal){
-      modal.classList.add('open');
-      document.body.classList.add('modal-open');
-      return;
-    }
-    const msg = 'Hi CARJU Japan, please call me back about sourcing a vehicle.';
-    window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
-  });
-
-  // Close modal (if present)
-  document.addEventListener('click', (e) => {
-    const close = e.target.closest('[data-close="modal"], .modal-close');
-    if (!close) return;
-    const modal = close.closest('.modal, #callbackModal');
-    if (modal){
-      modal.classList.remove('open');
-      document.body.classList.remove('modal-open');
-    }
-  });
-
-  /* === Read more (Why Choose CARJU & services) === */
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.read-more, .why-more, [data-toggle="more"], a[href="#"], a[href="#more"]');
-    if (!btn) return;
-
-    // only hijack if it's intended as a "more" control
-    const hint = btn.classList.contains('read-more') || btn.classList.contains('why-more') || btn.hasAttribute('data-toggle') || btn.getAttribute('href') === '#' || btn.getAttribute('href') === '#more';
-    if (!hint) return;
-
-    e.preventDefault();
-
-    // find target
-    const card = btn.closest('.point, .why-item, .service-card, li, .card') || document;
-    let target = null;
-
-    const tid = btn.getAttribute('data-target');
-    if (tid) target = document.getElementById(tid) || document.querySelector(tid);
-    if (!target) target = card.querySelector('.hidden-text, [data-more]');
-
-    if (!target) return;
-
-    const opening = !target.classList.contains('open');
-    target.classList.toggle('open', opening);
-    btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
-
-    const moreTxt = btn.getAttribute('data-more') || 'Read more';
-    const lessTxt = btn.getAttribute('data-less') || 'Read less';
-    btn.textContent = opening ? lessTxt : moreTxt;
-
-    // Smooth height even if CSS missing
-    if (opening){
-      target.style.maxHeight = '0px';
-      target.style.overflow = 'hidden';
-      requestAnimationFrame(()=>{
-        target.style.transition = 'max-height .3s ease, opacity .3s ease';
-        target.style.maxHeight = (target.scrollHeight+20) + 'px';
-        target.style.opacity = '1';
-      });
-    } else {
-      target.style.maxHeight = target.scrollHeight + 'px';
-      requestAnimationFrame(()=>{
-        target.style.transition = 'max-height .3s ease, opacity .3s ease';
-        target.style.maxHeight = '0px';
-        target.style.opacity = '0';
-      });
-    }
-
-    if (opening && window.matchMedia('(max-width: 860px)').matches && card) {
-      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-    }
-  });
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
