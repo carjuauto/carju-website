@@ -618,40 +618,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // WHY CHOOSE — “Read more” (supports your current HTML)
-  // Works for: <a class="read-more"> and <a class="why-more" data-expand>
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.read-more, .why-more[data-expand]');
-    if (!btn) return;
+  // === Why Choose CARJU: Read more / Read less (index + services) ===
+document.addEventListener('click', (e) => {
+  // match <a class="read-more">, <a class="why-more"> or anything with [data-expand]
+  const btn = e.target.closest('.read-more, .why-more, [data-expand]');
+  if (!btn) return;
 
-    e.preventDefault(); // stop default # behavior
-    const card = btn.closest('.why-item') || btn.closest('.point') || btn.closest('article');
-    if (!card) return;
+  e.preventDefault(); // stop "#" links from jumping to top
 
-    // support both .more.hidden and .hidden-text mechanics
-    const bodyEl = card.querySelector('.more') || card.querySelector('.hidden-text');
-    if (!bodyEl) return;
+  const card = btn.closest('.why-item, .point, article');
+  if (!card) return;
 
-    // toggle visibility (your HTML uses .more.hidden)
-    const isHidden = bodyEl.classList.contains('hidden') ? true : bodyEl.classList.contains('open') ? false : true;
+  // your HTML uses <div class="more hidden"> … </div>
+  // (also works if a page uses .hidden-text/open instead)
+  const body = card.querySelector('.more') || card.querySelector('.hidden-text');
+  if (!body) return;
 
-    if (bodyEl.classList.contains('hidden')){
-      bodyEl.classList.remove('hidden');
-      btn.textContent = 'Read less';
-    } else if (bodyEl.classList.contains('open')) {
-      bodyEl.classList.remove('open');
-      btn.textContent = 'Read more';
-    } else {
-      // was visible without markers; use open/hidden-text animation if present
-      bodyEl.classList.add('open');
-      btn.textContent = 'Read less';
-    }
+  if (body.classList.contains('hidden')) {
+    // .more.hidden → show
+    body.classList.remove('hidden');
+    btn.textContent = 'Read less';
+  } else if (body.classList.contains('hidden-text')) {
+    // animated variant
+    body.classList.toggle('open');
+    btn.textContent = body.classList.contains('open') ? 'Read less' : 'Read more';
+  } else {
+    // plain div fallback (no classes)
+    const shown = body.style.display !== 'none';
+    body.style.display = shown ? 'none' : '';
+    btn.textContent = shown ? 'Read more' : 'Read less';
+  }
 
-    // smooth scroll on mobile
-    if (window.matchMedia('(max-width: 860px)').matches) {
-      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-    }
-  });
+  // smooth scroll when opening on mobile
+  if (window.matchMedia('(max-width: 860px)').matches) {
+    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+  }
+});
 
   // Sticky promo bar
   const promoBar = document.getElementById('promo-bar');
@@ -690,3 +692,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
