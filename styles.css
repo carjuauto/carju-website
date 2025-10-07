@@ -694,4 +694,63 @@ opacity: 1;
   .services-grid{ grid-template-columns:1fr; }
   .service-card.hex{ clip-path:none; border-radius:14px; } /* rectangles on small screens for readability */
 }
+/* === Services: Glass Elevated Cards === */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.service-card.fancy{
+  position:relative;
+  border:1px solid transparent;                /* gradient border trick */
+  border-radius:16px;
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(135deg, rgba(227,28,35,.22), rgba(0,0,0,.06)) border-box;
+  box-shadow: var(--shadow-sm);
+  padding:20px 18px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.service-card.fancy .inner{
+  display:flex; flex-direction:column; gap:8px; text-align:left;
+}
+
+.service-card.fancy .icon-wrap{
+  width:56px; height:56px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid #eee;
+  box-shadow: var(--shadow-sm);
+  font-size:26px;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.service-card.fancy h3{ margin:6px 0 2px; color:var(--brand); font-weight:800 }
+.service-card.fancy p{ margin:0; color:#3a3a3a }
+
+.service-card.fancy:hover{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+.service-card.fancy:hover .icon-wrap{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* subtle focus for keyboard users */
+.service-card.fancy:focus-within{
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(227,28,35,.10), var(--shadow-md);
+}
+
+/* Responsive */
+@media (max-width:1024px){
+  .services-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:720px){
+  .services-grid{ grid-template-columns:1fr; }
+}
 
