@@ -843,3 +843,21 @@ opacity: 1;
     grid-template-columns: 1fr;
   }
 }
+
+/* === Services: scroll reveal === */
+.services-grid .service-card {
+  opacity: 0.001;
+  transform: translateY(14px) scale(.98);
+  transition: transform .5s ease, opacity .5s ease, box-shadow .3s ease;
+  will-change: transform, opacity;
+}
+
+.services-grid .service-card.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* (keeps your hover lift looking good once visible) */
+.services-grid .service-card.in-view:hover {
+  transform: translateY(-8px) scale(1);
+}
