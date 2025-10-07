@@ -240,8 +240,36 @@
   <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
 </footer>
 <script src="script.js"></script>
+  <script>
+(function(){
+  const cards = Array.from(document.querySelectorAll('.services-grid .service-card'));
+  if (!('IntersectionObserver' in window) || !cards.length) {
+    // Fallback: just show all
+    cards.forEach(c => c.classList.add('in-view'));
+    return;
+  }
+
+  // Stagger: 0ms, 80ms, 160ms, then repeat per row
+  cards.forEach((c, i) => {
+    const pos = i % 3; // 3 columns on desktop
+    c.style.transitionDelay = (pos * 80) + 'ms';
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target); // reveal once
+      }
+    });
+  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+
+  cards.forEach(c => io.observe(c));
+})();
+</script>
 </body>
 </html>
+
 
 
 
