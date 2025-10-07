@@ -550,7 +550,97 @@ async function buildFromConfig(){
     renderFeesTables(cfg.FEES);
   }
 }
+/* ===== Scroll Reveal (generic) ===== */
+function initScrollReveal(selector, columns = 3, baseDelay = 80){
+  const els = Array.from(document.querySelectorAll(selector));
+  if (!els.length) return;
 
+  // Mark all as reveal targets (idempotent)
+  els.forEach(el => el.classList.add('reveal'));
+
+  if (!('IntersectionObserver' in window)){
+    els.forEach(el => el.classList.add('in-view'));
+    return;
+    }
+
+  // Simple stagger: delay by column index on desktop-ish
+  els.forEach((el, i) => {
+    const col = i % Math.max(1, columns);
+    el.style.transitionDelay = (col * baseDelay) + 'ms';
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+
+  els.forEach(el => io.observe(el));
+}
+
+/* ===== Modal (image preview + actions) ===== */
+function ensureModal(){
+  if (document.getElementById('carju-modal')) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'modal-backdrop';
+  wrap.id = 'carju-modal';
+  wrap.innerHTML = `
+    <div class="modal glass">
+      <div class="modal-header">
+        <div class="modal-title" id="carju-modal-title"></div>
+        <button class="modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="carju-modal-img" alt="">
+        <p id="carju-modal-meta" class="muted" style="margin:8px 2px 0"></p>
+        <div class="modal-actions">
+          <a id="carju-modal-wa" class="btn" target="_blank" rel="noopener">Ask on WhatsApp</a>
+          <a id="carju-modal-mail" class="btn secondary">Ask by Email</a>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(wrap);
+
+  // Close handlers
+  const close = () => wrap.classList.remove('open');
+  wrap.addEventListener('click', (e) => {
+    if (e.target === wrap) close();
+  });
+  wrap.querySelector('.modal-close').addEventListener('click', close);
+}
+
+function openImageModal(item){
+  ensureModal();
+  const wrap = document.getElementById('carju-modal');
+  const titleEl = document.getElementById('carju-modal-title');
+  const imgEl   = document.getElementById('carju-modal-img');
+  const metaEl  = document.getElementById('carju-modal-meta');
+  const waEl    = document.getElementById('carju-modal-wa');
+  const mailEl  = document.getElementById('carju-modal-mail');
+
+  const brand = item.brand || '';
+  const category = item.category || '';
+  const year = item.year || '';
+  const title = item.name || `${brand} ${category} ${year}`.trim() || 'Vehicle';
+  const priceBit = (item.marketPriceNum || item.marketPriceRaw)
+    ? ` · Market ~ ${formatJPY(item.marketPriceNum ?? item.marketPriceRaw)}`
+    : '';
+
+  titleEl.textContent = title;
+  imgEl.src = item.src || item.ImageURL || '';
+  imgEl.alt = title;
+  metaEl.textContent = [brand, category, year].filter(Boolean).join(' · ') + priceBit;
+
+  const message = `Hi CARJU Japan, I'm interested in a ${brand} ${category} ${year}${priceBit}. Could you please confirm availability and advise me on the next steps?`;
+  waEl.href = `https://wa.me/818047909663?text=${encodeURIComponent(message)}`;
+  mailEl.href = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent('Vehicle Inquiry: '+title)}&body=${encodeURIComponent(message)}`;
+
+  wrap.classList.add('open');
+}
 /* =========================
    INIT (language + data + promo + UI wiring)
    ========================= */
@@ -692,4 +782,5 @@ document.addEventListener('click', (e) => {
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
 
