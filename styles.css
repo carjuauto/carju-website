@@ -628,4 +628,70 @@ opacity: 1;
     margin-top: 10px;
   }
 }
+/* === Services: premium hex blocks with hover-elevate === */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  perspective:1000px; /* subtle 3D feel on hover */
+}
+
+.service-card.hex{
+  position:relative;
+  background:#fff;
+  border:1px solid #eee;
+  /* hexagon shape */
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  padding:30px 26px 28px;   /* extra padding to avoid text touching edges */
+  box-shadow: var(--shadow-sm);
+  transition: transform .22s ease, box-shadow .22s ease, opacity .22s ease;
+}
+
+/* nice border glow */
+.service-card.hex::after{
+  content:"";
+  position:absolute; inset:0;
+  clip-path: inherit;
+  pointer-events:none;
+  border:2px solid rgba(227,28,35,.10);
+  border-radius:0; /* ignored due to clip-path */
+}
+
+/* content wrapper stays centered */
+.service-card .inner{
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  gap:8px;
+}
+
+/* icon treatment */
+.service-card .icon-wrap{
+  width:58px; height:58px; display:flex; align-items:center; justify-content:center;
+  border-radius:14px; background:#fff;
+  border:1px solid #eee; box-shadow:var(--shadow-sm);
+  font-size:26px;
+  transition: transform .22s ease;
+}
+
+/* hover: lift selected, dim others */
+.services-grid:hover .service-card.hex{ opacity:.85; transform: translateY(0) rotateX(0) scale(.98) }
+.service-card.hex:hover{
+  opacity:1;
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  z-index:2;
+}
+.service-card.hex:hover .icon-wrap{ transform: translateY(-2px) }
+
+/* headings & copy in card */
+.service-card h3{ margin:6px 0 2px; color:var(--brand); font-weight:800 }
+.service-card p{ margin:0; color:#3a3a3a }
+
+/* responsive */
+@media (max-width:1024px){
+  .services-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:720px){
+  .services-grid{ grid-template-columns:1fr; }
+  .service-card.hex{ clip-path:none; border-radius:14px; } /* rectangles on small screens for readability */
+}
 
