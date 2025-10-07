@@ -861,3 +861,56 @@ opacity: 1;
 .services-grid .service-card.in-view:hover {
   transform: translateY(-8px) scale(1);
 }
+
+/* === Generic scroll reveal (re-usable) === */
+.reveal {
+  opacity: 0.001;
+  transform: translateY(14px) scale(.985);
+  transition: opacity .5s ease, transform .5s ease, box-shadow .3s ease;
+  will-change: transform, opacity;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* === Glass look (subtle frosted card) === */
+.glass {
+  background: rgba(255,255,255,.86);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 10px 30px rgba(10,16,20,.08);
+}
+
+/* On hover (cards/sliders) */
+.glass:hover {
+  box-shadow: 0 16px 44px rgba(10,16,20,.12);
+  transform: translateY(-3px);
+}
+
+/* === Modal (image preview + actions) === */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.55);
+  display: none; align-items: center; justify-content: center; z-index: 9999;
+}
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  width: min(920px, 94vw);
+  max-height: 90vh; overflow: auto;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px; box-shadow: var(--shadow-lg);
+  padding: 14px;
+}
+.modal-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px }
+.modal-title { font-weight:800; font-size:18px; }
+.modal-close { background:transparent; border:none; font-size:22px; cursor:pointer; line-height:1; padding:4px 8px }
+.modal-body img { width:100%; height:auto; display:block; border-radius:12px; border:1px solid #eee }
+.modal-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
+.modal .btn.secondary {
+  background:#fff; color:var(--brand); border:1px solid #ddd;
+}
