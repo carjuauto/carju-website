@@ -605,4 +605,27 @@ max-height: 600px; /* adjust as needed */
 opacity: 1;
 
 }
+/* ==== Fix WHY CHOOSE section on mobile (1 card per row) ==== */
+@media (max-width: 860px){
+  .why-grid{
+    grid-template-columns: 1fr !important;   /* stack vertically */
+    gap: 14px;
+  }
+  .why-item{
+    padding: 16px;
+  }
+  .why-item h3{
+    font-size: 20px;
+    line-height: 1.25;
+  }
+  .why-item p{
+    font-size: 16px;
+  }
+  /* make the Read more link easier to tap */
+  .why-item .why-more,
+  .why-item .read-more{
+    display: inline-block;
+    margin-top: 10px;
+  }
+}
 
