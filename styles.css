@@ -1191,27 +1191,45 @@ opacity: 1;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
 }
 
-/* === HERO Quick Request: glass/transparent panel === */
+/* === HERO Quick Request: ultra-transparent glass panel === */
 .hero-banner.hero-photo .hero-panel{
-  /* glass look */
-  background: rgba(255,255,255,.65);          /* was solid white */
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,.55);
+  background: rgba(255, 255, 255, 0.35); /* more see-through */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 16px;
   box-shadow:
-    0 12px 36px rgba(10,16,20,.22),
-    inset 0 1px 0 rgba(255,255,255,.55);
+    0 10px 30px rgba(10,16,20,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* Inputs readable but not fully opaque */
+/* Inputs on glass panel */
 .hero-banner.hero-photo .hero-panel input,
 .hero-banner.hero-photo .hero-panel select{
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.5);
+  color: #000;
 }
 
-/* Slightly stronger text contrast on glass */
-.hero-banner.hero-photo .hero-panel h3{ color: #111; }
-.hero-banner.hero-photo .hero-panel ::placeholder{ color:#666; }
+/* Text adjustments for visibility */
+.hero-banner.hero-photo .hero-panel h3{
+  color: #111;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+}
+
+.hero-banner.hero-photo .hero-panel ::placeholder{
+  color: #333;
+}
+
+/* Make the Request button pop on glass */
+.hero-banner.hero-photo .hero-panel .btn{
+  background: rgba(227,28,35,0.85);
+  border: 1px solid rgba(227,28,35,0.9);
+  box-shadow: 0 4px 18px rgba(227,28,35,0.3);
+}
+
+.hero-banner.hero-photo .hero-panel .btn:hover{
+  background: rgba(227,28,35,1);
+  box-shadow: 0 6px 26px rgba(227,28,35,0.4);
+}
 
