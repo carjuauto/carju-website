@@ -1168,3 +1168,25 @@ opacity: 1;
   from { stroke-dashoffset: 0; }
   to   { stroke-dashoffset: -56; }
 }
+/* make the animation fill more of the hero width */
+.hero-banner .anim-banner svg {
+  width: 100%;
+  height: 260px;      /* taller = more visible curve */
+  position: absolute;
+  top: 20px;          /* move up toward top of hero */
+  left: 0;
+  right: 0;
+}
+
+/* keep world and japan near corners */
+.la-world-wrap image { transform-origin: center; transform: scale(1.1); }
+.la-japan-wrap image { transform-origin: center; transform: scale(1.2); }
+
+/* make the ship and glow line a bit brighter */
+.route-path { stroke: rgba(255,255,255,.75); }
+
+/* fix upside-down rotation */
+.ship-on-route image {
+  transform: scaleY(1);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+}
