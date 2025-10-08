@@ -1190,3 +1190,27 @@ opacity: 1;
   transform: scaleY(1);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
 }
+
+/* === HERO Quick Request: glass/transparent panel === */
+.hero-banner.hero-photo .hero-panel{
+  /* glass look */
+  background: rgba(255,255,255,.65);          /* was solid white */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 16px;
+  box-shadow:
+    0 12px 36px rgba(10,16,20,.22),
+    inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+/* Inputs readable but not fully opaque */
+.hero-banner.hero-photo .hero-panel input,
+.hero-banner.hero-photo .hero-panel select{
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(0,0,0,.10);
+}
+
+/* Slightly stronger text contrast on glass */
+.hero-banner.hero-photo .hero-panel h3{ color: #111; }
+.hero-banner.hero-photo .hero-panel ::placeholder{ color:#666; }
