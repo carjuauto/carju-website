@@ -1195,8 +1195,8 @@ opacity: 1;
 .hero-banner.hero-photo .hero-panel{
   /* glass look */
   background: rgba(255,255,255,.65);          /* was solid white */
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,.55);
   border-radius: 16px;
   box-shadow:
@@ -1214,3 +1214,4 @@ opacity: 1;
 /* Slightly stronger text contrast on glass */
 .hero-banner.hero-photo .hero-panel h3{ color: #111; }
 .hero-banner.hero-photo .hero-panel ::placeholder{ color:#666; }
+
