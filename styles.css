@@ -1127,3 +1127,44 @@ opacity: 1;
 .hero-banner.hero-photo::after{
   pointer-events: none;
 }
+/* === HERO animation background (behind content) === */
+.hero-banner { position: relative; }
+.hero-banner .anim-banner{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:.85; /* adjust 0.6–1.0 as you like */
+}
+.hero-banner .hero-inner{
+  position:relative;
+  z-index:2;
+}
+
+/* Disable the old straight-line animation inside the hero */
+.hero-banner .la-ship-wrap{
+  animation: none !important;
+}
+
+/* Gentle float for world/japan markers (you already use similar; safe to keep) */
+.la-world-wrap, .la-japan-wrap{
+  animation: float 6s ease-in-out infinite alternate;
+}
+@keyframes float{
+  from{ transform: translateY(0); }
+  to{ transform: translateY(-10px); }
+}
+
+/* Animated dashed route */
+.route-path{
+  stroke-dashoffset: 0;
+  animation: route-dash 2.5s linear infinite;
+}
+@keyframes route-dash{
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -56; }
+}
