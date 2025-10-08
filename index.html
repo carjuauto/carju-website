@@ -10,7 +10,8 @@
   <link rel="icon" type="image/png" href="assets/logo.png"/>
   <script src="config.js"></script>
 </head>
-  <!-- Sticky Promo Banner -->
+
+<!-- Sticky Promo Banner -->
 <div id="promo-bar" class="promo-bar" role="region" aria-label="Promotion">
   <span data-i18n="en">🎉 Limited Offer: <strong>50% OFF</strong> agency fees for your first purchase.</span>
   <span class="hidden" data-i18n="ja">🎉 期間限定：初回のエージェンシー手数料が <strong>50%OFF</strong>。</span>
@@ -19,6 +20,7 @@
      target="_blank">💬 <span data-i18n="en">Claim via WhatsApp</span><span class="hidden" data-i18n="ja">WhatsAppで申請</span></a>
   <button id="promo-bar-close" class="promo-bar-close" aria-label="Close">&times;</button>
 </div>
+
 <body>
 <header class="header container">
   <div class="brand">
@@ -32,23 +34,15 @@
     </div>
   </div>
 
-  <!-- 👇 Add this button (mobile hamburger) -->
-  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-    ☰
-  </button>
+  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- 👇 Give the nav an id for toggling + add FAQ link -->
   <nav class="nav" id="siteNav">
     <a href="services.html" data-i18n="en">Services</a>
     <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
-
     <a href="fees.html" data-i18n="en">Fees</a>
     <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
-
     <a href="contact.html" data-i18n="en">Contact</a>
     <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
-
-    <!-- NEW -->
     <a href="faq.html" data-i18n="en">FAQ</a>
     <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
   </nav>
@@ -58,181 +52,147 @@
     <button data-lang-btn="ja" class="badge">日本語</button>
   </div>
 </header>
+
 <main class="container">
   <!-- HERO -->
-  <!-- HERO -->
-<section class="hero-banner hero-photo" style="--hero:url('assets/your-hero-car.jpg')">
-  <div class="anim-banner">
-  <div class="logistics-anim" aria-hidden="true">
-    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Japan to World shipping animation">
-  <defs>
-    <!-- Curved sea route: near the top, sweeping across the hero -->
-    <path id="ship-route"
-          d="M 1080 120
-             C 920 60 700 80 500 120
-             S 200 200 80 140"
-          fill="none"/>
+  <section class="hero-banner hero-photo" style="--hero:url('assets/your-hero-car.jpg')">
+    <div class="anim-banner">
+      <div class="logistics-anim" aria-hidden="true">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Japan to World shipping animation">
+          <defs>
+            <path id="ship-route" d="M 1080 120 C 920 60 700 80 500 120 S 200 200 80 140" fill="none"/>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
 
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2" result="b"/>
-      <feMerge>
-        <feMergeNode in="b"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
+          <g class="la-world-wrap">
+            <image href="assets/world-globe.PNG" x="40" y="60" width="100" height="100" class="la-world-img"/>
+          </g>
+          <g class="la-japan-wrap">
+            <image href="assets/japan-map.PNG" x="1020" y="40" width="160" height="160" class="la-japan-img"/>
+          </g>
 
-  <!-- World (far left) -->
-  <g class="la-world-wrap">
-    <image href="assets/world-globe.PNG" x="40" y="60" width="100" height="100" class="la-world-img"/>
-  </g>
+          <g filter="url(#glow)">
+            <use href="#ship-route" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="7 7" class="route-path"/>
+          </g>
 
-  <!-- Japan (far right) -->
-  <g class="la-japan-wrap">
-    <image href="assets/japan-map.PNG" x="1020" y="40" width="160" height="160" class="la-japan-img"/>
-  </g>
-
-  <!-- Route line -->
-  <g filter="url(#glow)">
-    <use href="#ship-route"
-         stroke="rgba(255,255,255,.6)"
-         stroke-width="2.5"
-         stroke-linecap="round"
-         stroke-dasharray="7 7"
-         class="route-path"/>
-  </g>
-
-  <!-- Ship moving along route -->
-  <g class="ship-on-route">
-    <image href="assets/ship.PNG" width="80" height="40" />
-    <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse">
-      <mpath xlink:href="#ship-route"></mpath>
-    </animateMotion>
-  </g>
-</svg>  
-</div>
-</div>
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <h1>Buy from Japan like you’re here.</h1>
-      <p>We search auctions, local dealers, and private sellers on your behalf—so you get more options, better prices, and clean paperwork.</p>
-      <div class="hero-cta">
-        <a class="btn" href="contact.html">Start a Search</a>
-        <a class="btn" style="background:#fff;color:var(--brand);border-color:#ddd" href="services.html">How It Works</a>
+          <g class="ship-on-route">
+            <image href="assets/ship.PNG" width="80" height="40" />
+            <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse">
+              <mpath xlink:href="#ship-route"></mpath>
+            </animateMotion>
+          </g>
+        </svg>
       </div>
     </div>
 
-    <div class="hero-panel">
-      <h3>Quick Request</h3>
-      <div class="field"><input type="text" placeholder="Your Name"></div>
-      <div class="field"><input type="email" placeholder="Email / WhatsApp"></div>
-      <div class="field">
-        <select>
-          <option value="">What are you looking for?</option>
-          <option>Sedan</option><option>SUV</option><option>Truck</option><option>Machinery</option>
-        </select>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1>Buy from Japan like you’re here.</h1>
+        <p>We search auctions, local dealers, and private sellers on your behalf—so you get more options, better prices, and clean paperwork.</p>
+        <div class="hero-cta">
+          <a class="btn" href="contact.html">Start a Search</a>
+          <a class="btn" style="background:#fff;color:var(--brand);border-color:#ddd" href="services.html">How It Works</a>
+        </div>
       </div>
-      <button class="btn">Request a Callback</button>
+
+      <div class="hero-panel">
+        <h3>Quick Request</h3>
+        <div class="field"><input type="text" placeholder="Your Name"></div>
+        <div class="field"><input type="email" placeholder="Email / WhatsApp"></div>
+        <div class="field">
+          <select>
+            <option value="">What are you looking for?</option>
+            <option>Sedan</option><option>SUV</option><option>Truck</option><option>Machinery</option>
+          </select>
+        </div>
+        <button class="btn">Request a Callback</button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ✅ Browse by brand & category (now OUTSIDE hero) -->
-<section class="brand-category-section">
-  <div class="card">
-    <div class="kicker" data-i18n="en">Browse by brand & category</div>
-    <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
-    <div class="filters">
-      <label>
-        <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
-        <select id="brandSelect"></select>
-      </label>
-      <label>
-        <span data-i18n="en">Category</span><span class="hidden" data-i18n="ja">カテゴリー</span>
-        <select id="categorySelect"></select>
-      </label>
+  <!-- Browse by brand & category -->
+  <section class="brand-category-section">
+    <div class="card">
+      <div class="kicker" data-i18n="en">Browse by brand & category</div>
+      <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
+      <div class="filters">
+        <label>
+          <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
+          <select id="brandSelect"></select>
+        </label>
+        <label>
+          <span data-i18n="en">Category</span><span class="hidden" data-i18n="ja">カテゴリー</span>
+          <select id="categorySelect"></select>
+        </label>
+      </div>
+      <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
     </div>
-    <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
-  </div>
-</section>
-<!-- ===== Icon Strip ===== -->
-<section class="feature-strip">
-  <div class="strip-inner">
-    <div class="feature-card"><img src="assets/i-auction.svg" alt=""><span>Auction Access</span></div>
-    <div class="feature-card"><img src="assets/i-dealers.svg" alt=""><span>Local Dealers</span></div>
-    <div class="feature-card"><img src="assets/i-private.svg" alt=""><span>Private Sellers</span></div>
-    <div class="feature-card"><img src="assets/i-check.svg" alt=""><span>Condition Checks</span></div>
-    <div class="feature-card"><img src="assets/i-docs.svg" alt=""><span>Paperwork</span></div>
-    <div class="feature-card"><img src="assets/i-ship.svg" alt=""><span>Shipping</span></div>
-  </div>
-</section>
- <!-- WHY US (premium, expandable) -->
-<section class="why-us">
-  <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
-  <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
+  </section>
 
-  <div class="why-grid">
-    <!-- 1 -->
-    <article class="why-item">
-      <h3>We search everywhere</h3>
-      <p class="teaser">Auctions, local dealers, and private owners — we compare all options for you.</p>
-      <div class="more hidden">
-        <p>Most sites only show their own cars. We check major auctions, small yards, and even individuals who want to sell. You get more choice and better odds of finding “your” car at the right price.</p>
-      </div>
-     <a href="javascript:void(0)" class="read-more">Read more</a>
-    </article>
+  <!-- Icon Strip -->
+  <section class="feature-strip">
+    <div class="strip-inner">
+      <div class="feature-card"><img src="assets/i-auction.svg" alt=""><span>Auction Access</span></div>
+      <div class="feature-card"><img src="assets/i-dealers.svg" alt=""><span>Local Dealers</span></div>
+      <div class="feature-card"><img src="assets/i-private.svg" alt=""><span>Private Sellers</span></div>
+      <div class="feature-card"><img src="assets/i-check.svg" alt=""><span>Condition Checks</span></div>
+      <div class="feature-card"><img src="assets/i-docs.svg" alt=""><span>Paperwork</span></div>
+      <div class="feature-card"><img src="assets/i-ship.svg" alt=""><span>Shipping</span></div>
+    </div>
+  </section>
 
-    <!-- 2 -->
-    <article class="why-item">
-      <h3>Agent on your side</h3>
-      <p class="teaser">We don’t push stock — we buy on your behalf and protect your budget.</p>
-      <div class="more hidden">
-        <p>No inventory means no pressure to clear cars. Our job is to represent you: find options, compare condition and costs, and guide you to the best value — not the fastest sale.</p>
-      </div>
-      <a href="javascript:void(0)" class="read-more">Read more</a>
-    </article>
+  <!-- WHY US -->
+  <section class="why-us">
+    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
+    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
 
-    <!-- 3 -->
-    <article class="why-item">
-      <h3>Real checks, real photos</h3>
-      <p class="teaser">We verify condition and paperwork before you commit.</p>
-      <div class="more hidden">
-        <p>We review auction sheets, service history (when available), and seller info. If anything looks off, we skip it. If it looks good, we share photos/details and you choose.</p>
-      </div>
-      <a href="javascript:void(0)" class="read-more">Read more</a>
-    </article>
+    <div class="why-grid">
+      <article class="why-item">
+        <h3>We search everywhere</h3>
+        <p class="teaser">Auctions, local dealers, and private owners — we compare all options for you.</p>
+        <div class="more hidden"><p>Most sites only show their own cars. We check major auctions, small yards, and even individuals who want to sell. You get more choice and better odds of finding “your” car at the right price.</p></div>
+        <a href="javascript:void(0)" class="read-more">Read more</a>
+      </article>
 
-    <!-- 4 -->
-    <article class="why-item">
-      <h3>Clear costs</h3>
-      <p class="teaser">No hidden surprises — we break down every fee.</p>
-      <div class="more hidden">
-        <p>You’ll see itemized costs from bid to Bill of Lading: car price, auction/seller fees, our agent fee, transport, and shipping. You always know what you’re paying for.</p>
-      </div>
-      <a href="javascript:void(0)" class="read-more">Read more</a>
-    </article>
+      <article class="why-item">
+        <h3>Agent on your side</h3>
+        <p class="teaser">We don’t push stock — we buy on your behalf and protect your budget.</p>
+        <div class="more hidden"><p>No inventory means no pressure to clear cars. Our job is to represent you: find options, compare condition and costs, and guide you to the best value — not the fastest sale.</p></div>
+        <a href="javascript:void(0)" class="read-more">Read more</a>
+      </article>
 
-    <!-- 5 -->
-    <article class="why-item">
-      <h3>East Africa know-how</h3>
-      <p class="teaser">Uganda & the region — we know what sells and how to ship it.</p>
-      <div class="more hidden">
-        <p>We help you pick models that fit your roads, fuel, maintenance, and resale. We coordinate to your port and can suggest clearance agents if needed.</p>
-      </div>
-      <a href="javascript:void(0)" class="read-more">Read more</a>
-    </article>
+      <article class="why-item">
+        <h3>Real checks, real photos</h3>
+        <p class="teaser">We verify condition and paperwork before you commit.</p>
+        <div class="more hidden"><p>We review auction sheets, service history (when available), and seller info. If anything looks off, we skip it. If it looks good, we share photos/details and you choose.</p></div>
+        <a href="javascript:void(0)" class="read-more">Read more</a>
+      </article>
 
-    <!-- 6 -->
-    <article class="why-item">
-      <h3>End-to-port support</h3>
-      <p class="teaser">Inspection, documents, and shipping — handled.</p>
-      <div class="more hidden">
-        <p>From inspection to export paperwork to vessel booking and B/L, we keep you updated. You focus on picking the car — we handle the logistics to port.</p>
-      </div>
-      <a href="javascript:void(0)" class="read-more">Read more</a>
-    </article>
-  </div>
-</section>
+      <article class="why-item">
+        <h3>Clear costs</h3>
+        <p class="teaser">No hidden surprises — we break down every fee.</p>
+        <div class="more hidden"><p>You’ll see itemized costs from bid to Bill of Lading: car price, auction/seller fees, our agent fee, transport, and shipping. You always know what you’re paying for.</p></div>
+        <a href="javascript:void(0)" class="read-more">Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>East Africa know-how</h3>
+        <p class="teaser">Uganda & the region — we know what sells and how to ship it.</p>
+        <div class="more hidden"><p>We help you pick models that fit your roads, fuel, maintenance, and resale. We coordinate to your port and can suggest clearance agents if needed.</p></div>
+        <a href="javascript:void(0)" class="read-more">Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>End-to-port support</h3>
+        <p class="teaser">Inspection, documents, and shipping — handled.</p>
+        <div class="more hidden"><p>From inspection to export paperwork to vessel booking and B/L, we keep you updated. You focus on picking the car — we handle the logistics to port.</p></div>
+        <a href="javascript:void(0)" class="read-more">Read more</a>
+      </article>
+    </div>
+  </section>
 
   <!-- Inventory Slider -->
   <section class="gallery-section">
@@ -267,22 +227,7 @@
   </div>
   <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
 </footer>
-<!-- Attach script AFTER popup -->
+
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
