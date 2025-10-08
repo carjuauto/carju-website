@@ -92,8 +92,9 @@
 
 <main class="container">
   <!-- HERO -->
-  <section class="hero-banner hero-photo" style="--hero:url('assets/your-hero-car.jpg')">
-   <div class="hero-inner">
+  <!-- HERO -->
+<section class="hero-banner hero-photo" style="--hero:url('assets/your-hero-car.jpg')">
+  <div class="hero-inner">
     <div class="hero-copy">
       <h1>Buy from Japan like you’re here.</h1>
       <p>We search auctions, local dealers, and private sellers on your behalf—so you get more options, better prices, and clean paperwork.</p>
@@ -116,24 +117,26 @@
       <button class="btn">Request a Callback</button>
     </div>
   </div>
+</section>
 
-    <!-- Browse by brand & category -->
-    <div class="card">
-      <div class="kicker" data-i18n="en">Browse by brand & category</div>
-      <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
-      <div class="filters">
-        <label>
-          <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
-          <select id="brandSelect"></select>
-        </label>
-        <label>
-          <span data-i18n="en">Category</span><span class="hidden" data-i18n="ja">カテゴリー</span>
-          <select id="categorySelect"></select>
-        </label>
-      </div>
-      <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
+<!-- ✅ Browse by brand & category (now OUTSIDE hero) -->
+<section class="brand-category-section">
+  <div class="card">
+    <div class="kicker" data-i18n="en">Browse by brand & category</div>
+    <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
+    <div class="filters">
+      <label>
+        <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
+        <select id="brandSelect"></select>
+      </label>
+      <label>
+        <span data-i18n="en">Category</span><span class="hidden" data-i18n="ja">カテゴリー</span>
+        <select id="categorySelect"></select>
+      </label>
     </div>
-  </section>
+    <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
+  </div>
+</section>
 <!-- ===== Icon Strip ===== -->
 <section class="feature-strip">
   <div class="strip-inner">
@@ -250,6 +253,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
