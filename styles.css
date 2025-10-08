@@ -917,3 +917,129 @@ opacity: 1;
 @media (max-width: 720px){
   .why-grid { grid-template-columns: 1fr; }
 }
+
+/* ===== HERO: big background photo + compact form on right ===== */
+/* Add class .hero-photo to your hero section and set --hero to your image URL */
+.hero-banner.hero-photo{
+  position: relative;
+  border: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+/* photo layer */
+.hero-banner.hero-photo::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    var(--hero, none) center/cover no-repeat;
+  transform: scale(1.02); /* tiny overscan so edges don’t show on zoom */
+}
+
+/* darkening gradient so text stays readable */
+.hero-banner.hero-photo::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(1200px 600px at 20% 40%, rgba(0,0,0,.45), transparent 60%),
+    linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 70%);
+}
+
+/* content grid sits above */
+.hero-banner.hero-photo .hero-inner{
+  position: relative; z-index: 2;
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;  /* text left, form right */
+  gap: 26px;
+  align-items: center;
+  min-height: 420px;
+  padding: 26px;
+}
+
+/* left copy (white on photo) */
+.hero-banner.hero-photo .hero-copy{
+  color:#fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+  padding: 6px 2px;
+}
+.hero-banner.hero-photo .hero-copy h1{ margin: 0 0 10px; }
+.hero-banner.hero-photo .hero-copy p{ margin: 0 0 14px; color: #f3f3f3; }
+
+/* buttons contrast on photo */
+.hero-banner.hero-photo .hero-cta .btn{
+  box-shadow: 0 8px 22px rgba(0,0,0,.18);
+}
+.hero-banner.hero-photo .hero-cta .btn + .btn{
+  margin-left: 10px;
+  background:#fff; color: var(--brand); border-color:#ddd;
+}
+
+/* right panel (compact “Quick Request”) */
+.hero-banner.hero-photo .hero-panel{
+  justify-self: end;
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 30px rgba(10,16,20,.22),
+    inset 0 1px 0 rgba(255,255,255,.5);
+  padding: 16px;
+}
+.hero-banner.hero-photo .hero-panel h3{ margin: 0 0 10px; }
+.hero-banner.hero-photo .hero-panel .field{ margin-bottom: 10px; }
+.hero-banner.hero-photo .hero-panel input,
+.hero-banner.hero-photo .hero-panel select{ width: 100%; }
+
+/* extra spacing below hero and around sections */
+.hero-banner{ margin: 14px 0 24px; }
+.feature-strip, .why-us, .gallery-section { margin-top: 22px; }
+
+/* responsive stack */
+@media (max-width: 860px){
+  .hero-banner.hero-photo .hero-inner{
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 16px;
+    padding: 18px;
+  }
+  .hero-banner.hero-photo .hero-panel{
+    justify-self: stretch;
+    max-width: 100%;
+  }
+}
+
+/* ===== GLASS cards for Brand/Category grid (keeps what works) ===== */
+#brandGrid{ gap: 18px; }
+#brandGrid .card{
+  position:relative;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:16px;
+  box-shadow: 0 8px 26px rgba(10,16,20,.10), inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .18s ease, box-shadow .2s ease, border-color .2s ease;
+}
+#brandGrid .card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 16px 46px rgba(10,16,20,.16), inset 0 1px 0 rgba(255,255,255,.45);
+  border-color: rgba(255,255,255,.75);
+}
+#brandGrid .card img{
+  width:100%; height:180px; object-fit:cover;
+  border-radius:12px; border:1px solid #ececec;
+  transition: transform .35s ease, opacity .2s ease;
+}
+#brandGrid .card:hover img{ transform: scale(1.03); }
+#brandGrid .card h3{ margin:10px 10px 4px; font-size:16px; line-height:1.2 }
+#brandGrid .card p{ margin:0 10px 8px; color:#444; font-size:13px }
+#brandGrid .card p + p{
+  background: rgba(227,28,35,.06);
+  display:inline-block; margin:2px 10px 12px; padding:6px 10px;
+  border-radius:999px; border:1px solid rgba(227,28,35,.12); font-weight:700;
+}
