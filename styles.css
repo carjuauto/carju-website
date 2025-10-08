@@ -620,7 +620,12 @@ input:focus,textarea:focus,select:focus{
   .services-grid { grid-template-columns: 1fr !important; }
   .service-card.hex { clip-path: none !important; border-radius: 14px !important; }
 }
-
+@media (max-width: 768px) {
+  svg[viewBox="0 0 1200 550"] {
+    transform: scale(1.2);
+    transform-origin: center;
+  }
+}
 /* Extra safety: small phones */
 @media (max-width: 720px) {
   .services-grid { grid-template-columns: 1fr !important; }
@@ -631,3 +636,4 @@ input:focus,textarea:focus,select:focus{
 .hero-banner.hero-photo::after {
   pointer-events: none !important;
 }
+
