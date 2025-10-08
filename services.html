@@ -23,23 +23,15 @@
     </div>
   </div>
 
-  <!-- 👇 Add this button (mobile hamburger) -->
-  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-    ☰
-  </button>
+  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- 👇 Give the nav an id for toggling + add FAQ link -->
   <nav class="nav" id="siteNav">
     <a href="services.html" data-i18n="en">Services</a>
     <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
-
     <a href="fees.html" data-i18n="en">Fees</a>
     <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
-
     <a href="contact.html" data-i18n="en">Contact</a>
     <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
-
-    <!-- NEW -->
     <a href="faq.html" data-i18n="en">FAQ</a>
     <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
   </nav>
@@ -49,186 +41,156 @@
     <button data-lang-btn="ja" class="badge">日本語</button>
   </div>
 </header>
-<!-- Simple grey→white hero background with your existing straight animation inside -->
+
 <section class="hero-banner simple-hero">
   <div class="anim-banner">
     <div class="logistics-anim" aria-hidden="true">
       <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
-        <!-- WORLD (left) -->
         <g class="la-world-wrap">
-          <image href="assets/world-globe.PNG"
-                 x="60" y="60" width="90" height="90"
-                 preserveAspectRatio="xMidYMid meet"
-                 class="la-world-img"/>
+          <image href="assets/world-globe.PNG" x="60" y="60" width="90" height="90" class="la-world-img"/>
         </g>
-
-        <!-- JAPAN (right) -->
         <g class="la-japan-wrap">
-          <image href="assets/japan-map.PNG"
-                 x="750" y="60" width="200" height="200"
-                 preserveAspectRatio="xMidYMid meet"
-                 class="la-japan-img"/>
+          <image href="assets/japan-map.PNG" x="750" y="60" width="200" height="200" class="la-japan-img"/>
         </g>
-
-        <!-- SHIP (keeps your straight CSS motion) -->
         <g class="la-ship-wrap">
-          <image href="assets/ship.PNG"
-                 x="0" y="85" width="100" height="50"
-                 preserveAspectRatio="xMidYMid meet"
-                 class="la-ship-img"/>
+          <image href="assets/ship.PNG" x="0" y="85" width="100" height="50" class="la-ship-img"/>
         </g>
       </svg>
     </div>
   </div>
 </section>
+
 <main class="container">
   <h1 data-i18n="en">Our Services</h1>
   <h1 class="hidden" data-i18n="ja">サービス内容</h1>
 
- <section class="services">
-  <h2>Our Services</h2>
+  <section class="services">
+    <h2>What we do for you</h2>
 
-  <div class="services-grid">
-    <div class="service-card glass" onclick="toggleService(this)">
-      <div class="inner">
-        <div class="icon-wrap">🚗</div>
-        <h3>Auction Bidding</h3>
-        <p>We bid directly at major auctions like USS, TAA, and JU...</p>
-        <div class="hidden-text">
-          <p>With access to Japan’s largest auction networks, we help you secure the best vehicle within your set budget. Real-time updates, photos, and auction sheets — all transparent from start to finish.</p>
+    <div class="services-grid">
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">🚗</div>
+          <h3>Auction Bidding</h3>
+          <p>We bid directly at major auctions like USS, TAA, and JU...</p>
+          <div class="hidden-text">
+            <p>With access to Japan’s largest auction networks, we help you secure the best vehicle within your set budget. Real-time updates, photos, and auction sheets — all transparent from start to finish.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
         </div>
-        <button class="read-more-btn">Read more</button>
+      </div>
+
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">🔎</div>
+          <h3>Deep Search</h3>
+          <p>We go beyond auctions — local yards, dealers & individuals.</p>
+          <div class="hidden-text">
+            <p>Unlike normal exporters, we search across Japan, from small suppliers to private owners. This ensures more choices, better deals, and real savings for our clients.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
+        </div>
+      </div>
+
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">📄</div>
+          <h3>Paperwork & Export</h3>
+          <p>All export documents handled from start to shipping.</p>
+          <div class="hidden-text">
+            <p>We prepare invoices, deregistration, inspection certificates, and handle Bill of Lading processes — keeping your export smooth and clear.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
+        </div>
+      </div>
+
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">💬</div>
+          <h3>Advisory</h3>
+          <p>We guide you on what sells and what to avoid.</p>
+          <div class="hidden-text">
+            <p>Our team gives market insights on car models that fit your region’s demand — from Uganda to Kenya, DR Congo, and more. It’s like having a local expert in Japan.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
+        </div>
+      </div>
+
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">🧰</div>
+          <h3>Pre-Ship Fixes</h3>
+          <p>Minor repairs and checks before shipment.</p>
+          <div class="hidden-text">
+            <p>We can help you replace small parts, test batteries, and ensure your vehicle ships in good shape, when possible and within your budget.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
+        </div>
+      </div>
+
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">🚢</div>
+          <h3>Consolidation</h3>
+          <p>Combine multiple items to save freight costs.</p>
+          <div class="hidden-text">
+            <p>We can load spare parts, tires, or accessories together with your car — helping you save big on shipping fees while staying organized.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="service-card glass" onclick="toggleService(this)">
-      <div class="inner">
-        <div class="icon-wrap">🔎</div>
-        <h3>Deep Search</h3>
-        <p>We go beyond auctions — local yards, dealers & individuals.</p>
-        <div class="hidden-text">
-          <p>Unlike normal exporters, we search across Japan, from small suppliers to private owners. This ensures more choices, better deals, and real savings for our clients.</p>
-        </div>
-        <button class="read-more-btn">Read more</button>
-      </div>
+  <!-- WHY US (same content as home for continuity) -->
+  <section class="why-us">
+    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
+    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
+
+    <div class="why-grid">
+      <article class="why-item">
+        <h3>We search everywhere</h3>
+        <p class="teaser">Auctions, local dealers, and private owners — we compare all options for you.</p>
+        <div class="more hidden"><p>Most sites only show their own cars. We check major auctions, small yards, and even individuals who want to sell. You get more choice and better odds of finding “your” car at the right price.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>Agent on your side</h3>
+        <p class="teaser">We don’t push stock — we buy on your behalf and protect your budget.</p>
+        <div class="more hidden"><p>No inventory means no pressure to clear cars. Our job is to represent you: find options, compare condition and costs, and guide you to the best value — not the fastest sale.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>Real checks, real photos</h3>
+        <p class="teaser">We verify condition and paperwork before you commit.</p>
+        <div class="more hidden"><p>We review auction sheets, service history (when available), and seller info. If anything looks off, we skip it. If it looks good, we share photos/details and you choose.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>Clear costs</h3>
+        <p class="teaser">No hidden surprises — we break down every fee.</p>
+        <div class="more hidden"><p>You’ll see itemized costs from bid to Bill of Lading: car price, auction/seller fees, our agent fee, transport, and shipping. You always know what you’re paying for.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>East Africa know-how</h3>
+        <p class="teaser">Uganda & the region — we know what sells and how to ship it.</p>
+        <div class="more hidden"><p>We help you pick models that fit your roads, fuel, maintenance, and resale. We coordinate to your port and can suggest clearance agents if needed.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
+
+      <article class="why-item">
+        <h3>End-to-port support</h3>
+        <p class="teaser">Inspection, documents, and shipping — handled.</p>
+        <div class="more hidden"><p>From inspection to export paperwork to vessel booking and B/L, we keep you updated. You focus on picking the car — we handle the logistics to port.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
     </div>
-
-    <div class="service-card glass" onclick="toggleService(this)">
-      <div class="inner">
-        <div class="icon-wrap">📄</div>
-        <h3>Paperwork & Export</h3>
-        <p>All export documents handled from start to shipping.</p>
-        <div class="hidden-text">
-          <p>We prepare invoices, deregistration, inspection certificates, and handle Bill of Lading processes — keeping your export smooth and clear.</p>
-        </div>
-        <button class="read-more-btn">Read more</button>
-      </div>
-    </div>
-
-    <div class="service-card glass" onclick="toggleService(this)">
-      <div class="inner">
-        <div class="icon-wrap">💬</div>
-        <h3>Advisory</h3>
-        <p>We guide you on what sells and what to avoid.</p>
-        <div class="hidden-text">
-          <p>Our team gives market insights on car models that fit your region’s demand — from Uganda to Kenya, DR Congo, and more. It’s like having a local expert in Japan.</p>
-        </div>
-        <button class="read-more-btn">Read more</button>
-      </div>
-    </div>
-
-    <div class="service-card glass" onclick="toggleService(this)">
-      <div class="inner">
-        <div class="icon-wrap">🧰</div>
-        <h3>Pre-Ship Fixes</h3>
-        <p>Minor repairs and checks before shipment.</p>
-        <div class="hidden-text">
-          <p>We can help you replace small parts, test batteries, and ensure your vehicle ships in good shape, when possible and within your budget.</p>
-        </div>
-        <button class="read-more-btn">Read more</button>
-      </div>
-    </div>
-
-    <div class="service-card glass" onclick="toggleService(this)">
-      <div class="inner">
-        <div class="icon-wrap">🚢</div>
-        <h3>Consolidation</h3>
-        <p>Combine multiple items to save freight costs.</p>
-        <div class="hidden-text">
-          <p>We can load spare parts, tires, or accessories together with your car — helping you save big on shipping fees while staying organized.</p>
-        </div>
-        <button class="read-more-btn">Read more</button>
-      </div>
-    </div>
-  </div>
-</section>
-  <!-- WHY US (premium, expandable) -->
-<section class="why-us">
-  <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
-  <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
-
-  <div class="why-grid">
-    <!-- 1 -->
-    <article class="why-item">
-      <h3>We search everywhere</h3>
-      <p class="teaser">Auctions, local dealers, and private owners — we compare all options for you.</p>
-      <div class="more hidden">
-        <p>Most sites only show their own cars. We check major auctions, small yards, and even individuals who want to sell. You get more choice and better odds of finding “your” car at the right price.</p>
-      </div>
-      <a href="#" class="why-more" data-expand>Read more</a>
-    </article>
-
-    <!-- 2 -->
-    <article class="why-item">
-      <h3>Agent on your side</h3>
-      <p class="teaser">We don’t push stock — we buy on your behalf and protect your budget.</p>
-      <div class="more hidden">
-        <p>No inventory means no pressure to clear cars. Our job is to represent you: find options, compare condition and costs, and guide you to the best value — not the fastest sale.</p>
-      </div>
-      <a href="#" class="why-more" data-expand>Read more</a>
-    </article>
-
-    <!-- 3 -->
-    <article class="why-item">
-      <h3>Real checks, real photos</h3>
-      <p class="teaser">We verify condition and paperwork before you commit.</p>
-      <div class="more hidden">
-        <p>We review auction sheets, service history (when available), and seller info. If anything looks off, we skip it. If it looks good, we share photos/details and you choose.</p>
-      </div>
-      <a href="#" class="why-more" data-expand>Read more</a>
-    </article>
-
-    <!-- 4 -->
-    <article class="why-item">
-      <h3>Clear costs</h3>
-      <p class="teaser">No hidden surprises — we break down every fee.</p>
-      <div class="more hidden">
-        <p>You’ll see itemized costs from bid to Bill of Lading: car price, auction/seller fees, our agent fee, transport, and shipping. You always know what you’re paying for.</p>
-      </div>
-      <a href="#" class="why-more" data-expand>Read more</a>
-    </article>
-
-    <!-- 5 -->
-    <article class="why-item">
-      <h3>East Africa know-how</h3>
-      <p class="teaser">Uganda & the region — we know what sells and how to ship it.</p>
-      <div class="more hidden">
-        <p>We help you pick models that fit your roads, fuel, maintenance, and resale. We coordinate to your port and can suggest clearance agents if needed.</p>
-      </div>
-      <a href="#" class="why-more" data-expand>Read more</a>
-    </article>
-
-    <!-- 6 -->
-    <article class="why-item">
-      <h3>End-to-port support</h3>
-      <p class="teaser">Inspection, documents, and shipping — handled.</p>
-      <div class="more hidden">
-        <p>From inspection to export paperwork to vessel booking and B/L, we keep you updated. You focus on picking the car — we handle the logistics to port.</p>
-      </div>
-      <a href="#" class="why-more" data-expand>Read more</a>
-    </article>
-  </div>
-</section>
+  </section>
 </main>
 
 <footer class="footer">
@@ -239,45 +201,39 @@
   </div>
   <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
 </footer>
+
 <script src="script.js"></script>
-  <script>
-(function(){
-  const cards = Array.from(document.querySelectorAll('.services-grid .service-card'));
-  if (!('IntersectionObserver' in window) || !cards.length) {
-    // Fallback: just show all
-    cards.forEach(c => c.classList.add('in-view'));
-    return;
-  }
-
-  // Stagger: 0ms, 80ms, 160ms, then repeat per row
-  cards.forEach((c, i) => {
-    const pos = i % 3; // 3 columns on desktop
-    c.style.transitionDelay = (pos * 80) + 'ms';
-  });
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        io.unobserve(entry.target); // reveal once
-      }
+<script>
+  // Scroll reveal (already safe)
+  (function(){
+    const cards = Array.from(document.querySelectorAll('.services-grid .service-card'));
+    if (!('IntersectionObserver' in window) || !cards.length) {
+      cards.forEach(c => c.classList.add('in-view'));
+      return;
+    }
+    cards.forEach((c, i) => {
+      const pos = i % 3; c.style.transitionDelay = (pos * 80) + 'ms';
     });
-  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+    cards.forEach(c => io.observe(c));
+  })();
 
-  cards.forEach(c => io.observe(c));
-})();
+  // Small, local toggle — keeps your global JS untouched
+  function toggleService(card){
+    const more = card.querySelector('.hidden-text');
+    const btn  = card.querySelector('.read-more-btn');
+    if(!more || !btn) return;
+    const opening = more.style.display !== 'block';
+    more.style.display = opening ? 'block' : 'none';
+    btn.textContent = opening ? 'Read less' : 'Read more';
+  }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
