@@ -1,4 +1,3 @@
-<script>
 /* =========================
    Global language state
    ========================= */
@@ -7,16 +6,12 @@ const state = { lang: localStorage.getItem('carju_lang') || 'en' };
 function setLang(l){
   state.lang = l;
   localStorage.setItem('carju_lang', l);
-  // toggle EN/JA blocks
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     el.classList.toggle('hidden', el.getAttribute('data-i18n') !== l);
   });
-  // highlight language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
     b.classList.toggle('badge', b.getAttribute('data-lang-btn') !== l);
   });
-  // a11y: reflect in <html lang="">
-  try { document.documentElement.setAttribute('lang', l); } catch(e){}
 }
 
 /* =========================
@@ -553,6 +548,20 @@ async function buildFromConfig(){
 }
 
 /* =========================
+   Services Card Toggle (onclick handler used in services.html)
+   ========================= */
+function toggleService(card){
+  if (!card) return;
+  const body = card.querySelector('.hidden-text');
+  const btn  = card.querySelector('.read-more-btn');
+  if (!body) return;
+
+  const isOpen = body.classList.toggle('open');
+  body.style.display = isOpen ? 'block' : 'none';
+  if (btn) btn.textContent = isOpen ? 'Read less' : 'Read more';
+}
+
+/* =========================
    INIT (language + data + promo + UI wiring)
    ========================= */
 document.addEventListener('DOMContentLoaded', () => {
@@ -624,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     e.preventDefault(); // stop "#" links from jumping to top
 
-    const card = btn.closest('.why-item, .point, article');
+    const card = btn.closest('.why-item, .point, article, .service-card');
     if (!card) return;
 
     // supports: <div class="more hidden">…</div> OR <div class="hidden-text">…</div>
@@ -636,6 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = 'Read less';
     } else if (body.classList.contains('hidden-text')) {
       body.classList.toggle('open');          // animated variant
+      body.style.display = body.classList.contains('open') ? 'block' : 'none';
       btn.textContent = body.classList.contains('open') ? 'Read less' : 'Read more';
     } else {
       // plain div fallback (toggle display)
@@ -662,10 +672,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Build dynamic content (sheets/config)
-  buildFromConfig().catch(err=>{
-    console.error('[CARJU] buildFromConfig failed:', err);
-  });
+  // ---- Premium reveal (runs AFTER content is built) ----
+  const initReveal = () => {
+    const targets = document.querySelectorAll('.services-grid .service-card, .reveal');
+    if (!targets.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(t => t.classList.add('in-view'));
+      return;
+    }
+
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    targets.forEach((t, i) => {
+      t.style.transitionDelay = (i * 50) + 'ms';
+      io.observe(t);
+    });
+  };
+
+  // Build dynamic content (sheets/config) then reveal
+  buildFromConfig()
+    .then(() => {
+      initReveal();
+      console.log('[CARJU] Content + reveal initialized.');
+    })
+    .catch(err=>{
+      console.error('[CARJU] buildFromConfig failed:', err);
+    });
 
   // Safety: if selects are still empty after 1s, fill with defaults so UI never looks broken
   setTimeout(() => {
@@ -685,34 +725,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 1000);
 
-  // ========== PREMIUM POLISH: Scroll reveal (matches your CSS) ==========
-  (function setupScrollReveal(){
-    const targets = Array.from(document.querySelectorAll('.services-grid .service-card, .reveal'));
-    if(!targets.length) return;
-
-    if(!('IntersectionObserver' in window)){
-      // Fallback: just show all
-      targets.forEach(t => t.classList.add('in-view'));
-      return;
-    }
-
-    const io = new IntersectionObserver((entries, obs)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('in-view');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-
-    // Subtle column-based stagger when present
-    targets.forEach((t, i)=>{
-      const colSpan3 = Math.max(0, i % 3);
-      t.style.transitionDelay = (colSpan3 * 70) + 'ms';
-      io.observe(t);
-    });
-  })();
-
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
-</script>
