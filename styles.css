@@ -543,3 +543,91 @@ input:focus,textarea:focus,select:focus{
 
 /* ---------- Keyframes ---------- */
 @keyframes fadeIn{ from { opacity: 0; transform: translateY(-5px) } to { opacity: 1; transform: translateY(0) } }
+/* ===========================
+   PATCH — Glass & Mobile fixes
+   paste at the END of styles.css
+   =========================== */
+
+/* --- 1) Let the hero animation show through the first section cards
+        on pages that use a hero (simple or photo). --- */
+.hero-banner.simple-hero + .container .card,
+.hero-banner.hero-photo  + .container .card {
+  background: rgba(255,255,255,.28) !important;   /* more see-through */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.50);
+  box-shadow:
+    0 10px 28px rgba(10,16,20,.18),
+    inset 0 1px 0 rgba(255,255,255,.40);
+}
+
+/* Round the very large cards on those pages a bit more for a premium feel */
+.hero-banner.simple-hero + .container .card,
+.hero-banner.hero-photo  + .container .card {
+  border-radius: 18px;
+}
+
+/* --- 2) Fees page: make the card + table glassy too. 
+      (Works whether #feesTable is a <div> or an actual <table>.) --- */
+#feesTable .table,
+.table {
+  background: rgba(255,255,255,.20) !important;
+  border: 1px solid rgba(255,255,255,.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Header row a touch less transparent for readability */
+.table th {
+  background: rgba(255,255,255,.55) !important;
+  font-weight: 800;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+/* Body rows: soft zebra with transparency that still shows the map/ship */
+.table tbody tr:nth-child(odd) td {
+  background: rgba(255,255,255,.34);
+}
+.table tbody tr:nth-child(even) td {
+  background: rgba(255,255,255,.26);
+}
+.table td {
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+/* If your fees table is wrapped by a generated card, match its glass look */
+#feesTable .card {
+  background: rgba(255,255,255,.26) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.50);
+  box-shadow:
+    0 10px 28px rgba(10,16,20,.18),
+    inset 0 1px 0 rgba(255,255,255,.40);
+}
+
+/* --- 3) Contact blocks: extra-transparent glass (so animation is clearly visible). --- */
+.section-contact .card,
+#contact .card {
+  background: rgba(255,255,255,.24) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.48);
+}
+
+/* --- 4) Mobile services grid: force 1 per row (some themes overrode earlier rules). --- */
+@media (max-width: 860px) {
+  .services-grid { grid-template-columns: 1fr !important; }
+  .service-card.hex { clip-path: none !important; border-radius: 14px !important; }
+}
+
+/* Extra safety: small phones */
+@media (max-width: 720px) {
+  .services-grid { grid-template-columns: 1fr !important; }
+}
+
+/* --- 5) Keep hero overlays from blocking clicks below (safety). --- */
+.hero-banner.hero-photo::before,
+.hero-banner.hero-photo::after {
+  pointer-events: none !important;
+}
