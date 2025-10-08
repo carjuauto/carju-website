@@ -1,3 +1,4 @@
+<script>
 /* =========================
    Global language state
    ========================= */
@@ -6,12 +7,16 @@ const state = { lang: localStorage.getItem('carju_lang') || 'en' };
 function setLang(l){
   state.lang = l;
   localStorage.setItem('carju_lang', l);
+  // toggle EN/JA blocks
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     el.classList.toggle('hidden', el.getAttribute('data-i18n') !== l);
   });
+  // highlight language buttons
   document.querySelectorAll('[data-lang-btn]').forEach(b=>{
     b.classList.toggle('badge', b.getAttribute('data-lang-btn') !== l);
   });
+  // a11y: reflect in <html lang="">
+  try { document.documentElement.setAttribute('lang', l); } catch(e){}
 }
 
 /* =========================
@@ -680,5 +685,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 1000);
 
+  // ========== PREMIUM POLISH: Scroll reveal (matches your CSS) ==========
+  (function setupScrollReveal(){
+    const targets = Array.from(document.querySelectorAll('.services-grid .service-card, .reveal'));
+    if(!targets.length) return;
+
+    if(!('IntersectionObserver' in window)){
+      // Fallback: just show all
+      targets.forEach(t => t.classList.add('in-view'));
+      return;
+    }
+
+    const io = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+    // Subtle column-based stagger when present
+    targets.forEach((t, i)=>{
+      const colSpan3 = Math.max(0, i % 3);
+      t.style.transitionDelay = (colSpan3 * 70) + 'ms';
+      io.observe(t);
+    });
+  })();
+
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+</script>
