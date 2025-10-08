@@ -1233,3 +1233,23 @@ opacity: 1;
   box-shadow: 0 6px 26px rgba(227,28,35,0.4);
 }
 
+/* Simple grey-white hero background for non-home pages */
+.hero-banner.simple-hero{
+  background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 100%);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 10px 0;      /* spacing similar to your old banner */
+  margin-bottom: 20px;
+}
+
+/* Make the inner banner transparent so the gradient shows through */
+.hero-banner.simple-hero .anim-banner{
+  background: transparent;
+  padding: 0;
+}
+
+/* Keep your existing width constraints for the SVG row */
+.hero-banner.simple-hero .logistics-anim{
+  max-width:1120px;
+  margin:auto;
+}
