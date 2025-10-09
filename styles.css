@@ -734,3 +734,44 @@ input:focus,textarea:focus,select:focus{
     grid-template-columns: 1fr !important;
   }
 }
+/* ===== About page polish ===== */
+
+/* Big vertical rhythm between blocks */
+.stack-xl { display:grid; gap: 22px; }
+
+/* Bio + Values + Docs grids */
+.about-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+.values-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+.doc-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+
+.bio, .value, .doc {
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Make top-level cards feel premium */
+.card.glass.reveal {
+  padding: 18px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Bullet list style */
+ul.bullet { padding-left: 18px; margin: 8px 0 0; }
+ul.bullet li { margin: 6px 0; }
+
+/* Ensure read-more content stays hidden until clicked (works with your script.js) */
+.card .more.hidden { display: none; }
+
+/* Responsive */
+@media (max-width:1024px){
+  .values-grid, .doc-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width:720px){
+  .about-grid, .values-grid, .doc-grid { grid-template-columns: 1fr; }
+  .card.glass.reveal { padding: 16px; }
+}
