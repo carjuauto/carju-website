@@ -657,3 +657,43 @@ input:focus,textarea:focus,select:focus{
     grid-template-columns: 1fr !important;
   }
 }
+
+/* === PATCH v2 — animation behind headings + glass + mobile fixes === */
+
+/* Put the animation behind the page h1 on Services / Fees / Contact */
+.page-hero{position:relative; padding:14px 0 10px; margin:6px 0 10px}
+.page-hero .anim-banner{position:absolute; top:-8px; left:0; right:0; height:210px; z-index:0; pointer-events:none}
+.page-hero .anim-banner svg{width:100%; height:100%}
+.page-hero h1,.page-hero p{position:relative; z-index:2}
+
+/* Make the very first intro card extra transparent so the animation is visible */
+.card.glass.hero-intro{
+  background:rgba(255,255,255,.35);
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:0 10px 30px rgba(10,16,20,.18), inset 0 1px 0 rgba(255,255,255,.45)
+}
+
+/* Services grid: force single column on phones */
+@media (max-width:760px){
+  .services-grid{ grid-template-columns:1fr !important; }
+}
+
+/* Index hero: make the animation and ship bigger (esp. mobile) */
+.hero-banner.hero-photo .anim-banner svg{ height:300px }
+.hero-banner.hero-photo .la-ship-img{ width:180px !important; height:auto !important }
+.hero-banner.hero-photo .la-world-img{ width:110px !important }
+.hero-banner.hero-photo .la-japan-img{ width:160px !important }
+@media (max-width:860px){
+  .hero-banner.hero-photo .anim-banner svg{ height:340px }
+  .hero-banner.hero-photo .la-ship-img{ width:200px !important }
+}
+
+/* Deep-link offset for #how-it-works */
+#how-it-works{ scroll-margin-top:100px }
+
+/* About page spacing */
+.section-stack{ display:grid; gap:18px }
+.section-stack .card{ margin:0 }
+
+/* Slightly softer glass site-wide */
+.card.glass{ background:rgba(255,255,255,.78) }
