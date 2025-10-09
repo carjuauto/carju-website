@@ -697,3 +697,40 @@ input:focus,textarea:focus,select:focus{
 
 /* Slightly softer glass site-wide */
 .card.glass{ background:rgba(255,255,255,.78) }
+.page-hero {
+  position: relative;
+  padding: 20px 0 40px;
+  margin: 6px 0 10px;
+  text-align: center;
+}
+
+.page-hero .anim-banner {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 210px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-hero .anim-banner svg {
+  width: 100%;
+  height: 100%;
+}
+
+.page-hero h1,
+.page-hero p {
+  position: relative;
+  z-index: 2;
+}
+
+.services-grid {
+  margin-top: 30px;
+}
+
+@media (max-width: 760px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
