@@ -4,157 +4,213 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>About — CARJU JAPAN Co., LTD</title>
-  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <meta name="description" content="About CARJU JAPAN: our story, founders, values, compliance and dealer license.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
-  <!-- Optional: nicer social preview -->
-  <meta property="og:title" content="About — CARJU JAPAN Co., LTD">
-  <meta property="og:description" content="Our story, values, compliance and licensing.">
-  <meta property="og:image" content="assets/logo.png">
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js"></script>
 </head>
 <body>
-
-  <!-- Promo bar (uses your existing CSS/JS to show/hide) -->
-  <div id="promo-bar" class="promo-bar hidden" role="region" aria-label="Promotion">
-    <span>🎉 Limited Offer: 50% OFF agency fees for your first purchase.</span>
-    <a class="promo-link" href="https://wa.me/818047909663" target="_blank" rel="noopener">Claim via WhatsApp</a>
-    <button id="promo-bar-close" class="promo-bar-close" aria-label="Close promo">×</button>
+<header class="header container">
+  <div class="brand">
+    <a href="index.html" class="brandlink">
+      <img src="assets/logo.png" alt="CARJU JAPAN logo" onerror="this.style.display='none'"/>
+    </a>
+    <div>
+      <a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
+      <div class="kicker" data-i18n="en">Vehicle & Heavy Machinery Sourcing Agency</div>
+      <div class="kicker hidden" data-i18n="ja">車両・重機ソーシング代理店</div>
+    </div>
   </div>
 
-  <!-- Header -->
-  <header class="header container">
-    <div class="brand">
-      <a href="index.html"><img src="assets/logo.png" alt="CARJU JAPAN logo"/></a>
-      <div>
-        <a href="index.html" class="title">CARJU JAPAN Co., LTD</a>
-        <div class="kicker">VEHICLE & HEAVY MACHINERY SOURCING AGENCY</div>
-      </div>
+  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
+
+  <nav class="nav" id="siteNav">
+    <a href="services.html" data-i18n="en">Services</a>
+    <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+    <a href="fees.html" data-i18n="en">Fees</a>
+    <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
+    <a href="contact.html" data-i18n="en">Contact</a>
+    <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
+    <a href="faq.html" data-i18n="en">FAQ</a>
+    <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
+    <a href="about.html" data-i18n="en">About</a>
+    <a href="about.html" class="hidden" data-i18n="ja">アバウト</a>
+  </nav>
+
+  <div class="lang">
+    <button data-lang-btn="en">EN</button>
+    <button data-lang-btn="ja" class="badge">日本語</button>
+  </div>
+</header>
+
+<!-- No animation here (we hid simple-hero anims in CSS already) -->
+<section class="hero-banner simple-hero page-hero">
+  <div class="container">
+    <h1 data-i18n="en">About CARJU JAPAN</h1>
+    <h1 class="hidden" data-i18n="ja">CARJU JAPANについて</h1>
+    <p class="muted" style="margin-top:6px">Built in Tokyo. Serving buyers across East Africa and beyond.</p>
+  </div>
+</section>
+
+<main class="container stack-xl">
+
+  <!-- Our Story -->
+  <section class="card glass reveal">
+    <h2>Our Story</h2>
+    <p class="teaser">We started CARJU JAPAN to fix the hardest part of importing from Japan: trust and clarity.</p>
+    <div class="more hidden">
+      <p>We saw a gap: buyers were forced to choose from limited stock lists, unclear fees, and slow replies. CARJU JAPAN was formed to change that. We operate as your <strong>agent in Japan</strong>—searching auctions, local yards, and verified private sellers to find the right unit for your market and budget.</p>
+      <p>From the first shortlist to shipping, we share photos, auction sheets, and costs in plain language. Our process is transparent, predictable, and built for long-term relationships.</p>
     </div>
+    <a href="#" class="why-more" data-expand>Read more</a>
+  </section>
 
-    <!-- mobile burger -->
-    <button id="navToggle" class="hamburger" aria-expanded="false" aria-controls="siteNav">☰</button>
+  <!-- Founders -->
+  <section class="card glass reveal">
+    <h2>Founders</h2>
+    <div class="about-grid">
+      <article class="bio">
+        <h3>Managing Partner</h3>
+        <p class="muted small">International Business & Operations</p>
+        <p class="teaser">Entrepreneurial background with hands-on experience building and running cross-border operations.</p>
+        <div class="more hidden">
+          <p>With years of international business practice across multiple ventures, our Managing Partner brings a practical, numbers-first approach to sourcing and logistics. He focuses on <strong>supplier vetting, pricing discipline, and risk control</strong>, ensuring every purchase makes sense for resale, servicing, and market demand in East Africa.</p>
+        </div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
 
-    <nav class="nav" id="siteNav">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="fees.html">Fees</a>
-      <a href="contact.html">Contact</a>
-      <a href="about.html" aria-current="page">About</a>
-    </nav>
-
-    <!-- language pills (hooked to your setLang) -->
-    <div class="lang">
-      <a href="#" data-lang-btn="en" class="badge">EN</a>
-      <a href="#" data-lang-btn="jp" class="badge">日本語</a>
+      <article class="bio">
+        <h3>Partner</h3>
+        <p class="muted small">Client Service, Negotiation & Real-estate Expertise</p>
+        <p class="teaser">Bilingual background with deep customer service and negotiation experience.</p>
+        <div class="more hidden">
+          <p>Our Partner has a strong record in <strong>client care, negotiation, and transaction management</strong> from real-estate and agency work. Those skills translate directly to vehicle sourcing—verifying condition, negotiating better deals, and keeping communication clear from the first inquiry to the Bill of Lading.</p>
+        </div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </article>
     </div>
-  </header>
-  <main class="container">
-    <h1>About <span class="hidden" data-i18n="jp">会社概要</span></h1>
-    <p class="muted">Our story, values, compliance and licensing.</p>
+  </section>
 
-    <!-- Story -->
-    <section class="card glass reveal">
-      <h2>Our Story</h2>
-      <p>
-        CARJU JAPAN Co., LTD was incorporated in Tokyo to make buying vehicles and heavy machinery
-        from Japan <strong>simple, transparent, and safe</strong> for global buyers.
-      </p>
-      <div class="hidden-text">
-        <p>
-          The founders saw friends and partners overpaying or getting poor support when sourcing from Japan.
-          CARJU was created to bridge that gap with clear guidance, fair pricing, and end-to-end logistics.
-        </p>
-        <p>
-          Today, we help clients search, verify, bid at trusted auctions, handle paperwork, and ship worldwide.
-        </p>
-      </div>
-      <button class="read-more">Read more</button>
-    </section>
-
-    <!-- Founders -->
-    <section class="card glass reveal">
-      <h2>Founders’ Background</h2>
-      <p>
-        CARJU is built by a Ugandan–Japanese family team with experience across
-        auctions, export logistics, and customer care.
-      </p>
-      <div class="hidden-text">
-        <p>
-          Our multicultural roots keep us focused on <em>clarity</em> and <em>trust</em> between Japan and our clients abroad.
-          We operate with a service mindset: responsive communication, documented processes, and proactive updates.
-        </p>
-      </div>
-      <button class="read-more">Read more</button>
-    </section>
-
-    <!-- Values -->
-    <section class="card glass reveal">
-      <h2>Our Values</h2>
-      <ul>
-        <li><strong>Integrity:</strong> honest advice, no hidden costs.</li>
-        <li><strong>Transparency:</strong> auction data, fees, and timelines clearly shared.</li>
-        <li><strong>Customer Trust:</strong> we succeed only when you buy confidently.</li>
-        <li><strong>Simplicity:</strong> one partner for search → purchase → shipping.</li>
+  <!-- What we solve -->
+  <section class="card glass reveal">
+    <h2>The Problem We Solve</h2>
+    <ul class="bullet">
+      <li><strong>Limited choice:</strong> Most exporters only sell their own stock.</li>
+      <li><strong>Unclear fees:</strong> Buyers struggle to see the full, landed cost.</li>
+      <li><strong>Slow/uncertain updates:</strong> Hard to judge real condition and timing.</li>
+    </ul>
+    <div class="more hidden">
+      <h3 style="margin-top:10px">Our Answer</h3>
+      <ul class="bullet">
+        <li><strong>True market search:</strong> Major auctions + local dealers + private sellers.</li>
+        <li><strong>Transparent costing:</strong> Itemized bid price, inspection, fees, inland transport, and ocean freight.</li>
+        <li><strong>Verified info:</strong> Auction sheets, photos, seller records—shared before you commit.</li>
       </ul>
-      <div class="hidden-text">
-        <p>
-          We constantly refine our process and documentation so first-time importers can move with certainty.
-        </p>
-      </div>
-      <button class="read-more">Read more</button>
-    </section>
-
-    <!-- Compliance -->
-    <section class="card glass reveal">
-      <h2>Compliance & Licensing</h2>
-      <p>
-        CARJU JAPAN operates under Japanese commercial law and complies with all applicable
-        used-vehicle auction and export regulations.
-      </p>
-      <div class="hidden-text">
-        <p><strong>Registered Address:</strong> Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo, Japan</p>
-        <p><strong>Company Registration:</strong> [Insert Company Number when ready]</p>
-        <p><strong>Dealer License:</strong> [Insert License Number when ready]</p>
-        <p>
-          Documentation is available for verification on request, including corporate registration,
-          dealer license, and export permits where applicable.
-        </p>
-      </div>
-      <button class="read-more">Read more</button>
-    </section>
-
-    <!-- Documents / License images -->
-    <section class="card glass reveal">
-      <h2>Official Documents</h2>
-      <p>Key certificates are shown below. Originals are available for inspection upon request.</p>
-
-      <!-- Replace sources when ready -->
-      <figure class="gallery">
-        <img src="assets/dealer-license.jpg" alt="Dealer License" loading="lazy" />
-        <img src="assets/company-registration.jpg" alt="Company Registration" loading="lazy" />
-      </figure>
-    </section>
-
-    <!-- CTA -->
-    <section class="card glass reveal">
-      <h2>Talk to Us</h2>
-      <p>Have questions about compliance, sourcing, or shipping? We’re happy to help.</p>
-      <div class="faq-cta-actions">
-        <a class="btn" href="https://wa.me/818047909663" target="_blank" rel="noopener">Chat on WhatsApp</a>
-        <a class="btn" href="mailto:carjuautoagency@gmail.com">Email Us</a>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer with socials (uses #wa-link / #tiktok-link ids your script wires) -->
-  <footer class="footer">
-    <div class="socials">
-      <a id="wa-link" class="icon" title="WhatsApp" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"></a>
-      <a id="tiktok-link" class="icon" title="TikTok" aria-label="TikTok" href="#" target="_blank" rel="noopener"></a>
     </div>
-    <div class="footer-text">© 2025 CARJU JAPAN Co., LTD — All rights reserved.</div>
-  </footer>
+    <a href="#" class="why-more" data-expand>Read more</a>
+  </section>
 
-  <!-- Your existing JS (handles nav, language, read-more toggle, socials, etc.) -->
-  <script src="script.js"></script>
+  <!-- Values -->
+  <section class="card glass reveal">
+    <h2>Our Values</h2>
+    <div class="values-grid">
+      <div class="value">
+        <h3>Transparency</h3>
+        <p class="teaser">Clear communication, itemized costs, no surprises.</p>
+        <div class="more hidden"><p>We share real numbers and real timelines. Your decisions are always based on facts, not pressure.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </div>
+      <div class="value">
+        <h3>Discipline</h3>
+        <p class="teaser">Buy the right unit, not the first unit.</p>
+        <div class="more hidden"><p>We pass on marginal cars. We bid to a number, and if it doesn’t make sense—we wait.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </div>
+      <div class="value">
+        <h3>Service</h3>
+        <p class="teaser">We answer fast and own the process.</p>
+        <div class="more hidden"><p>From shortlisting to shipping, we coordinate inspections, documents, bookings and keep you updated.</p></div>
+        <a href="#" class="why-more" data-expand>Read more</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance & Licenses -->
+  <section class="card glass reveal">
+    <h2>Compliance & Licenses</h2>
+    <p class="teaser">CARJU JAPAN operates fully in Japan and follows the laws that govern motor vehicle transactions and exports.</p>
+    <div class="more hidden">
+      <ul class="bullet">
+        <li><strong>Company registration:</strong> Incorporated in Japan and operating from Tokyo.</li>
+        <li><strong>Dealer license:</strong> We maintain a valid dealer license for handling motor vehicle transactions as required.</li>
+        <li><strong>Export compliance:</strong> Documentation, inspection (where applicable), and export control are conducted per Japanese regulations.</li>
+        <li><strong>Privacy & data:</strong> Client information is handled responsibly and used only to deliver our services.</li>
+      </ul>
+      <p>If you require copies of our dealer license or corporate filings for your records, we’ll share them upon request.</p>
+    </div>
+    <a href="#" class="why-more" data-expand>Read more</a>
+  </section>
+
+  <!-- Documents (placeholders you can link later) -->
+  <section class="card glass reveal">
+    <h2>Documents</h2>
+    <div class="doc-grid">
+      <div class="doc">
+        <h3>Company Registration</h3>
+        <p class="muted small">Official certificate (copy available on request)</p>
+      </div>
+      <div class="doc">
+        <h3>Dealer License</h3>
+        <p class="muted small">Valid and current (copy available on request)</p>
+      </div>
+      <div class="doc">
+        <h3>Export Procedures</h3>
+        <p class="muted small">Inspection, deregistration, and B/L managed end-to-end</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promise / CTA -->
+  <section class="card glass reveal">
+    <h2>Our Promise</h2>
+    <p>We treat your money like our own. We search widely, verify carefully, and communicate clearly—so you buy with confidence.</p>
+    <div class="hero-cta" style="margin-top:10px">
+      <a class="btn" href="services.html">See Services</a>
+      <a class="btn" href="fees.html" style="background:#fff;color:var(--brand);border:1px solid #ddd">View Fees</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="socials">
+    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+  </div>
+  <p class="footer-text">© 2025 CARJU JAPAN Co., LTD — All Rights Reserved</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  // Use the same reveal as services page
+  (function(){
+    const cards = Array.from(document.querySelectorAll('.reveal'));
+    if (!('IntersectionObserver' in window) || !cards.length) {
+      cards.forEach(c => c.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+    cards.forEach(c => io.observe(c));
+  })();
+</script>
 </body>
 </html>
