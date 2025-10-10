@@ -775,3 +775,16 @@ ul.bullet li { margin: 6px 0; }
   .about-grid, .values-grid, .doc-grid { grid-template-columns: 1fr; }
   .card.glass.reveal { padding: 16px; }
 }
+
+.hero-svg {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .hero-svg image {
+    width: 80px;   /* Make ship/map smaller but visible */
+    height: auto;
+  }
+}
