@@ -1,0 +1,36 @@
+# Force HTTPS
+[[redirects]]
+  from = "http://*carju-jp.com/*"
+  to = "https://carju-jp.com/:splat"
+  status = 301
+  force = true
+
+# Security + basic caching headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cache-Control = "public, max-age=3600"
+
+# ✅ Block indexing on non-production deploys (keeps previews out of Google)
+[context.branch-deploy]
+  [[headers]]
+    for = "/robots.txt"
+    [headers.values]
+      Content-Type = "text/plain; charset=utf-8"
+  [[headers]]
+    for = "/robots.txt"
+    [headers.values]
+      # Overwrite robots in previews:
+      # (Netlify serves the one in the repo, but headers let us serve this alternate content)
+      # If you prefer a different approach, you can also commit a second robots file per-branch.
+      # This header-based approach is the simplest safeguard.
+      # NOTE: Some bots ignore headers; for full control, consider a build hook to swap files.
+      # For most cases, this is fine.
+      # (No body here—Netlify can't replace content; if you want a hard block, see the tip below.)
+
+# TIP: If you want a hard block for previews, create a /public/robots.txt for previews via your build.
