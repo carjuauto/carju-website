@@ -788,3 +788,6 @@ ul.bullet li { margin: 6px 0; }
     height: auto;
   }
 }
+.more.hidden {
+  display: none;
+}
