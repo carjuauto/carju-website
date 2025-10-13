@@ -626,39 +626,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // === Why Choose CARJU: Read more / Read less (index + services) ===
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.read-more, .why-more, [data-expand]');
-    if (!btn) return;
+  // === Universal Read more / Read less toggler ===
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.read-more, .why-more, [data-expand]');
+  if (!btn) return;
 
-    e.preventDefault(); // stop "#" links from jumping to top
+  e.preventDefault();
 
-    const card = btn.closest('.why-item, .point, article, .service-card');
-    if (!card) return;
+  // all possible container types across your pages
+  const card = btn.closest(
+    '.bio, .card, .why-item, .point, article, .service-card, .value, .doc, section'
+  );
+  if (!card) return;
 
-    // supports: <div class="more hidden">…</div> OR <div class="hidden-text">…</div>
-    const body = card.querySelector('.more') || card.querySelector('.hidden-text');
-    if (!body) return;
+  const body = card.querySelector('.more, .hidden-text');
+  if (!body) return;
 
-    if (body.classList.contains('hidden')) {
-      body.classList.remove('hidden');        // show
-      btn.textContent = 'Read less';
-    } else if (body.classList.contains('hidden-text')) {
-      body.classList.toggle('open');          // animated variant
-      body.style.display = body.classList.contains('open') ? 'block' : 'none';
-      btn.textContent = body.classList.contains('open') ? 'Read less' : 'Read more';
-    } else {
-      // plain div fallback (toggle display)
-      const shown = body.style.display !== 'none';
-      body.style.display = shown ? 'none' : '';
-      btn.textContent = shown ? 'Read more' : 'Read less';
-    }
+  const isCurrentlyHidden =
+    body.classList.contains('hidden') ||
+    body.style.display === 'none' ||
+    getComputedStyle(body).display === 'none';
 
-    // smooth scroll when opening on mobile
-    if (window.matchMedia('(max-width: 860px)').matches) {
-      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-    }
-  });
+  if (body.classList.contains('hidden')) {
+    body.classList.toggle('hidden', !isCurrentlyHidden);
+  } else if (body.classList.contains('hidden-text')) {
+    body.classList.toggle('open', isCurrentlyHidden);
+    body.style.display = isCurrentlyHidden ? 'block' : 'none';
+  } else {
+    body.style.display = isCurrentlyHidden ? '' : 'none';
+  }
+
+  btn.textContent = isCurrentlyHidden ? 'Read less' : 'Read more';
+
+  // Smooth scroll on mobile
+  if (isCurrentlyHidden && window.matchMedia('(max-width: 860px)').matches) {
+    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+  }
+});
 
   // Sticky promo bar
   const promoBar = document.getElementById('promo-bar');
@@ -727,3 +731,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('[CARJU] DOM ready → buildFromConfig() invoked.');
 });
+
