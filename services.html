@@ -258,8 +258,19 @@
     btn.textContent = opening ? 'Read less' : 'Read more';
   }
 </script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (location.hash === '#how-it-works') {
+      const videoURL = 'https://www.tiktok.com/@carju_auto/video/7384528198347738882';
+      window.open(videoURL, '_blank', 'noopener');
+      const section = document.querySelector('#how-it-works');
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>  
 </body>
 </html>
+
 
 
 
