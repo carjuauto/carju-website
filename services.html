@@ -275,8 +275,66 @@
     }
   });
 </script>  
+<style>
+  /* Space the block away from the services grid */
+  #how-it-works {
+    margin-top: 28px;
+    position: relative;
+    overflow: hidden; /* for the overlay */
+  }
+
+  /* Subtle dark gradient so text pops even on white TikTok background */
+  #how-it-works::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;            /* top overlay only */
+    height: 120px;                 /* how tall the fade is */
+    background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0));
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Make the heading + lead text stand out */
+  #how-it-works > h2,
+  #how-it-works > p {
+    position: relative;
+    z-index: 1;
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  }
+
+  #how-it-works > h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    margin-bottom: 6px;
+  }
+
+  #how-it-works > p {
+    font-size: 1.05rem;
+    opacity: 0.95;
+    margin-top: 0;
+  }
+
+  /* Give the embed a little breathing room from the header */
+  #how-it-works .video-wrapper {
+    margin-top: 10px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  /* (Mobile) keep it readable and spaced */
+  @media (max-width: 760px) {
+    #how-it-works {
+      margin-top: 22px;
+    }
+    #how-it-works > h2 { font-size: 1.6rem; }
+    #how-it-works > p  { font-size: 1rem; }
+  }
+</style>
 </body>
 </html>
+
 
 
 
