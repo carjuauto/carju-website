@@ -212,5 +212,40 @@
     cards.forEach(c => io.observe(c));
   })();
 </script>
-</body>
+<script src="script.js"></script>
+<script>
+  // Reveal animation (kept from your original)
+  (function(){
+    const cards = Array.from(document.querySelectorAll('.reveal'));
+    if (!('IntersectionObserver' in window) || !cards.length) {
+      cards.forEach(c => c.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+    cards.forEach(c => io.observe(c));
+  })();
+
+  // ✅ Universal Read More toggler
+  document.querySelectorAll('[data-expand]').forEach(button => {
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      const parent = button.closest('.card, .value, .bio, .doc, section');
+      if (!parent) return;
+
+      const more = parent.querySelector('.more');
+      if (!more) return;
+
+      const expanded = !more.classList.contains('hidden');
+      more.classList.toggle('hidden', expanded);
+      button.textContent = expanded ? 'Read more' : 'Read less';
+    });
+  });
+</script> </body>
 </html>
