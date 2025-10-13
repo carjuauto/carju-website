@@ -194,5 +194,45 @@
 
 <!-- Only one global script include -->
 <script src="script.js"></script>
+<script>
+  // About page — robust "Read more / Read less" that works for every block on this page
+  (function () {
+    function toggleExpand(btn) {
+      const card = btn.closest('.bio, .card, .why-item, .value, section');
+      if (!card) return;
+      const body = card.querySelector('.more');
+      if (!body) return;
+
+      const isHidden = body.classList.contains('hidden') ||
+                       body.style.display === 'none' ||
+                       getComputedStyle(body).display === 'none';
+
+      if (isHidden) {
+        // Show
+        body.classList.remove('hidden');
+        body.style.display = 'block';
+        btn.textContent = 'Read less';
+      } else {
+        // Hide
+        body.classList.add('hidden');
+        body.style.display = '';
+        btn.textContent = 'Read more';
+      }
+
+      // Smooth scroll on mobile when opening
+      if (isHidden && window.matchMedia('(max-width: 860px)').matches) {
+        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+      }
+    }
+
+    // One clean, delegated listener for all "[data-expand]" and ".why-more" on the page
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('a.why-more, [data-expand]');
+      if (!btn) return;
+      e.preventDefault();      // stop "#" from jumping to the top
+      toggleExpand(btn);
+    });
+  })();
+      </script>
 </body>
 </html>
