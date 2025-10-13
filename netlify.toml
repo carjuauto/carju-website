@@ -9,7 +9,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    # Cache (pick one value; removed the duplicate)
+    # Cache (single, non-duplicated)
     Cache-Control = "public, max-age=3600"
 
     # Security
@@ -18,19 +18,20 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-    # ✅ Allow TikTok embeds to load on Services page
-    # NOTE: adjust this later if you add stricter CSP needs
+    # ✅ CSP: allow TikTok embeds AND Sheets JSON (opensheet.elk.sh)
+    #    - images from Drive/LH3 are fine via img-src https:
     Content-Security-Policy = """
       default-src 'self';
       script-src 'self' 'unsafe-inline' https://www.tiktok.com https://*.tiktokcdn.com;
       style-src 'self' 'unsafe-inline';
       img-src 'self' data: blob: https:;
       font-src 'self' https:;
-      connect-src 'self' https://www.tiktok.com https://*.tiktokcdn.com;
+      connect-src 'self' https://opensheet.elk.sh https://www.tiktok.com https://*.tiktokcdn.com;
       frame-src https://www.tiktok.com https://*.tiktokcdn.com;
       child-src https://www.tiktok.com https://*.tiktokcdn.com;
       media-src 'self' https:;
-      frame-ancestors *;
+      # You can tighten this later; for now keep your site embeddable by you
+      frame-ancestors 'self' https://carju-jp.com;
     """
 
 # ✅ Block indexing on non-production deploys (keeps previews out of Google)
@@ -42,4 +43,4 @@
   [[headers]]
     for = "/robots.txt"
     [headers.values]
-      # (Header-only override; for a hard block, swap the file in your build)
+      # Header-only override for previews (body still comes from the file)
