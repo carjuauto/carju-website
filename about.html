@@ -44,7 +44,7 @@
   </div>
 </header>
 
-<!-- No animation here (we hid simple-hero anims in CSS already) -->
+<!-- No animation here -->
 <section class="hero-banner simple-hero page-hero">
   <div class="container">
     <h1 data-i18n="en">About CARJU JAPAN</h1>
@@ -63,7 +63,7 @@
       <p>We saw a gap: buyers were forced to choose from limited stock lists, unclear fees, and slow replies. CARJU JAPAN was formed to change that. We operate as your <strong>agent in Japan</strong>—searching auctions, local yards, and verified private sellers to find the right unit for your market and budget.</p>
       <p>From the first shortlist to shipping, we share photos, auction sheets, and costs in plain language. Our process is transparent, predictable, and built for long-term relationships.</p>
     </div>
-    <a href="#" class="why-more" data-expand>Read more</a>
+    <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
   </section>
 
   <!-- Founders -->
@@ -77,7 +77,7 @@
         <div class="more hidden">
           <p>With years of international business practice across multiple ventures, our Managing Partner brings a practical, numbers-first approach to sourcing and logistics. He focuses on <strong>supplier vetting, pricing discipline, and risk control</strong>, ensuring every purchase makes sense for resale, servicing, and market demand in East Africa.</p>
         </div>
-        <a href="#" class="why-more" data-expand>Read more</a>
+        <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
       </article>
 
       <article class="bio">
@@ -87,7 +87,7 @@
         <div class="more hidden">
           <p>Our Partner has a strong record in <strong>client care, negotiation, and transaction management</strong> from real-estate and agency work. Those skills translate directly to vehicle sourcing—verifying condition, negotiating better deals, and keeping communication clear from the first inquiry to the Bill of Lading.</p>
         </div>
-        <a href="#" class="why-more" data-expand>Read more</a>
+        <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
       </article>
     </div>
   </section>
@@ -108,7 +108,7 @@
         <li><strong>Verified info:</strong> Auction sheets, photos, seller records—shared before you commit.</li>
       </ul>
     </div>
-    <a href="#" class="why-more" data-expand>Read more</a>
+    <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
   </section>
 
   <!-- Values -->
@@ -119,19 +119,19 @@
         <h3>Transparency</h3>
         <p class="teaser">Clear communication, itemized costs, no surprises.</p>
         <div class="more hidden"><p>We share real numbers and real timelines. Your decisions are always based on facts, not pressure.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
+        <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
       </div>
       <div class="value">
         <h3>Discipline</h3>
         <p class="teaser">Buy the right unit, not the first unit.</p>
         <div class="more hidden"><p>We pass on marginal cars. We bid to a number, and if it doesn’t make sense—we wait.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
+        <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
       </div>
       <div class="value">
         <h3>Service</h3>
         <p class="teaser">We answer fast and own the process.</p>
         <div class="more hidden"><p>From shortlisting to shipping, we coordinate inspections, documents, bookings and keep you updated.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
+        <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
       </div>
     </div>
   </section>
@@ -149,10 +149,10 @@
       </ul>
       <p>If you require copies of our dealer license or corporate filings for your records, we’ll share them upon request.</p>
     </div>
-    <a href="#" class="why-more" data-expand>Read more</a>
+    <a href="javascript:void(0)" class="why-more" data-expand>Read more</a>
   </section>
 
-  <!-- Documents (placeholders you can link later) -->
+  <!-- Documents -->
   <section class="card glass reveal">
     <h2>Documents</h2>
     <div class="doc-grid">
@@ -192,60 +192,7 @@
   <p class="footer-text">© 2025 CARJU JAPAN, All Rights Reserved</p>
 </footer>
 
+<!-- Only one global script include -->
 <script src="script.js"></script>
-<script>
-  // Use the same reveal as services page
-  (function(){
-    const cards = Array.from(document.querySelectorAll('.reveal'));
-    if (!('IntersectionObserver' in window) || !cards.length) {
-      cards.forEach(c => c.classList.add('in-view'));
-      return;
-    }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-    cards.forEach(c => io.observe(c));
-  })();
-</script>
-<script src="script.js"></script>
-<script>
-  // Reveal animation (kept from your original)
-  (function(){
-    const cards = Array.from(document.querySelectorAll('.reveal'));
-    if (!('IntersectionObserver' in window) || !cards.length) {
-      cards.forEach(c => c.classList.add('in-view'));
-      return;
-    }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-    cards.forEach(c => io.observe(c));
-  })();
-
-  // ✅ Universal Read More toggler
-  document.querySelectorAll('[data-expand]').forEach(button => {
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      const parent = button.closest('.card, .value, .bio, .doc, section');
-      if (!parent) return;
-
-      const more = parent.querySelector('.more');
-      if (!more) return;
-
-      const expanded = !more.classList.contains('hidden');
-      more.classList.toggle('hidden', expanded);
-      button.textContent = expanded ? 'Read more' : 'Read less';
-    });
-  });
-</script> </body>
+</body>
 </html>
