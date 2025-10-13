@@ -858,3 +858,24 @@ ul.bullet li { margin: 6px 0; }
   transform: scale(1.05);
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
+/* --- Make "How It Works" heading stand out --- */
+#how-it-works h2 {
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+#how-it-works p {
+  color: #f5f5f5;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  font-size: 1.1rem;
+}
+#how-it-works h2,
+#how-it-works p {
+  background: rgba(0,0,0,0.45);
+  padding: 8px 14px;
+  border-radius: 8px;
+  display: inline-block;
+}
