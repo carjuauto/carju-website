@@ -900,3 +900,58 @@ ul.bullet li { margin: 6px 0; }
 .hidden {
   display: none !important;
 }
+/* ===== Header compact layout ===== */
+.header--compact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Make the logo act as the left anchor */
+.header--compact .header-logo {
+  display: inline-flex;
+  align-items: center;
+  margin-right: auto; /* pushes the rest to the right */
+}
+.header--compact .header-logo img {
+  height: 44px; /* desktop height */
+  width: auto;
+}
+
+/* Put hamburger on the right (mobile) */
+.header--compact .hamburger {
+  margin-left: 12px;
+}
+
+/* Language block inside menu: nice spacing */
+.nav .lang--menu {
+  padding: 10px 0;
+  margin-top: 8px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 8px;
+}
+
+/* Desktop: show nav inline, hide hamburger */
+@media (min-width: 861px) {
+  .header--compact .hamburger { display: none; }
+
+  .header--compact .nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav .lang--menu {
+    border: 0;
+    margin-top: 0;
+    padding: 0;
+  }
+}
+
+/* Mobile: bigger logo like you asked */
+@media (max-width: 860px) {
+  .header--compact .header-logo img {
+    height: 54px; /* increase logo size on mobile */
+  }
+}
