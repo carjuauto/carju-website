@@ -12,15 +12,13 @@
 </head>
 <body>
 <header class="header container header--compact">
-  <!-- Logo (left) -->
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN</span>
   </a>
 
-  <!-- Menu button (right on mobile) -->
   <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- Nav (language moved inside) -->
   <nav class="nav" id="siteNav">
     <a href="services.html" data-i18n="en">Services</a>
     <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
@@ -37,13 +35,13 @@
     <a href="about.html" data-i18n="en">About</a>
     <a href="about.html" class="hidden" data-i18n="ja">アバウト</a>
 
-    <!-- Language inside menu -->
     <div class="lang lang--menu">
       <button data-lang-btn="en">EN</button>
       <button data-lang-btn="ja" class="badge">日本語</button>
     </div>
   </nav>
 </header>
+
 <main class="container">
   <h1 data-i18n="en">Our Fees</h1>
   <h1 class="hidden" data-i18n="ja">料金表</h1>
@@ -52,7 +50,6 @@
     <p class="muted">No hidden costs. Below is our latest fee structure. Values marked as price/fee/amount are formatted in JPY automatically.</p>
   </section>
 
-  <!-- 🔥 This is where script.js will render your Google Sheet tab "Fees" -->
   <section class="table-wrap">
     <div id="feesTable"></div>
   </section>
@@ -71,17 +68,19 @@
 
 <footer class="footer">
   <div class="socials">
-    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
+
+  <p class="footer-license">
+    <strong>Secondhand Dealer License:</strong> 441090004187<br>
+    <strong>Licensing Authority:</strong> Tokyo Metropolitan Public Safety Commission
+  </p>
+
   <p class="footer-text">© 2025 CARJU JAPAN, All Rights Reserved</p>
 </footer>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
