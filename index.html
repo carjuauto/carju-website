@@ -11,21 +11,22 @@
   <script src="config.js"></script>
 </head>
 
-<!-- Sticky Promo Banner -->
-<div id="promo-bar" class="promo-bar" role="region" aria-label="Promotion">
-  <span data-i18n="en">🎉 Limited Offer: <strong>20% OFF</strong> agency fees for your first purchase.</span>
-  <span class="hidden" data-i18n="ja">🎉 期間限定：初回のエージェンシー手数料が <strong>20%OFF</strong>。</span>
-  <a class="promo-link"
-     href="https://wa.me/818047909663?text=Hello%20CARJU%20Japan!%20I%27d%20like%20to%20claim%2020%25%20OFF%20agency%20fees%20for%20my%20first%20purchase."
-     target="_blank">💬 <span data-i18n="en">Claim via WhatsApp</span><span class="hidden" data-i18n="ja">WhatsAppで申請</span></a>
-  <button id="promo-bar-close" class="promo-bar-close" aria-label="Close">&times;</button>
-</div>
-
 <body>
+  <!-- Sticky Promo Banner -->
+  <div id="promo-bar" class="promo-bar" role="region" aria-label="Promotion">
+    <span data-i18n="en">🎉 Limited Offer: <strong>20% OFF</strong> agency fees for your first purchase.</span>
+    <span class="hidden" data-i18n="ja">🎉 期間限定：初回のエージェンシー手数料が <strong>20%OFF</strong>。</span>
+    <a class="promo-link"
+       href="https://wa.me/818047909663?text=Hello%20CARJU%20Japan!%20I%27d%20like%20to%20claim%2020%25%20OFF%20agency%20fees%20for%20my%20first%20purchase."
+       target="_blank">💬 <span data-i18n="en">Claim via WhatsApp</span><span class="hidden" data-i18n="ja">WhatsAppで申請</span></a>
+    <button id="promo-bar-close" class="promo-bar-close" aria-label="Close">&times;</button>
+  </div>
+
 <header class="header container header--compact">
   <!-- Logo (left) -->
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN</span>
   </a>
 
   <!-- Menu button (right on mobile) -->
@@ -94,7 +95,10 @@
     <div class="hero-inner">
       <div class="hero-copy">
         <h1>Buy from Japan like you’re here.</h1>
-        <p>We search auctions, local dealers, and private sellers on your behalf—so you get more options, better prices, and clean paperwork.Dealer license: 441090004187</p>
+        <p>We search auctions, local dealers, and private sellers on your behalf—so you get more options, better prices, and clean paperwork.</p>
+        <p class="dealer-license-line">
+          <strong>Secondhand Dealer License:</strong> 441090004187
+        </p>
         <div class="hero-cta">
           <a class="btn" href="contact.html">Start a Search</a>
           <a class="btn" style="background:#fff;color:var(--brand);border-color:#ddd" href="services.html#how-it-works">How It Works</a>        
@@ -224,28 +228,19 @@
 
 <footer class="footer">
   <div class="socials">
-    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
+
+  <p class="footer-license">
+    <strong>Secondhand Dealer License:</strong> 441090004187<br>
+    <strong>Licensing Authority:</strong> Tokyo Metropolitan Public Safety Commission
+  </p>
+
   <p class="footer-text">© 2025 CARJU JAPAN, All Rights Reserved</p>
 </footer>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
