@@ -22,17 +22,16 @@ window.CARJU_CONFIG = {
         year: 2018
       },
       {
-        src: "https://drive.google.com/uc?export=view&id=1_loCpFmT7jIUcUfCD5SnStzVHdWmQVXi/view",
+        src: "https://drive.google.com/uc?export=view&id=1_loCpFmT7jIUcUfCD5SnStzVHdWmQVXi",
         name: "Toyota Harrier",
         brand: "Toyota",
         category: "SUV",
         year: 2018
-      },
-      // add more…
+      }
     ],
     deliveries: [
       {
-        src: "https://drive.google.com/uc?export=view&id=FILE_ID_HERE",
+        src: "https://drive.google.com/file/d/1qsjmaGQcdbWGa84bZJNW7vj-kmR8SS6m/view?usp=drive_link",
         name: "Delivered — Kampala"
       }
     ]
