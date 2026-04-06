@@ -955,3 +955,42 @@ ul.bullet li { margin: 6px 0; }
     height: 54px; /* increase logo size on mobile */
   }
 }
+.header-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.header-logo img{
+  display:block;
+}
+
+.site-name{
+  font-size:28px;
+  font-weight:800;
+  color:#c40000;
+  letter-spacing:1px;
+  line-height:1;
+  text-transform:uppercase;
+}
+
+.dealer-license-line{
+  margin-top:10px;
+  font-size:14px;
+  font-weight:600;
+}
+
+.footer-license{
+  margin-top:10px;
+  font-size:14px;
+  line-height:1.6;
+  color:#ddd;
+  text-align:center;
+}
+
+@media (max-width: 768px){
+  .site-name{
+    font-size:20px;
+  }
+   }
