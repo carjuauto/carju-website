@@ -23,16 +23,13 @@
   </div>
 
 <header class="header container header--compact">
-  <!-- Logo (left) -->
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
     <span class="site-name">CARJU JAPAN 合同会社</span>
   </a>
 
-  <!-- Menu button (right on mobile) -->
   <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- Nav (language moved inside) -->
   <nav class="nav" id="siteNav">
     <a href="services.html" data-i18n="en">Services</a>
     <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
@@ -49,7 +46,6 @@
     <a href="about.html" data-i18n="en">About</a>
     <a href="about.html" class="hidden" data-i18n="ja">アバウト</a>
 
-    <!-- Language inside menu -->
     <div class="lang lang--menu">
       <button data-lang-btn="en">EN</button>
       <button data-lang-btn="ja" class="badge">日本語</button>
@@ -120,22 +116,70 @@
     </div>
   </section>
 
-  <!-- Browse by brand & category -->
-  <section class="brand-category-section">
+  <!-- Browse Available Stock -->
+  <section class="brand-category-section stock-browse-section">
     <div class="card">
-      <div class="kicker" data-i18n="en">Browse by brand & category</div>
-      <div class="kicker hidden" data-i18n="ja">メーカー / カテゴリーで探す</div>
+      <div class="kicker" data-i18n="en">Browse available stock</div>
+      <div class="kicker hidden" data-i18n="ja">在庫車両を探す</div>
+
       <div class="filters">
         <label>
-          <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
-          <select id="brandSelect"></select>
+          <span data-i18n="en">Location</span><span class="hidden" data-i18n="ja">場所</span>
+          <select id="stockLocationSelect">
+            <option value="All">All</option>
+            <option value="japan">Japan</option>
+            <option value="uganda">Uganda</option>
+          </select>
         </label>
+
+        <label>
+          <span data-i18n="en">Brand</span><span class="hidden" data-i18n="ja">メーカー</span>
+          <select id="stockBrandSelect"></select>
+        </label>
+
         <label>
           <span data-i18n="en">Category</span><span class="hidden" data-i18n="ja">カテゴリー</span>
-          <select id="categorySelect"></select>
+          <select id="stockCategorySelect"></select>
         </label>
       </div>
-      <div id="brandGrid" class="grid grid-3" style="margin-top:12px"></div>
+
+      <div id="stockBrowseGrid" class="grid grid-3" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <!-- Available Stock in Japan -->
+  <section class="stock-section">
+    <div class="stock-head">
+      <div>
+        <h2 data-i18n="en">Available Stock in Japan</h2>
+        <h2 class="hidden" data-i18n="ja">日本の在庫車両</h2>
+        <p data-i18n="en">Vehicles available through CARJU JAPAN.</p>
+        <p class="hidden" data-i18n="ja">CARJU JAPANを通してご案内できる車両です。</p>
+      </div>
+    </div>
+
+    <div class="stock-slider-wrap">
+      <button class="stock-arrow stock-prev" data-stock-prev="japan">&#10094;</button>
+      <div id="japanStockGrid" class="stock-slider"></div>
+      <button class="stock-arrow stock-next" data-stock-next="japan">&#10095;</button>
+    </div>
+  </section>
+
+  <!-- Available Stock in Uganda -->
+  <section class="stock-section">
+    <div class="stock-head">
+      <div>
+        <h2 data-i18n="en">Available Stock in Uganda</h2>
+        <h2 class="hidden" data-i18n="ja">ウガンダの在庫車両</h2>
+        <p data-i18n="en">Vehicles available locally in Uganda through YUSUMA Enterprises.</p>
+        <p class="hidden" data-i18n="ja">YUSUMA Enterprisesを通してウガンダ国内で販売中の車両です。</p>
+      </div>
+    </div>
+
+    <div class="stock-slider-wrap">
+      <button class="stock-arrow stock-prev" data-stock-prev="uganda">&#10094;</button>
+      <div id="ugandaStockGrid" class="stock-slider"></div>
+      <button class="stock-arrow stock-next" data-stock-next="uganda">&#10095;</button>
     </div>
   </section>
 
@@ -200,30 +244,6 @@
       </article>
     </div>
   </section>
-
-  <!-- Inventory Slider -->
-  <section class="gallery-section">
-    <h2 data-i18n="en">Common Brands</h2>
-    <h2 class="hidden" data-i18n="ja">在庫ギャラリー</h2>
-    <div id="slider-cars" class="slider">
-      <figure><img alt=""/><figcaption></figcaption></figure>
-      <button class="slider-arrow prev">&#10094;</button>
-      <button class="slider-arrow next">&#10095;</button>
-      <div class="slider-dots"></div>
-    </div>
-  </section>
-
-  <!-- Success Stories -->
-  <section class="gallery-section">
-    <h2 data-i18n="en">Success Stories</h2>
-    <h2 class="hidden" data-i18n="ja">導入事例</h2>
-    <div id="slider-deliveries" class="slider">
-      <figure><img alt=""/><figcaption></figcaption></figure>
-      <button class="slider-arrow prev">&#10094;</button>
-      <button class="slider-arrow next">&#10095;</button>
-      <div class="slider-dots"></div>
-    </div>
-  </section>
 </main>
 
 <footer class="footer">
@@ -235,7 +255,8 @@
 
   <p class="footer-license">
     <strong>Secondhand Dealer License:</strong> 441090004187<br>
-    <strong>Licensing Authority:</strong>千葉県公安委員会</p>
+    <strong>Licensing Authority:</strong> 千葉県公安委員会
+  </p>
 
   <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
