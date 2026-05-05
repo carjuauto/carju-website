@@ -77,10 +77,14 @@ function getConfig(){
   };
 }
 
+/* =========================
+   Google Sheet loader
+   ========================= */
 async function loadStockFromSheet(){
   const cfg = getConfig();
 
   if (!cfg.SHEET_ID){
+    console.log('[CARJU] No Sheet ID. Using config.js stock fallback.');
     return cfg.STOCK || [];
   }
 
@@ -416,6 +420,64 @@ function renderStockDetailPage(expectedLocation){
 }
 
 /* =========================
+   Fees renderer
+   ========================= */
+function renderFeesTables(rows){
+  const mounts = Array.from(document.querySelectorAll('#feesTable'));
+  if (!mounts.length) return;
+
+  const buildTableNode = () => {
+    if (!rows || !rows.length){
+      return el('div', { class: 'muted small' }, 'Fees are currently unavailable.');
+    }
+
+    const headers = Object.keys(rows[0] || {});
+    const table = document.createElement('table');
+    table.className = 'table';
+
+    const thead = document.createElement('thead');
+    const trh = document.createElement('tr');
+
+    headers.forEach(h => {
+      const th = document.createElement('th');
+      th.textContent = h;
+      trh.appendChild(th);
+    });
+
+    thead.appendChild(trh);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+
+      headers.forEach(h => {
+        const td = document.createElement('td');
+        td.textContent = r[h] ?? '';
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    return table;
+  };
+
+  mounts.forEach(m => {
+    m.innerHTML = '';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.appendChild(el('h3', {}, 'Agency Fee Structure'));
+    card.appendChild(buildTableNode());
+
+    m.appendChild(card);
+  });
+}
+
+/* =========================
    Build page
    ========================= */
 async function buildFromConfig(){
@@ -439,6 +501,10 @@ async function buildFromConfig(){
   renderStockSliders();
   setupStockSliderControls();
 
+  if (cfg.FEES && cfg.FEES.length){
+    renderFeesTables(cfg.FEES);
+  }
+
   if (document.body.classList.contains('japan-stock-detail')){
     renderStockDetailPage('japan');
   }
@@ -446,6 +512,20 @@ async function buildFromConfig(){
   if (document.body.classList.contains('uganda-stock-detail')){
     renderStockDetailPage('uganda');
   }
+}
+
+/* =========================
+   Services Card Toggle
+   ========================= */
+function toggleService(card){
+  if (!card) return;
+  const body = card.querySelector('.hidden-text');
+  const btn = card.querySelector('.read-more-btn');
+  if (!body) return;
+
+  const isOpen = body.classList.toggle('open');
+  body.style.display = isOpen ? 'block' : 'none';
+  if (btn) btn.textContent = isOpen ? 'Read less' : 'Read more';
 }
 
 /* =========================
@@ -466,19 +546,101 @@ document.addEventListener('DOMContentLoaded', () => {
       const open = nav.classList.toggle('open');
       navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+
+    nav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (nav.classList.contains('open')){
+          nav.classList.remove('open');
+          navBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
   }
 
-  const promoBarClose = document.getElementById('promo-bar-close');
-  const promoBar = document.getElementById('promo-bar');
+  const heroPanel = document.querySelector('.hero-panel');
 
-  if (promoBarClose && promoBar){
-    promoBarClose.addEventListener('click', () => {
-      promoBar.classList.add('hidden');
-    });
+  if (heroPanel){
+    const nameEl = heroPanel.querySelector('input[type="text"]');
+    const contactEl = heroPanel.querySelector('input[type="email"]');
+    const selectEl = heroPanel.querySelector('select');
+    const cbBtn = heroPanel.querySelector('.btn');
+
+    if (cbBtn){
+      cbBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const name = (nameEl && nameEl.value.trim()) || '';
+        const contact = (contactEl && contactEl.value.trim()) || '';
+        const looking = (selectEl && selectEl.value) || '';
+
+        const subject = `Callback request from ${name || 'client'}`;
+        const body = [
+          `Hello CARJU Japan,`,
+          ``,
+          `Name: ${name || '-'}`,
+          `Contact (Email/WhatsApp): ${contact || '-'}`,
+          `Looking for: ${looking || '-'}`,
+          ``,
+          `Please call me back or reply when you can.`
+        ].join('\n');
+
+        if (confirm('Send via WhatsApp? (Cancel = Email)')){
+          const msg = `Hi CARJU Japan, I’d like a callback.\nName: ${name}\nContact: ${contact}\nLooking for: ${looking}`;
+          window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+          window.location.href = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+      });
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.read-more, .why-more, [data-expand]');
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const card = btn.closest('.bio, .card, .why-item, .point, article, .service-card, .value, .doc, section');
+    if (!card) return;
+
+    const body = card.querySelector('.more, .hidden-text');
+    if (!body) return;
+
+    const isCurrentlyHidden =
+      body.classList.contains('hidden') ||
+      body.style.display === 'none' ||
+      getComputedStyle(body).display === 'none';
+
+    if (body.classList.contains('hidden')){
+      body.classList.toggle('hidden', !isCurrentlyHidden);
+    } else if (body.classList.contains('hidden-text')){
+      body.classList.toggle('open', isCurrentlyHidden);
+      body.style.display = isCurrentlyHidden ? 'block' : 'none';
+    } else {
+      body.style.display = isCurrentlyHidden ? '' : 'none';
+    }
+
+    btn.textContent = isCurrentlyHidden ? 'Read less' : 'Read more';
+
+    if (isCurrentlyHidden && window.matchMedia('(max-width: 860px)').matches){
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    }
+  });
+
+  const promoBar = document.getElementById('promo-bar');
+  const promoBarClose = document.getElementById('promo-bar-close');
+
+  if (promoBar){
+    promoBar.classList.remove('hidden');
+
+    if (promoBarClose){
+      promoBarClose.addEventListener('click', () => {
+        promoBar.classList.add('hidden');
+      });
+    }
   }
 
   buildFromConfig()
     .then(() => console.log('[CARJU] Stock system initialized.'))
     .catch(err => console.error('[CARJU] buildFromConfig failed:', err));
 });
-      
