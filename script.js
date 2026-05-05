@@ -308,11 +308,11 @@ function getStockIdFromUrl(){
 }
 
 function renderStockDetailPage(expectedLocation){
-  const mount = document.getElementById('stockDetailMount');
+  const mount = document.getElementById("stockDetailMount");
   if (!mount) return;
 
   const id = getStockIdFromUrl();
-  const item = getStockItems().find(x => x.id === id && x.location === expectedLocation);
+  const item = CARJU_STOCK_ITEMS.find(x => x.id === id && x.location === expectedLocation);
 
   if (!item){
     mount.innerHTML = `
@@ -325,25 +325,40 @@ function renderStockDetailPage(expectedLocation){
     return;
   }
 
+  const featuresHtml = item.features && item.features.length
+    ? `
+      <div class="stock-features">
+        ${item.features.map(feature => `<span>${feature}</span>`).join("")}
+      </div>
+    `
+    : "";
+
   mount.innerHTML = `
     <section class="stock-detail-page">
       <div class="stock-detail-hero">
         <div>
-          <img id="mainStockImage" class="stock-main-image" src="${escapeHTML(item.mainImage)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
+          <img id="mainStockImage" class="stock-main-image" src="${item.mainImage}" alt="${item.title}" onerror="stockImageFallback(this)">
         </div>
 
         <div class="stock-detail-info">
-          <span class="stock-badge">${escapeHTML(item.status)}</span>
-          <h1>${escapeHTML(item.title)}</h1>
-          <p>${escapeHTML(item.description)}</p>
+          <span class="stock-badge">${item.status}</span>
+          <h1>${item.title}</h1>
+          <p>${item.description}</p>
+
+          ${featuresHtml}
 
           <ul class="stock-detail-list">
-            <li><strong>Year:</strong> ${escapeHTML(item.year)}</li>
-            <li><strong>Brand:</strong> ${escapeHTML(item.brand)}</li>
-            <li><strong>Category:</strong> ${escapeHTML(item.category)}</li>
-            <li><strong>Price:</strong> ${escapeHTML(item.price)}</li>
-            <li><strong>Seller:</strong> ${escapeHTML(item.seller)}</li>
-            <li><strong>Location:</strong> ${item.location === 'uganda' ? 'Uganda' : 'Japan'}</li>
+            <li><strong>Manufacturer:</strong> ${item.manufacturer || "-"}</li>
+            <li><strong>Model:</strong> ${item.model || item.title || "-"}</li>
+            <li><strong>Year:</strong> ${item.year || "-"}</li>
+            <li><strong>Price:</strong> ${item.price || "-"}</li>
+            <li><strong>Number of doors:</strong> ${item.doors || "-"}</li>
+            <li><strong>Transmission:</strong> ${item.transmission || "-"}</li>
+            <li><strong>Drivetrain:</strong> ${item.drivetrain || "-"}</li>
+            <li><strong>Fuel:</strong> ${item.fuel || "-"}</li>
+            <li><strong>Maintenance:</strong> ${item.maintenance || "-"}</li>
+            <li><strong>Seller:</strong> ${item.seller}</li>
+            <li><strong>Location:</strong> ${item.location === "uganda" ? "Uganda" : "Japan"}</li>
           </ul>
 
           <div class="stock-actions">
@@ -355,8 +370,8 @@ function renderStockDetailPage(expectedLocation){
 
       <div class="stock-gallery">
         ${item.gallery.map(src => `
-          <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" onclick="document.getElementById('mainStockImage').src='${escapeHTML(src)}'" onerror="stockImageFallback(this)">
-        `).join('')}
+          <img src="${src}" alt="${item.title}" onclick="document.getElementById('mainStockImage').src='${src}'" onerror="stockImageFallback(this)">
+        `).join("")}
       </div>
     </section>
   `;
