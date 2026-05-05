@@ -1246,3 +1246,28 @@ ul.bullet li { margin: 6px 0; }
   font-weight:700;
   border:1px solid #ffd0d0;
 }
+.stock-image-wrap{
+  position:relative;
+}
+
+.stock-new-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  z-index:2;
+  background:#d10000;
+  color:#fff;
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.3px;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+  text-transform:uppercase;
+}
+
+.detail-badge{
+  position:static;
+  display:inline-block;
+  margin-bottom:12px;
+}
