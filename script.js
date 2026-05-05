@@ -68,6 +68,8 @@ function getConfig(){
   return {
     WHATSAPP: cfg.WHATSAPP || "+81 80 4790 9663",
     TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
+    SHEET_ID: cfg.SHEET_ID || "",
+    SHEET_TAB: cfg.SHEET_TAB || "CARJU_STOCK",
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
     STOCK: cfg.STOCK || [],
@@ -75,44 +77,117 @@ function getConfig(){
   };
 }
 
+async function loadStockFromSheet(){
+  const cfg = getConfig();
+
+  if (!cfg.SHEET_ID){
+    return cfg.STOCK || [];
+  }
+
+  try {
+    const url = `https://opensheet.elk.sh/${cfg.SHEET_ID}/${encodeURIComponent(cfg.SHEET_TAB)}?t=${Date.now()}`;
+    const res = await fetch(url, { cache: 'no-store' });
+
+    if (!res.ok){
+      console.warn('[CARJU] Sheet failed. Using config.js fallback.');
+      return cfg.STOCK || [];
+    }
+
+    const rows = await res.json();
+    console.log('[CARJU] Sheet stock loaded:', rows.length);
+    return rows || [];
+  } catch (err){
+    console.warn('[CARJU] Sheet load error. Using config.js fallback:', err);
+    return cfg.STOCK || [];
+  }
+}
+
 /* =========================
    Stock system
    ========================= */
+let CARJU_STOCK_CACHE = [];
+
+function driveToDirect(url){
+  if (!url) return "";
+
+  const raw = String(url).trim();
+
+  if (
+    raw.startsWith("assets/") ||
+    raw.startsWith("./assets/") ||
+    raw.startsWith("../assets/")
+  ){
+    return raw;
+  }
+
+  const match = raw.match(/[-\w]{25,}/);
+  if (!match) return raw;
+
+  const id = match[0];
+
+  return `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
+}
+
+function splitList(value){
+  return String(value || "")
+    .split(/[,|]/)
+    .map(x => x.trim())
+    .filter(Boolean);
+}
+
 function normalizeStockItem(item){
+  const photos = [
+    item.MainImage || item.mainImage || item.ImageURL || item.src,
+    item.Photo1,
+    item.Photo2,
+    item.Photo3,
+    item.Photo4,
+    item.Photo5,
+    item.Photo6,
+    item.Photo7,
+    item.Photo8,
+    item.Photo9,
+    item.Photo10
+  ]
+    .map(driveToDirect)
+    .filter(Boolean);
+
   return {
-    id: item.id || '',
-    location: clean(item.location || ''),
-    title: item.title || item.name || 'Vehicle',
+    id: item.ID || item.id || '',
+    location: clean(item.Location || item.location || ''),
+    title: item.Title || item.title || item.name || 'Vehicle',
 
-    manufacturer: item.manufacturer || item.brand || '',
-    model: item.model || item.title || item.name || '',
-    brand: item.brand || item.manufacturer || '',
-    category: item.category || '',
-    year: item.year || '',
-    price: item.price || 'Ask for Price',
+    manufacturer: item.Manufacturer || item.manufacturer || item.Brand || item.brand || '',
+    model: item.Model || item.model || item.Title || item.title || '',
+    brand: item.Brand || item.brand || item.Manufacturer || item.manufacturer || '',
+    category: item.Category || item.category || '',
+    year: item.Year || item.year || '',
+    price: item.Price || item.price || 'Ask for Price',
 
-    doors: item.doors || '',
-    transmission: item.transmission || '',
-    drivetrain: item.drivetrain || '',
-    fuel: item.fuel || '',
-    maintenance: item.maintenance || '',
+    doors: item.Doors || item.doors || '',
+    transmission: item.Transmission || item.transmission || '',
+    drivetrain: item.Drivetrain || item.drivetrain || '',
+    fuel: item.Fuel || item.fuel || '',
+    maintenance: item.Maintenance || item.maintenance || '',
 
-    features: Array.isArray(item.features) ? item.features : [],
+    features: Array.isArray(item.features)
+      ? item.features
+      : splitList(item.Features || item.features),
 
-    status: item.status || '',
-    badge: item.badge || '',
-    seller: item.seller || '',
-    mainImage: item.mainImage || item.src || PLACEHOLDER_IMG,
-    gallery: item.gallery && item.gallery.length
-      ? item.gallery
-      : [item.mainImage || item.src || PLACEHOLDER_IMG],
-    description: item.description || '',
-    whatsapp: String(item.whatsapp || '').replace(/[^0-9]/g, '')
+    status: item.Status || item.status || '',
+    badge: item.Badge || item.badge || '',
+    seller: item.Seller || item.seller || '',
+
+    mainImage: photos[0] || PLACEHOLDER_IMG,
+    gallery: photos.length ? photos : [PLACEHOLDER_IMG],
+
+    description: item.Description || item.description || '',
+    whatsapp: String(item.WhatsApp || item.whatsapp || '').replace(/[^0-9]/g, '')
   };
 }
 
 function getStockItems(){
-  return (getConfig().STOCK || []).map(normalizeStockItem);
+  return CARJU_STOCK_CACHE.map(normalizeStockItem);
 }
 
 function stockDetailUrl(item){
@@ -256,23 +331,6 @@ function setupStockSliderControls(){
       if (grid) grid.scrollBy({ left: 320, behavior: 'smooth' });
     });
   });
-
-  ['japanStockGrid', 'ugandaStockGrid'].forEach(id => {
-    const grid = document.getElementById(id);
-    if (!grid) return;
-
-    setInterval(() => {
-      if (grid.scrollWidth <= grid.clientWidth) return;
-
-      const nearEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 20;
-
-      if (nearEnd){
-        grid.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        grid.scrollBy({ left: 320, behavior: 'smooth' });
-      }
-    }, 5000);
-  });
 }
 
 /* =========================
@@ -358,67 +416,9 @@ function renderStockDetailPage(expectedLocation){
 }
 
 /* =========================
-   Fees renderer
-   ========================= */
-function renderFeesTables(rows){
-  const mounts = Array.from(document.querySelectorAll('#feesTable'));
-  if (!mounts.length) return;
-
-  const buildTableNode = () => {
-    if (!rows || !rows.length){
-      return el('div', { class: 'muted small' }, 'Fees are currently unavailable.');
-    }
-
-    const headers = Object.keys(rows[0] || {});
-    const table = document.createElement('table');
-    table.className = 'table';
-
-    const thead = document.createElement('thead');
-    const trh = document.createElement('tr');
-
-    headers.forEach(h => {
-      const th = document.createElement('th');
-      th.textContent = h;
-      trh.appendChild(th);
-    });
-
-    thead.appendChild(trh);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-
-    rows.forEach(r => {
-      const tr = document.createElement('tr');
-
-      headers.forEach(h => {
-        const td = document.createElement('td');
-        td.textContent = r[h] ?? '';
-        tr.appendChild(td);
-      });
-
-      tbody.appendChild(tr);
-    });
-
-    table.appendChild(tbody);
-    return table;
-  };
-
-  mounts.forEach(m => {
-    m.innerHTML = '';
-
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.appendChild(el('h3', {}, 'Agency Fee Structure'));
-    card.appendChild(buildTableNode());
-
-    m.appendChild(card);
-  });
-}
-
-/* =========================
    Build page
    ========================= */
-function buildFromConfig(){
+async function buildFromConfig(){
   const cfg = getConfig();
 
   const wa = document.getElementById('wa-link');
@@ -433,13 +433,11 @@ function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
+  CARJU_STOCK_CACHE = await loadStockFromSheet();
+
   renderStockBrowse();
   renderStockSliders();
   setupStockSliderControls();
-
-  if (cfg.FEES && cfg.FEES.length){
-    renderFeesTables(cfg.FEES);
-  }
 
   if (document.body.classList.contains('japan-stock-detail')){
     renderStockDetailPage('japan');
@@ -448,20 +446,6 @@ function buildFromConfig(){
   if (document.body.classList.contains('uganda-stock-detail')){
     renderStockDetailPage('uganda');
   }
-}
-
-/* =========================
-   Services Card Toggle
-   ========================= */
-function toggleService(card){
-  if (!card) return;
-  const body = card.querySelector('.hidden-text');
-  const btn = card.querySelector('.read-more-btn');
-  if (!body) return;
-
-  const isOpen = body.classList.toggle('open');
-  body.style.display = isOpen ? 'block' : 'none';
-  if (btn) btn.textContent = isOpen ? 'Read less' : 'Read more';
 }
 
 /* =========================
@@ -482,130 +466,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const open = nav.classList.toggle('open');
       navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-
-    nav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        if (nav.classList.contains('open')){
-          nav.classList.remove('open');
-          navBtn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
   }
 
-  const heroPanel = document.querySelector('.hero-panel');
-
-  if (heroPanel){
-    const nameEl = heroPanel.querySelector('input[type="text"]');
-    const contactEl = heroPanel.querySelector('input[type="email"]');
-    const selectEl = heroPanel.querySelector('select');
-    const cbBtn = heroPanel.querySelector('.btn');
-
-    if (cbBtn){
-      cbBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const name = (nameEl && nameEl.value.trim()) || '';
-        const contact = (contactEl && contactEl.value.trim()) || '';
-        const looking = (selectEl && selectEl.value) || '';
-
-        const subject = `Callback request from ${name || 'client'}`;
-        const body = [
-          `Hello CARJU Japan,`,
-          ``,
-          `Name: ${name || '-'}`,
-          `Contact (Email/WhatsApp): ${contact || '-'}`,
-          `Looking for: ${looking || '-'}`,
-          ``,
-          `Please call me back or reply when you can.`
-        ].join('\n');
-
-        if (confirm('Send via WhatsApp? (Cancel = Email)')){
-          const msg = `Hi CARJU Japan, I’d like a callback.\nName: ${name}\nContact: ${contact}\nLooking for: ${looking}`;
-          window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
-        } else {
-          window.location.href = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-      });
-    }
-  }
-
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.read-more, .why-more, [data-expand]');
-    if (!btn) return;
-
-    e.preventDefault();
-
-    const card = btn.closest('.bio, .card, .why-item, .point, article, .service-card, .value, .doc, section');
-    if (!card) return;
-
-    const body = card.querySelector('.more, .hidden-text');
-    if (!body) return;
-
-    const isCurrentlyHidden =
-      body.classList.contains('hidden') ||
-      body.style.display === 'none' ||
-      getComputedStyle(body).display === 'none';
-
-    if (body.classList.contains('hidden')){
-      body.classList.toggle('hidden', !isCurrentlyHidden);
-    } else if (body.classList.contains('hidden-text')){
-      body.classList.toggle('open', isCurrentlyHidden);
-      body.style.display = isCurrentlyHidden ? 'block' : 'none';
-    } else {
-      body.style.display = isCurrentlyHidden ? '' : 'none';
-    }
-
-    btn.textContent = isCurrentlyHidden ? 'Read less' : 'Read more';
-
-    if (isCurrentlyHidden && window.matchMedia('(max-width: 860px)').matches){
-      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-    }
-  });
-
-  const promoBar = document.getElementById('promo-bar');
   const promoBarClose = document.getElementById('promo-bar-close');
+  const promoBar = document.getElementById('promo-bar');
 
-  if (promoBar){
-    promoBar.classList.remove('hidden');
-
-    if (promoBarClose){
-      promoBarClose.addEventListener('click', () => {
-        promoBar.classList.add('hidden');
-      });
-    }
-  }
-
-  const initReveal = () => {
-    const targets = document.querySelectorAll('.services-grid .service-card, .reveal');
-
-    if (!targets.length) return;
-
-    if (!('IntersectionObserver' in window)){
-      targets.forEach(t => t.classList.add('in-view'));
-      return;
-    }
-
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting){
-          entry.target.classList.add('in-view');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    targets.forEach((t, i) => {
-      t.style.transitionDelay = (i * 50) + 'ms';
-      io.observe(t);
+  if (promoBarClose && promoBar){
+    promoBarClose.addEventListener('click', () => {
+      promoBar.classList.add('hidden');
     });
-  };
-
-  try {
-    buildFromConfig();
-    initReveal();
-    console.log('[CARJU] Stock system initialized.');
-  } catch (err){
-    console.error('[CARJU] buildFromConfig failed:', err);
   }
+
+  buildFromConfig()
+    .then(() => console.log('[CARJU] Stock system initialized.'))
+    .catch(err => console.error('[CARJU] buildFromConfig failed:', err));
 });
+      
