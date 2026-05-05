@@ -4,7 +4,7 @@ window.CARJU_CONFIG = {
 
   // Google Sheet connection
   // Replace this with your real Google Sheet ID after uploading the workbook to Google Sheets.
-  SHEET_ID: "",
+  SHEET_ID: "1i3m_OTmbj0d8iBxpCG7PYFeP_HwhPUYTig89VU0s4jI",
   SHEET_TAB: "CARJU_STOCK",
 
   BRANDS: [
