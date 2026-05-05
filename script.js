@@ -98,7 +98,8 @@ function normalizeStockItem(item){
     features: Array.isArray(item.features) ? item.features : [],
 
     status: item.status || '',
-    seller: item.seller || '',
+badge: item.badge || '',
+seller: item.seller || '',
     mainImage: item.mainImage || PLACEHOLDER_IMG,
     gallery: item.gallery && item.gallery.length ? item.gallery : [item.mainImage || PLACEHOLDER_IMG],
     description: item.description || '',
@@ -126,13 +127,21 @@ function renderStockCard(item){
   const card = document.createElement('article');
   card.className = 'stock-card';
 
+  const badgeHtml = item.badge
+    ? `<span class="stock-new-badge">${escapeHTML(item.badge)}</span>`
+    : '';
+
   card.innerHTML = `
-    <img src="${escapeHTML(item.mainImage)}" onerror="stockImageFallback(this)">
+    <div class="stock-image-wrap">
+      ${badgeHtml}
+      <img src="${escapeHTML(item.mainImage)}" onerror="stockImageFallback(this)">
+    </div>
+
     <div class="stock-card-body">
-      <span class="stock-badge">${item.status}</span>
-      <h3>${item.title}</h3>
-      <div class="stock-meta">${item.year} · ${item.seller}</div>
-      <div class="stock-price">${item.price}</div>
+      <span class="stock-badge">${escapeHTML(item.status)}</span>
+      <h3>${escapeHTML(item.title)}</h3>
+      <div class="stock-meta">${escapeHTML([item.year, item.seller].filter(Boolean).join(' · '))}</div>
+      <div class="stock-price">${escapeHTML(item.price)}</div>
       <div class="stock-actions">
         <a class="stock-btn secondary" href="${stockDetailUrl(item)}">View Details</a>
         <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank">Ask Now</a>
@@ -142,28 +151,44 @@ function renderStockCard(item){
 
   return card;
 }
-
 function renderStockSliders(){
   const items = getStockItems();
 
   const japanGrid = document.getElementById('japanStockGrid');
   const ugandaGrid = document.getElementById('ugandaStockGrid');
 
+  const japanSection = japanGrid ? japanGrid.closest('.stock-section') : null;
+  const ugandaSection = ugandaGrid ? ugandaGrid.closest('.stock-section') : null;
+
+  const japanItems = items.filter(x => x.location === 'japan');
+  const ugandaItems = items.filter(x => x.location === 'uganda');
+
   if (japanGrid){
     japanGrid.innerHTML = '';
-    items.filter(x => x.location === 'japan').forEach(item => {
-      japanGrid.appendChild(renderStockCard(item));
-    });
+
+    if (!japanItems.length){
+      if (japanSection) japanSection.style.display = 'none';
+    } else {
+      if (japanSection) japanSection.style.display = '';
+      japanItems.forEach(item => {
+        japanGrid.appendChild(renderStockCard(item));
+      });
+    }
   }
 
   if (ugandaGrid){
     ugandaGrid.innerHTML = '';
-    items.filter(x => x.location === 'uganda').forEach(item => {
-      ugandaGrid.appendChild(renderStockCard(item));
-    });
+
+    if (!ugandaItems.length){
+      if (ugandaSection) ugandaSection.style.display = 'none';
+    } else {
+      if (ugandaSection) ugandaSection.style.display = '';
+      ugandaItems.forEach(item => {
+        ugandaGrid.appendChild(renderStockCard(item));
+      });
+    }
   }
 }
-
 /* =========================
    DETAIL PAGE (FIXED)
    ========================= */
@@ -183,7 +208,9 @@ function renderStockDetailPage(expectedLocation){
     mount.innerHTML = `<h2>Car not found</h2>`;
     return;
   }
-
+const detailBadgeHtml = item.badge
+  ? `<span class="stock-new-badge detail-badge">${escapeHTML(item.badge)}</span>`
+  : "";
   const featuresHtml = item.features.length
     ? `<div class="stock-features">${item.features.map(f => `<span>${f}</span>`).join("")}</div>`
     : "";
@@ -192,7 +219,8 @@ function renderStockDetailPage(expectedLocation){
     <div class="stock-detail-page">
       <img id="mainStockImage" src="${item.mainImage}" class="stock-main-image" onerror="stockImageFallback(this)">
 
-      <h1>${item.title}</h1>
+      ${detailBadgeHtml}
+<h1>${item.title}</h1>
       <p>${item.description}</p>
 
       ${featuresHtml}
