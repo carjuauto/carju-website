@@ -109,7 +109,7 @@ async function loadStockFromSheet(){
 /* =========================
    Stock system
    ========================= */
-let CARJU_STOCK_CACHE = [];
+var CARJU_STOCK_CACHE = [];
 
 function driveToDirect(url){
   if (!url) return "";
