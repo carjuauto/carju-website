@@ -50,16 +50,16 @@ window.CARJU_CONFIG = {
       mainImage: "assets/stock/japan/serena-main.jpg",
 
       gallery: [
-        "assets/stock/japan/serena-main.jpg",
-        "assets/stock/japan/serena-2.jpg",
-        "assets/stock/japan/serena-3.jpg"
-        "assets/stock/japan/serena-4.jpg"
-        "assets/stock/japan/serena-5.jpg"
-        "assets/stock/japan/serena-6.jpg"
-        "assets/stock/japan/serena-7.jpg"
-        "assets/stock/japan/serena-8.jpg"
-        "assets/stock/japan/serena-9.jpg"
-      ],
+  "assets/stock/japan/serena-main.jpg",
+  "assets/stock/japan/serena-2.jpg",
+  "assets/stock/japan/serena-3.jpg",
+  "assets/stock/japan/serena-4.jpg",
+  "assets/stock/japan/serena-5.jpg",
+  "assets/stock/japan/serena-6.jpg",
+  "assets/stock/japan/serena-7.jpg",
+  "assets/stock/japan/serena-8.jpg",
+  "assets/stock/japan/serena-9.jpg"
+],
 
       description:
         "Nissan Serena Highway Star available through CARJU JAPAN. Comfortable family van with automatic transmission, 2WD drivetrain, backup camera, and completed maintenance.",
