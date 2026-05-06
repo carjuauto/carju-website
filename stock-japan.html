@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Japan Stock | CARJU JAPAN</title>
+  <meta name="description" content="Available Japan stock from CARJU JAPAN.">
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js?v=200"></script>
+</head>
+
+<body>
+<header class="header container header--compact">
+  <a href="index.html" class="brandlink header-logo">
+    <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN 合同会社</span>
+  </a>
+
+  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
+
+  <nav class="nav" id="siteNav">
+    <a href="services.html">Services</a>
+    <a href="fees.html">Fees</a>
+    <a href="stock-japan.html">Japan Stock</a>
+    <a href="yusuma-uganda-stock.html">Uganda Stock</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="about.html">About</a>
+
+    <div class="lang lang--menu">
+      <button data-lang-btn="en">EN</button>
+      <button data-lang-btn="ja" class="badge">日本語</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="card" style="text-align:center;margin-top:20px;">
+    <h1>Available Stock in Japan</h1>
+    <p>Vehicles available through CARJU JAPAN for export, inspection, and shipping support.</p>
+  </section>
+
+  <section class="brand-category-section stock-browse-section">
+    <div class="card">
+      <div class="kicker">Browse Japan stock</div>
+
+      <div class="filters">
+        <label>
+          Location
+          <select id="stockLocationSelect">
+            <option value="All">Japan</option>
+            <option value="japan">Japan</option>
+            <option value="uganda">Uganda</option>
+          </select>
+        </label>
+
+        <label>
+          Brand
+          <select id="stockBrandSelect"></select>
+        </label>
+
+        <label>
+          Category
+          <select id="stockCategorySelect"></select>
+        </label>
+      </div>
+
+      <div id="stockBrowseGrid" class="grid grid-3" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section class="stock-section">
+    <div class="stock-head">
+      <div>
+        <h2>Japan Stock</h2>
+        <p>Click any vehicle to view details or ask through WhatsApp.</p>
+      </div>
+    </div>
+
+    <div class="stock-slider-wrap">
+      <button class="stock-arrow stock-prev" data-stock-prev="japan">&#10094;</button>
+      <div id="japanStockGrid" class="stock-slider"></div>
+      <button class="stock-arrow stock-next" data-stock-next="japan">&#10095;</button>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="socials">
+    <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+  </div>
+
+  <p class="footer-license">
+    <strong>Secondhand Dealer License:</strong> 441090004187<br>
+    <strong>Licensing Authority:</strong> 千葉県公安委員会
+  </p>
+
+  <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
+</footer>
+
+<script src="script.js?v=200"></script>
+</body>
+</html>
