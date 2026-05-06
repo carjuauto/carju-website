@@ -16,9 +16,6 @@ function setLang(l){
   });
 }
 
-/* =========================
-   Helpers
-========================= */
 function el(tag, attrs = {}, html = ''){
   const n = document.createElement(tag);
   Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
@@ -50,33 +47,19 @@ function escapeHTML(str){
     .replaceAll("'", '&#039;');
 }
 
-/* =========================
-   Config
-========================= */
-const DEFAULT_BRANDS = [
-  "Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi",
-  "Suzuki","Daihatsu","Isuzu","Hino","Lexus"
-];
-
-const DEFAULT_CATEGORIES = [
-  "Sedan","Hatchback","SUV","Truck","Van","Wagon",
-  "Coupe","Convertible","Hybrid/EV","Machinery","Agricultural"
-];
+const DEFAULT_BRANDS = ["Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi","Suzuki","Daihatsu","Isuzu","Hino","Lexus"];
+const DEFAULT_CATEGORIES = ["Sedan","Hatchback","SUV","Truck","Van","Wagon","Coupe","Convertible","Hybrid/EV","Machinery","Agricultural"];
 
 function getConfig(){
   const cfg = window.CARJU_CONFIG || {};
   return {
     WHATSAPP: cfg.WHATSAPP || "+81 80 4790 9663",
     TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
-
     SHEET_ID: cfg.SHEET_ID || "",
-
-    JAPAN_SHEET_TAB: cfg.JAPAN_SHEET_TAB || cfg.SHEET_TAB || "CARJU_STOCK",
+    JAPAN_SHEET_TAB: cfg.JAPAN_SHEET_TAB || cfg.SHEET_TAB || "JAPAN_STOCK",
     UGANDA_SHEET_TAB: cfg.UGANDA_SHEET_TAB || "UGANDA_STOCK",
-
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
-
     STOCK: cfg.STOCK || [],
     JAPAN_STOCK: cfg.JAPAN_STOCK || [],
     UGANDA_STOCK: cfg.UGANDA_STOCK || [],
@@ -84,45 +67,31 @@ function getConfig(){
   };
 }
 
-/* =========================
-   Google Sheet loader
-========================= */
 async function loadStockFromSheet(tabName, fallbackRows = []){
   const cfg = getConfig();
 
   if (!cfg.SHEET_ID){
-    console.log(`[CARJU] No Sheet ID. Using fallback for ${tabName}.`);
     return fallbackRows || [];
   }
 
   try {
     const url = `https://opensheet.elk.sh/${cfg.SHEET_ID}/${encodeURIComponent(tabName)}?t=${Date.now()}`;
     const res = await fetch(url, { cache: 'no-store' });
-
-    if (!res.ok){
-      console.warn(`[CARJU] Sheet failed for ${tabName}. Using fallback.`);
-      return fallbackRows || [];
-    }
-
+    if (!res.ok) return fallbackRows || [];
     const rows = await res.json();
-    console.log(`[CARJU] ${tabName} loaded:`, rows.length);
     return rows || [];
   } catch (err){
-    console.warn(`[CARJU] Sheet load error for ${tabName}. Using fallback:`, err);
+    console.warn(`[CARJU] Sheet load error for ${tabName}:`, err);
     return fallbackRows || [];
   }
 }
 
-/* =========================
-   Stock system
-========================= */
 var CARJU_STOCK_CACHE = [];
 var CURRENT_DETAIL_GALLERY = [];
 var CURRENT_DETAIL_INDEX = 0;
 
 function driveToDirect(url){
   if (!url) return "";
-
   const raw = String(url).trim();
 
   if (
@@ -137,8 +106,7 @@ function driveToDirect(url){
   const match = raw.match(/[-\w]{25,}/);
   if (!match) return raw;
 
-  const id = match[0];
-  return `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
+  return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1600`;
 }
 
 function splitList(value){
@@ -156,16 +124,8 @@ function normalizeStockItem(item){
   } else {
     photos = [
       item.MainImage || item.mainImage || item.ImageURL || item.src,
-      item.Photo1,
-      item.Photo2,
-      item.Photo3,
-      item.Photo4,
-      item.Photo5,
-      item.Photo6,
-      item.Photo7,
-      item.Photo8,
-      item.Photo9,
-      item.Photo10
+      item.Photo1,item.Photo2,item.Photo3,item.Photo4,item.Photo5,
+      item.Photo6,item.Photo7,item.Photo8,item.Photo9,item.Photo10
     ].map(driveToDirect).filter(Boolean);
   }
 
@@ -173,31 +133,23 @@ function normalizeStockItem(item){
     id: item.ID || item.id || '',
     location: clean(item.Location || item.location || ''),
     title: item.Title || item.title || item.name || 'Vehicle',
-
     manufacturer: item.Manufacturer || item.manufacturer || item.Brand || item.brand || '',
     model: item.Model || item.model || item.Title || item.title || '',
     brand: item.Brand || item.brand || item.Manufacturer || item.manufacturer || '',
     category: item.Category || item.category || '',
     year: item.Year || item.year || '',
     price: item.Price || item.price || 'Ask for Price',
-
     doors: item.Doors || item.doors || '',
     transmission: item.Transmission || item.transmission || '',
     drivetrain: item.Drivetrain || item.drivetrain || '',
     fuel: item.Fuel || item.fuel || '',
     maintenance: item.Maintenance || item.maintenance || '',
-
-    features: Array.isArray(item.features)
-      ? item.features
-      : splitList(item.Features || item.features),
-
+    features: Array.isArray(item.features) ? item.features : splitList(item.Features || item.features),
     status: item.Status || item.status || '',
     badge: item.Badge || item.badge || '',
     seller: item.Seller || item.seller || '',
-
     mainImage: driveToDirect(item.MainImage || item.mainImage || photos[0]) || PLACEHOLDER_IMG,
     gallery: photos.length ? photos : [PLACEHOLDER_IMG],
-
     description: item.Description || item.description || '',
     whatsapp: String(item.WhatsApp || item.whatsapp || '').replace(/[^0-9]/g, '')
   };
@@ -219,16 +171,11 @@ function stockWhatsAppUrl(item){
   return `https://wa.me/${item.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
-/* =========================
-   Stock cards
-========================= */
 function renderStockCard(item, compact = false){
   const card = document.createElement('article');
   card.className = compact ? 'stock-card stock-card-compact' : 'stock-card';
 
-  const badgeHtml = item.badge
-    ? `<span class="stock-new-badge">${escapeHTML(item.badge)}</span>`
-    : '';
+  const badgeHtml = item.badge ? `<span class="stock-new-badge">${escapeHTML(item.badge)}</span>` : '';
 
   const imagesHtml = item.gallery.map(src => `
     <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
@@ -237,9 +184,7 @@ function renderStockCard(item, compact = false){
   card.innerHTML = `
     <div class="stock-image-wrap">
       ${badgeHtml}
-      <div class="stock-card-image-scroll">
-        ${imagesHtml}
-      </div>
+      <div class="stock-card-image-scroll">${imagesHtml}</div>
     </div>
 
     <div class="stock-card-body">
@@ -257,47 +202,31 @@ function renderStockCard(item, compact = false){
   return card;
 }
 
-/* =========================
-   Render stock sections
-========================= */
 function renderStockSliders(){
   const items = getStockItems();
 
-  const japanGrid = document.getElementById('japanStockGrid');
-  const ugandaGrid = document.getElementById('ugandaStockGrid');
+  const renderGrid = (id, location) => {
+    const grid = document.getElementById(id);
+    if (!grid) return;
 
-  const japanSection = japanGrid ? japanGrid.closest('.stock-section') : null;
-  const ugandaSection = ugandaGrid ? ugandaGrid.closest('.stock-section') : null;
+    const section = grid.closest('.stock-section');
+    const rows = items.filter(x => x.location === location);
 
-  const japanItems = items.filter(x => x.location === 'japan');
-  const ugandaItems = items.filter(x => x.location === 'uganda');
+    grid.innerHTML = '';
 
-  if (japanGrid){
-    japanGrid.innerHTML = '';
-
-    if (!japanItems.length){
-      if (japanSection) japanSection.style.display = 'none';
-    } else {
-      if (japanSection) japanSection.style.display = '';
-      japanItems.forEach(item => japanGrid.appendChild(renderStockCard(item)));
+    if (!rows.length){
+      if (section) section.style.display = 'none';
+      return;
     }
-  }
 
-  if (ugandaGrid){
-    ugandaGrid.innerHTML = '';
+    if (section) section.style.display = '';
+    rows.forEach(item => grid.appendChild(renderStockCard(item)));
+  };
 
-    if (!ugandaItems.length){
-      if (ugandaSection) ugandaSection.style.display = 'none';
-    } else {
-      if (ugandaSection) ugandaSection.style.display = '';
-      ugandaItems.forEach(item => ugandaGrid.appendChild(renderStockCard(item)));
-    }
-  }
+  renderGrid('japanStockGrid', 'japan');
+  renderGrid('ugandaStockGrid', 'uganda');
 }
 
-/* =========================
-   New arrivals
-========================= */
 function getNewArrivals(items, location, limit = 3){
   return items
     .filter(x =>
@@ -313,37 +242,30 @@ function getNewArrivals(items, location, limit = 3){
 function renderNewArrivals(){
   const items = getStockItems();
 
-  const homeMount = document.getElementById('newArrivalsHome');
-  const ugandaMount = document.getElementById('newArrivalsUganda');
+  const renderMount = (id, location) => {
+    const mount = document.getElementById(id);
+    if (!mount) return;
 
-  if (homeMount){
-    const japanNew = getNewArrivals(items, 'japan', 3);
-    homeMount.innerHTML = '';
+    const rows = getNewArrivals(items, location, 3);
+    mount.innerHTML = '';
 
-    if (japanNew.length){
-      homeMount.style.display = '';
-      japanNew.forEach(item => homeMount.appendChild(renderStockCard(item, true)));
-    } else {
-      homeMount.style.display = 'none';
+    const section = mount.closest('.new-arrivals-section');
+
+    if (!rows.length){
+      if (section) section.style.display = 'none';
+      else mount.style.display = 'none';
+      return;
     }
-  }
 
-  if (ugandaMount){
-    const ugandaNew = getNewArrivals(items, 'uganda', 3);
-    ugandaMount.innerHTML = '';
+    if (section) section.style.display = '';
+    mount.style.display = '';
+    rows.forEach(item => mount.appendChild(renderStockCard(item, true)));
+  };
 
-    if (ugandaNew.length){
-      ugandaMount.style.display = '';
-      ugandaNew.forEach(item => ugandaMount.appendChild(renderStockCard(item, true)));
-    } else {
-      ugandaMount.style.display = 'none';
-    }
-  }
+  renderMount('newArrivalsHome', 'japan');
+  renderMount('newArrivalsUganda', 'uganda');
 }
 
-/* =========================
-   Browse filters
-========================= */
 function renderStockBrowse(){
   const items = getStockItems();
 
@@ -357,67 +279,78 @@ function renderStockBrowse(){
   const isUgandaPage = document.body.classList.contains('yusuma-uganda-stock-page');
   const isJapanPage = document.body.classList.contains('japan-stock-page');
 
-  let pageItems = items;
-
-  if (isUgandaPage){
-    pageItems = items.filter(item => item.location === 'uganda');
-  } else if (isJapanPage){
-    pageItems = items.filter(item => item.location === 'japan');
+  function getCurrentLocation(){
+    if (isUgandaPage) return 'uganda';
+    if (isJapanPage) return 'japan';
+    return locationSel ? clean(locationSel.value || 'all') : 'all';
   }
 
-  const brands = uniqueList(['All', ...pageItems.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
-  const cats = uniqueList(['All', ...pageItems.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
-
-  brandSel.innerHTML = brands.map(b => `<option value="${escapeHTML(b)}">${escapeHTML(b)}</option>`).join('');
-  catSel.innerHTML = cats.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');
-
-function updateBrowseGrid(){
-  const isUgandaPage = document.body.classList.contains('yusuma-uganda-stock-page');
-  const isJapanPage = document.body.classList.contains('japan-stock-page');
-
-  const loc = isUgandaPage
-    ? 'uganda'
-    : isJapanPage
-      ? 'japan'
-      : (locationSel ? clean(locationSel.value || 'All') : 'all');
-
-  const brand = clean(brandSel.value || 'All');
-  const cat = clean(catSel.value || 'All');
-
-  const filtered = pageItems.filter(item => {
-    const locationOk = loc === 'all' || item.location === loc;
-    const brandOk = brand === 'all' || clean(item.brand) === brand;
-    const catOk = cat === 'all' || clean(item.category) === cat;
-    return locationOk && brandOk && catOk;
-  });
-
-  grid.innerHTML = '';
-
-  if (!filtered.length){
-    grid.appendChild(el('div', { class: 'muted small' }, 'No stock matches found. Try another filter.'));
-    return;
+  function getPageItems(){
+    const loc = getCurrentLocation();
+    if (loc === 'uganda') return items.filter(item => item.location === 'uganda');
+    if (loc === 'japan') return items.filter(item => item.location === 'japan');
+    return items.filter(item => item.location === 'japan');
   }
 
-  filtered.forEach(item => grid.appendChild(renderStockCard(item, true)));
-}
+  function fillFilters(){
+    const pageItems = getPageItems();
+    const currentBrand = brandSel.value || 'All';
+    const currentCat = catSel.value || 'All';
+
+    const brands = uniqueList(['All', ...pageItems.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
+    const cats = uniqueList(['All', ...pageItems.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
+
+    brandSel.innerHTML = brands.map(b => `<option value="${escapeHTML(b)}">${escapeHTML(b)}</option>`).join('');
+    catSel.innerHTML = cats.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');
+
+    brandSel.value = brands.includes(currentBrand) ? currentBrand : 'All';
+    catSel.value = cats.includes(currentCat) ? currentCat : 'All';
+  }
+
+  function updateBrowseGrid(){
+    const loc = getCurrentLocation();
+
+    if (loc === 'uganda' && !isUgandaPage){
+      window.location.href = 'yusuma-uganda-stock.html';
+      return;
+    }
+
+    fillFilters();
+
+    const pageItems = getPageItems();
+    const brand = clean(brandSel.value || 'All');
+    const cat = clean(catSel.value || 'All');
+
+    const filtered = pageItems.filter(item => {
+      const brandOk = brand === 'all' || clean(item.brand) === brand;
+      const catOk = cat === 'all' || clean(item.category) === cat;
+      return brandOk && catOk;
+    });
+
+    grid.innerHTML = '';
+
+    if (!filtered.length){
+      grid.appendChild(el('div', { class: 'muted small' }, loc === 'uganda' ? 'No Uganda stock matches found. Try another filter.' : 'No Japan stock matches found. Try another filter.'));
+      return;
+    }
+
+    filtered.forEach(item => grid.appendChild(renderStockCard(item, true)));
+  }
 
   if (locationSel){
-  locationSel.addEventListener('change', updateBrowseGrid);
+    if (isUgandaPage) locationSel.value = 'uganda';
+    else if (isJapanPage) locationSel.value = 'japan';
+    else locationSel.value = 'All';
 
-  if (document.body.classList.contains('yusuma-uganda-stock-page')){
-    locationSel.value = 'uganda';
-  } else {
-    locationSel.value = 'All';
-  }
-}
+    locationSel.addEventListener('change', updateBrowseGrid);
   }
 
   brandSel.addEventListener('change', updateBrowseGrid);
   catSel.addEventListener('change', updateBrowseGrid);
 
+  fillFilters();
   brandSel.value = 'All';
   catSel.value = 'All';
-
   updateBrowseGrid();
 }
 
@@ -439,9 +372,6 @@ function setupStockSliderControls(){
   });
 }
 
-/* =========================
-   Detail page viewer
-========================= */
 function getStockIdFromUrl(){
   return new URLSearchParams(window.location.search).get('id');
 }
@@ -491,7 +421,7 @@ function renderStockDetailPage(expectedLocation){
       <section class="card">
         <h1>Car not found</h1>
         <p>This stock item may have been removed or sold.</p>
-        <a class="btn" href="index.html">Back to Home</a>
+        <a class="btn" href="${expectedLocation === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
       </section>
     `;
     return;
@@ -538,7 +468,7 @@ function renderStockDetailPage(expectedLocation){
 
           <div class="stock-actions">
             <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank">Ask About This Car</a>
-            <a class="stock-btn secondary" href="index.html">Back to Stock</a>
+            <a class="stock-btn secondary" href="${item.location === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
           </div>
         </div>
       </div>
@@ -559,9 +489,6 @@ function renderStockDetailPage(expectedLocation){
   `;
 }
 
-/* =========================
-   Fees renderer
-========================= */
 function renderFeesTables(rows){
   const mounts = Array.from(document.querySelectorAll('#feesTable'));
   if (!mounts.length) return;
@@ -591,13 +518,11 @@ function renderFeesTables(rows){
 
     rows.forEach(r => {
       const tr = document.createElement('tr');
-
       headers.forEach(h => {
         const td = document.createElement('td');
         td.textContent = r[h] ?? '';
         tr.appendChild(td);
       });
-
       tbody.appendChild(tr);
     });
 
@@ -615,9 +540,6 @@ function renderFeesTables(rows){
   });
 }
 
-/* =========================
-   Build page
-========================= */
 async function buildFromConfig(){
   const cfg = getConfig();
 
@@ -669,9 +591,6 @@ async function buildFromConfig(){
   }
 }
 
-/* =========================
-   Services Card Toggle
-========================= */
 function toggleService(card){
   if (!card) return;
   const body = card.querySelector('.hidden-text');
@@ -683,9 +602,6 @@ function toggleService(card){
   if (btn) btn.textContent = isOpen ? 'Read less' : 'Read more';
 }
 
-/* =========================
-   Init
-========================= */
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-lang-btn]').forEach(b => {
     b.addEventListener('click', () => setLang(b.getAttribute('data-lang-btn')));
@@ -780,6 +696,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isCurrentlyHidden && window.matchMedia('(max-width: 860px)').matches){
       setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
     }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const viewer = document.getElementById('imageViewer');
+    if (!viewer || viewer.classList.contains('hidden')) return;
+
+    if (e.key === 'Escape') closeImageViewer();
+    if (e.key === 'ArrowRight') nextViewerImage();
+    if (e.key === 'ArrowLeft') prevViewerImage();
   });
 
   buildFromConfig()
