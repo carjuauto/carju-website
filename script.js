@@ -276,6 +276,7 @@ function renderStockSliders(){
 
   if (japanGrid){
     japanGrid.innerHTML = '';
+
     if (!japanItems.length){
       if (japanSection) japanSection.style.display = 'none';
     } else {
@@ -284,16 +285,29 @@ function renderStockSliders(){
     }
   }
 
+  if (ugandaGrid){
+    ugandaGrid.innerHTML = '';
+
+    if (!ugandaItems.length){
+      if (ugandaSection) ugandaSection.style.display = 'none';
+    } else {
+      if (ugandaSection) ugandaSection.style.display = '';
+      ugandaItems.forEach(item => ugandaGrid.appendChild(renderStockCard(item)));
+    }
+  }
+}
+
 /* =========================
    NEW ARRIVALS SYSTEM
 ========================= */
-
 function getNewArrivals(items, location, limit = 3){
   return items
     .filter(x =>
       x.location === location &&
-      (clean(x.badge) === 'new arrival' ||
-       (x.features || []).some(f => clean(f) === 'new arrival'))
+      (
+        clean(x.badge) === 'new arrival' ||
+        (x.features || []).some(f => clean(f) === 'new arrival')
+      )
     )
     .slice(0, limit);
 }
@@ -304,17 +318,30 @@ function renderNewArrivals(){
   const homeMount = document.getElementById('newArrivalsHome');
   const ugandaMount = document.getElementById('newArrivalsUganda');
 
-  // ===== HOMEPAGE (JAPAN) =====
   if (homeMount){
     const japanNew = getNewArrivals(items, 'japan', 3);
 
     if (!japanNew.length){
       homeMount.style.display = 'none';
     } else {
+      homeMount.style.display = '';
       homeMount.innerHTML = '';
-      japanNew.forEach(item => {
-        homeMount.appendChild(renderStockCard(item, true));
-      });
+      japanNew.forEach(item => homeMount.appendChild(renderStockCard(item, true)));
+    }
+  }
+
+  if (ugandaMount){
+    const ugandaNew = getNewArrivals(items, 'uganda', 3);
+
+    if (!ugandaNew.length){
+      ugandaMount.style.display = 'none';
+    } else {
+      ugandaMount.style.display = '';
+      ugandaMount.innerHTML = '';
+      ugandaNew.forEach(item => ugandaMount.appendChild(renderStockCard(item, true)));
+    }
+  }
+}
     }
   }
 
