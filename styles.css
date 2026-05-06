@@ -1419,3 +1419,29 @@ ul.bullet li { margin: 6px 0; }
   }
 }
 
+/* =========================
+   NEW ARRIVALS UI
+========================= */
+
+.new-arrivals-section{
+  margin: 20px 0 30px;
+  padding: 10px 0;
+}
+
+.new-arrivals-section .stock-card{
+  flex: 0 0 260px;
+  transform: scale(.95);
+}
+
+.new-arrivals-section .stock-card:hover{
+  transform: scale(1) translateY(-4px);
+}
+
+.new-arrivals-section h2{
+  font-size: 26px;
+}
+
+.new-arrivals-section p{
+  color:#666;
+  margin-top:4px;
+}
