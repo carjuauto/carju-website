@@ -1,6 +1,6 @@
 /* =========================
    Global language state
-   ========================= */
+========================= */
 const state = { lang: localStorage.getItem('carju_lang') || 'en' };
 
 function setLang(l){
@@ -18,7 +18,7 @@ function setLang(l){
 
 /* =========================
    Helpers
-   ========================= */
+========================= */
 function el(tag, attrs = {}, html = ''){
   const n = document.createElement(tag);
   Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
@@ -52,7 +52,7 @@ function escapeHTML(str){
 
 /* =========================
    Config
-   ========================= */
+========================= */
 const DEFAULT_BRANDS = [
   "Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi",
   "Suzuki","Daihatsu","Isuzu","Hino","Lexus"
@@ -68,48 +68,59 @@ function getConfig(){
   return {
     WHATSAPP: cfg.WHATSAPP || "+81 80 4790 9663",
     TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
+
     SHEET_ID: cfg.SHEET_ID || "",
-    SHEET_TAB: cfg.SHEET_TAB || "CARJU_STOCK",
+
+    // New two-tab system
+    JAPAN_SHEET_TAB: cfg.JAPAN_SHEET_TAB || cfg.SHEET_TAB || "JAPAN_STOCK",
+    UGANDA_SHEET_TAB: cfg.UGANDA_SHEET_TAB || "UGANDA_STOCK",
+
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
+
+    // Fallbacks
     STOCK: cfg.STOCK || [],
+    JAPAN_STOCK: cfg.JAPAN_STOCK || [],
+    UGANDA_STOCK: cfg.UGANDA_STOCK || [],
     FEES: cfg.FEES || []
   };
 }
 
 /* =========================
    Google Sheet loader
-   ========================= */
-async function loadStockFromSheet(){
+========================= */
+async function loadStockFromSheet(tabName, fallbackRows = []){
   const cfg = getConfig();
 
   if (!cfg.SHEET_ID){
-    console.log('[CARJU] No Sheet ID. Using config.js stock fallback.');
-    return cfg.STOCK || [];
+    console.log(`[CARJU] No Sheet ID. Using fallback for ${tabName}.`);
+    return fallbackRows || [];
   }
 
   try {
-    const url = `https://opensheet.elk.sh/${cfg.SHEET_ID}/${encodeURIComponent(cfg.SHEET_TAB)}?t=${Date.now()}`;
+    const url = `https://opensheet.elk.sh/${cfg.SHEET_ID}/${encodeURIComponent(tabName)}?t=${Date.now()}`;
     const res = await fetch(url, { cache: 'no-store' });
 
     if (!res.ok){
-      console.warn('[CARJU] Sheet failed. Using config.js fallback.');
-      return cfg.STOCK || [];
+      console.warn(`[CARJU] Sheet failed for ${tabName}. Using fallback.`);
+      return fallbackRows || [];
     }
 
     const rows = await res.json();
-    console.log('[CARJU] Sheet stock loaded:', rows.length);
+    console.log(`[CARJU] ${tabName} loaded:`, rows.length);
     return rows || [];
   } catch (err){
-    console.warn('[CARJU] Sheet load error. Using config.js fallback:', err);
-    return cfg.STOCK || [];
+    console.warn(`[CARJU] Sheet load error for ${tabName}. Using fallback:`, err);
+    return fallbackRows || [];
   }
 }
 
 /* =========================
    Stock system
-   ========================= */
+========================= */
 var CARJU_STOCK_CACHE = [];
+var CURRENT_DETAIL_GALLERY = [];
+var CURRENT_DETAIL_INDEX = 0;
 
 function driveToDirect(url){
   if (!url) return "";
@@ -119,7 +130,8 @@ function driveToDirect(url){
   if (
     raw.startsWith("assets/") ||
     raw.startsWith("./assets/") ||
-    raw.startsWith("../assets/")
+    raw.startsWith("../assets/") ||
+    raw.startsWith("data:image")
   ){
     return raw;
   }
@@ -128,7 +140,6 @@ function driveToDirect(url){
   if (!match) return raw;
 
   const id = match[0];
-
   return `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
 }
 
@@ -140,17 +151,11 @@ function splitList(value){
 }
 
 function normalizeStockItem(item){
-
-  // ✅ SUPPORT BOTH: Google Sheet AND config.js
   let photos = [];
 
-  // 1. If using config.js (gallery array)
   if (Array.isArray(item.gallery) && item.gallery.length){
-    photos = item.gallery.map(driveToDirect);
-  }
-
-  // 2. If using sheet (Photo1–Photo10)
-  else {
+    photos = item.gallery.map(driveToDirect).filter(Boolean);
+  } else {
     photos = [
       item.MainImage || item.mainImage || item.ImageURL || item.src,
       item.Photo1,
@@ -163,9 +168,7 @@ function normalizeStockItem(item){
       item.Photo8,
       item.Photo9,
       item.Photo10
-    ]
-      .map(driveToDirect)
-      .filter(Boolean);
+    ].map(driveToDirect).filter(Boolean);
   }
 
   return {
@@ -194,8 +197,7 @@ function normalizeStockItem(item){
     badge: item.Badge || item.badge || '',
     seller: item.Seller || item.seller || '',
 
-    // ✅ IMPORTANT FIX HERE
-    mainImage: driveToDirect(item.mainImage || photos[0]) || PLACEHOLDER_IMG,
+    mainImage: driveToDirect(item.MainImage || item.mainImage || photos[0]) || PLACEHOLDER_IMG,
     gallery: photos.length ? photos : [PLACEHOLDER_IMG],
 
     description: item.Description || item.description || '',
@@ -219,6 +221,9 @@ function stockWhatsAppUrl(item){
   return `https://wa.me/${item.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
+/* =========================
+   Stock cards
+========================= */
 function renderStockCard(item, compact = false){
   const card = document.createElement('article');
   card.className = compact ? 'stock-card stock-card-compact' : 'stock-card';
@@ -227,10 +232,16 @@ function renderStockCard(item, compact = false){
     ? `<span class="stock-new-badge">${escapeHTML(item.badge)}</span>`
     : '';
 
+  const imagesHtml = item.gallery.map(src => `
+    <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
+  `).join('');
+
   card.innerHTML = `
     <div class="stock-image-wrap">
       ${badgeHtml}
-      <img src="${escapeHTML(item.mainImage)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
+      <div class="stock-card-image-scroll">
+        ${imagesHtml}
+      </div>
     </div>
 
     <div class="stock-card-body">
@@ -248,6 +259,9 @@ function renderStockCard(item, compact = false){
   return card;
 }
 
+/* =========================
+   Render stock sections
+========================= */
 function renderStockSliders(){
   const items = getStockItems();
 
@@ -262,7 +276,6 @@ function renderStockSliders(){
 
   if (japanGrid){
     japanGrid.innerHTML = '';
-
     if (!japanItems.length){
       if (japanSection) japanSection.style.display = 'none';
     } else {
@@ -273,7 +286,6 @@ function renderStockSliders(){
 
   if (ugandaGrid){
     ugandaGrid.innerHTML = '';
-
     if (!ugandaItems.length){
       if (ugandaSection) ugandaSection.style.display = 'none';
     } else {
@@ -301,11 +313,17 @@ function renderStockBrowse(){
 
   function updateBrowseGrid(){
     const loc = clean(locationSel.value || 'All');
+
+    if (loc === 'uganda'){
+      window.location.href = 'yusuma-uganda-stock.html';
+      return;
+    }
+
     const brand = clean(brandSel.value || 'All');
     const cat = clean(catSel.value || 'All');
 
     const filtered = items.filter(item => {
-      const locationOk = loc === 'all' || item.location === loc;
+      const locationOk = item.location === 'japan';
       const brandOk = brand === 'all' || clean(item.brand) === brand;
       const catOk = cat === 'all' || clean(item.category) === cat;
       return locationOk && brandOk && catOk;
@@ -314,7 +332,7 @@ function renderStockBrowse(){
     grid.innerHTML = '';
 
     if (!filtered.length){
-      grid.appendChild(el('div', { class: 'muted small' }, 'No stock matches found. Try another filter.'));
+      grid.appendChild(el('div', { class: 'muted small' }, 'No Japan stock matches found. Try another filter.'));
       return;
     }
 
@@ -351,10 +369,41 @@ function setupStockSliderControls(){
 }
 
 /* =========================
-   Stock details page
-   ========================= */
+   Detail page viewer
+========================= */
 function getStockIdFromUrl(){
   return new URLSearchParams(window.location.search).get('id');
+}
+
+function openImageViewer(index){
+  if (!CURRENT_DETAIL_GALLERY.length) return;
+
+  CURRENT_DETAIL_INDEX = index;
+
+  const viewer = document.getElementById('imageViewer');
+  const img = document.getElementById('viewerImage');
+
+  if (!viewer || !img) return;
+
+  img.src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
+  viewer.classList.remove('hidden');
+}
+
+function closeImageViewer(){
+  const viewer = document.getElementById('imageViewer');
+  if (viewer) viewer.classList.add('hidden');
+}
+
+function nextViewerImage(){
+  if (!CURRENT_DETAIL_GALLERY.length) return;
+  CURRENT_DETAIL_INDEX = (CURRENT_DETAIL_INDEX + 1) % CURRENT_DETAIL_GALLERY.length;
+  document.getElementById('viewerImage').src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
+}
+
+function prevViewerImage(){
+  if (!CURRENT_DETAIL_GALLERY.length) return;
+  CURRENT_DETAIL_INDEX = (CURRENT_DETAIL_INDEX - 1 + CURRENT_DETAIL_GALLERY.length) % CURRENT_DETAIL_GALLERY.length;
+  document.getElementById('viewerImage').src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
 }
 
 function renderStockDetailPage(expectedLocation){
@@ -375,23 +424,21 @@ function renderStockDetailPage(expectedLocation){
     return;
   }
 
+  CURRENT_DETAIL_GALLERY = item.gallery;
+
   const detailBadgeHtml = item.badge
     ? `<span class="stock-new-badge detail-badge">${escapeHTML(item.badge)}</span>`
     : '';
 
   const featuresHtml = item.features && item.features.length
-    ? `
-      <div class="stock-features">
-        ${item.features.map(feature => `<span>${escapeHTML(feature)}</span>`).join('')}
-      </div>
-    `
+    ? `<div class="stock-features">${item.features.map(feature => `<span>${escapeHTML(feature)}</span>`).join('')}</div>`
     : '';
 
   mount.innerHTML = `
     <section class="stock-detail-page">
       <div class="stock-detail-hero">
         <div>
-          <img id="mainStockImage" class="stock-main-image" src="${escapeHTML(item.mainImage)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
+          <img id="mainStockImage" class="stock-main-image" src="${escapeHTML(item.mainImage)}" alt="${escapeHTML(item.title)}" onclick="openImageViewer(0)" onerror="stockImageFallback(this)">
         </div>
 
         <div class="stock-detail-info">
@@ -418,15 +465,22 @@ function renderStockDetailPage(expectedLocation){
 
           <div class="stock-actions">
             <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank">Ask About This Car</a>
-            <a class="stock-btn secondary" href="index.html">Back to Stock</a>
+            <a class="stock-btn secondary" href="${item.location === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
           </div>
         </div>
       </div>
 
       <div class="stock-gallery">
-        ${item.gallery.map(src => `
-          <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" onclick="document.getElementById('mainStockImage').src='${escapeHTML(src)}'" onerror="stockImageFallback(this)">
+        ${item.gallery.map((src, i) => `
+          <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" onclick="openImageViewer(${i})" onerror="stockImageFallback(this)">
         `).join('')}
+      </div>
+
+      <div id="imageViewer" class="image-viewer hidden">
+        <button class="viewer-close" onclick="closeImageViewer()">×</button>
+        <button class="viewer-arrow viewer-prev" onclick="prevViewerImage()">‹</button>
+        <img id="viewerImage" src="" alt="Vehicle photo">
+        <button class="viewer-arrow viewer-next" onclick="nextViewerImage()">›</button>
       </div>
     </section>
   `;
@@ -434,7 +488,7 @@ function renderStockDetailPage(expectedLocation){
 
 /* =========================
    Fees renderer
-   ========================= */
+========================= */
 function renderFeesTables(rows){
   const mounts = Array.from(document.querySelectorAll('#feesTable'));
   if (!mounts.length) return;
@@ -480,19 +534,17 @@ function renderFeesTables(rows){
 
   mounts.forEach(m => {
     m.innerHTML = '';
-
     const card = document.createElement('div');
     card.className = 'card';
     card.appendChild(el('h3', {}, 'Agency Fee Structure'));
     card.appendChild(buildTableNode());
-
     m.appendChild(card);
   });
 }
 
 /* =========================
    Build page
-   ========================= */
+========================= */
 async function buildFromConfig(){
   const cfg = getConfig();
 
@@ -508,11 +560,19 @@ async function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
-  const sheetData = await loadStockFromSheet();
+  let japanData = [];
+  let ugandaData = [];
 
-CARJU_STOCK_CACHE = (sheetData && sheetData.length)
-  ? sheetData
-  : getConfig().STOCK;
+  if (
+    document.body.classList.contains('uganda-stock-detail') ||
+    document.body.classList.contains('yusuma-uganda-stock-page')
+  ){
+    ugandaData = await loadStockFromSheet(cfg.UGANDA_SHEET_TAB, cfg.UGANDA_STOCK);
+    CARJU_STOCK_CACHE = ugandaData.length ? ugandaData : cfg.UGANDA_STOCK;
+  } else {
+    japanData = await loadStockFromSheet(cfg.JAPAN_SHEET_TAB, cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK);
+    CARJU_STOCK_CACHE = japanData.length ? japanData : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK);
+  }
 
   renderStockBrowse();
   renderStockSliders();
@@ -533,7 +593,7 @@ CARJU_STOCK_CACHE = (sheetData && sheetData.length)
 
 /* =========================
    Services Card Toggle
-   ========================= */
+========================= */
 function toggleService(card){
   if (!card) return;
   const body = card.querySelector('.hidden-text');
@@ -547,7 +607,7 @@ function toggleService(card){
 
 /* =========================
    Init
-   ========================= */
+========================= */
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-lang-btn]').forEach(b => {
     b.addEventListener('click', () => setLang(b.getAttribute('data-lang-btn')));
@@ -643,19 +703,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
     }
   });
-
-  const promoBar = document.getElementById('promo-bar');
-  const promoBarClose = document.getElementById('promo-bar-close');
-
-  if (promoBar){
-    promoBar.classList.remove('hidden');
-
-    if (promoBarClose){
-      promoBarClose.addEventListener('click', () => {
-        promoBar.classList.add('hidden');
-      });
-    }
-  }
 
   buildFromConfig()
     .then(() => console.log('[CARJU] Stock system initialized.'))
