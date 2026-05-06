@@ -394,8 +394,14 @@ function renderStockBrowse(){
   }
 
   if (locationSel){
-    locationSel.addEventListener('change', updateBrowseGrid);
+  locationSel.addEventListener('change', updateBrowseGrid);
+
+  if (document.body.classList.contains('yusuma-uganda-stock-page')){
+    locationSel.value = 'uganda';
+  } else {
     locationSel.value = 'All';
+  }
+}
   }
 
   brandSel.addEventListener('change', updateBrowseGrid);
