@@ -637,13 +637,23 @@ async function buildFromConfig(){
   );
 
   // 🔥 MERGE BOTH
-  CARJU_STOCK_CACHE = [
-    ...(japanData.length ? japanData : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK))
-      .map(x => ({ ...x, __forcedLocation: 'japan' })),
+  const safeJapan = (japanData.length
+  ? japanData
+  : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK)
+).map(x => ({
+  ...x,
+  Location: x.Location || x.location || 'Japan'
+}));
 
-    ...(ugandaData.length ? ugandaData : cfg.UGANDA_STOCK)
-      .map(x => ({ ...x, __forcedLocation: 'uganda' }))
-  ];
+const safeUganda = (ugandaData.length
+  ? ugandaData
+  : cfg.UGANDA_STOCK
+).map(x => ({
+  ...x,
+  Location: x.Location || x.location || 'Uganda'
+}));
+
+CARJU_STOCK_CACHE = [...safeJapan, ...safeUganda];
 
   renderStockBrowse();
   renderStockSliders();
