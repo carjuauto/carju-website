@@ -140,21 +140,33 @@ function splitList(value){
 }
 
 function normalizeStockItem(item){
-  const photos = [
-    item.MainImage || item.mainImage || item.ImageURL || item.src,
-    item.Photo1,
-    item.Photo2,
-    item.Photo3,
-    item.Photo4,
-    item.Photo5,
-    item.Photo6,
-    item.Photo7,
-    item.Photo8,
-    item.Photo9,
-    item.Photo10
-  ]
-    .map(driveToDirect)
-    .filter(Boolean);
+
+  // ✅ SUPPORT BOTH: Google Sheet AND config.js
+  let photos = [];
+
+  // 1. If using config.js (gallery array)
+  if (Array.isArray(item.gallery) && item.gallery.length){
+    photos = item.gallery.map(driveToDirect);
+  }
+
+  // 2. If using sheet (Photo1–Photo10)
+  else {
+    photos = [
+      item.MainImage || item.mainImage || item.ImageURL || item.src,
+      item.Photo1,
+      item.Photo2,
+      item.Photo3,
+      item.Photo4,
+      item.Photo5,
+      item.Photo6,
+      item.Photo7,
+      item.Photo8,
+      item.Photo9,
+      item.Photo10
+    ]
+      .map(driveToDirect)
+      .filter(Boolean);
+  }
 
   return {
     id: item.ID || item.id || '',
@@ -182,7 +194,8 @@ function normalizeStockItem(item){
     badge: item.Badge || item.badge || '',
     seller: item.Seller || item.seller || '',
 
-    mainImage: photos[0] || PLACEHOLDER_IMG,
+    // ✅ IMPORTANT FIX HERE
+    mainImage: driveToDirect(item.mainImage || photos[0]) || PLACEHOLDER_IMG,
     gallery: photos.length ? photos : [PLACEHOLDER_IMG],
 
     description: item.Description || item.description || '',
