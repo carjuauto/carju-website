@@ -8,20 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js?v=104"></script>
+  <script src="config.js?v=200"></script>
 </head>
 
 <body>
-  <!-- Sticky Promo Banner -->
-  <div id="promo-bar" class="promo-bar" role="region" aria-label="Promotion">
-    <span data-i18n="en">🎉 Limited Offer: <strong>20% OFF</strong> agency fees for your first purchase.</span>
-    <span class="hidden" data-i18n="ja">🎉 期間限定：初回のエージェンシー手数料が <strong>20%OFF</strong>。</span>
-    <a class="promo-link"
-       href="https://wa.me/818047909663?text=Hello%20CARJU%20Japan!%20I%27d%20like%20to%20claim%2020%25%20OFF%20agency%20fees%20for%20my%20first%20purchase."
-       target="_blank">💬 <span data-i18n="en">Claim via WhatsApp</span><span class="hidden" data-i18n="ja">WhatsAppで申請</span></a>
-    <button id="promo-bar-close" class="promo-bar-close" aria-label="Close">&times;</button>
-  </div>
-
 <header class="header container header--compact">
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
@@ -36,6 +26,12 @@
 
     <a href="fees.html" data-i18n="en">Fees</a>
     <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
+
+    <a href="stock-japan.html" data-i18n="en">Japan Stock</a>
+<a href="stock-japan.html" class="hidden" data-i18n="ja">日本在庫</a>
+
+<a href="yusuma-uganda-stock.html" data-i18n="en">Uganda Stock</a>
+<a href="yusuma-uganda-stock.html" class="hidden" data-i18n="ja">ウガンダ在庫</a>
 
     <a href="contact.html" data-i18n="en">Contact</a>
     <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
@@ -151,7 +147,7 @@
   <section class="stock-section">
     <div class="stock-head">
       <div>
-        <h2 data-i18n="en">Available Stock in Japan</h2>
+        <h2 data-i18n="en">Available Stock</h2>
         <h2 class="hidden" data-i18n="ja">日本の在庫車両</h2>
         <p data-i18n="en">Vehicles available through CARJU JAPAN.</p>
         <p class="hidden" data-i18n="ja">CARJU JAPANを通してご案内できる車両です。</p>
@@ -164,25 +160,7 @@
       <button class="stock-arrow stock-next" data-stock-next="japan">&#10095;</button>
     </div>
   </section>
-
-  <!-- Available Stock in Uganda -->
-  <section class="stock-section">
-    <div class="stock-head">
-      <div>
-        <h2 data-i18n="en">Available Stock in Uganda</h2>
-        <h2 class="hidden" data-i18n="ja">ウガンダの在庫車両</h2>
-        <p data-i18n="en">Vehicles available locally in Uganda through YUSUMA Enterprises.</p>
-        <p class="hidden" data-i18n="ja">YUSUMA Enterprisesを通してウガンダ国内で販売中の車両です。</p>
-      </div>
-    </div>
-
-    <div class="stock-slider-wrap">
-      <button class="stock-arrow stock-prev" data-stock-prev="uganda">&#10094;</button>
-      <div id="ugandaStockGrid" class="stock-slider"></div>
-      <button class="stock-arrow stock-next" data-stock-next="uganda">&#10095;</button>
-    </div>
-  </section>
-
+  
   <!-- Icon Strip -->
   <section class="feature-strip">
     <div class="strip-inner">
@@ -261,6 +239,6 @@
   <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js?v=104"></script>
+<script src="script.js?v=200"></script>
 </body>
 </html>
