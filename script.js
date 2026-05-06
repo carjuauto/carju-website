@@ -610,6 +610,7 @@ function renderFeesTables(rows){
    Build page
 ========================= */
 async function buildFromConfig(){
+async function buildFromConfig(){
   const cfg = getConfig();
 
   const wa = document.getElementById('wa-link');
@@ -624,26 +625,25 @@ async function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
-  let japanData = [];
-let ugandaData = [];
-
-if (
-  document.body.classList.contains('uganda-stock-detail') ||
-  document.body.classList.contains('yusuma-uganda-stock-page')
-){
-  ugandaData = await loadStockFromSheet(cfg.UGANDA_SHEET_TAB, cfg.UGANDA_STOCK, 'uganda');
-  CARJU_STOCK_CACHE = ugandaData.length ? ugandaData : cfg.UGANDA_STOCK;
-} else {
-  japanData = await loadStockFromSheet(
+  // 🔥 LOAD BOTH ALWAYS
+  const japanData = await loadStockFromSheet(
     cfg.JAPAN_SHEET_TAB,
-    cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK,
-    'japan'
+    cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK
   );
 
-  CARJU_STOCK_CACHE = japanData.length
-    ? japanData
-    : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK);
-}
+  const ugandaData = await loadStockFromSheet(
+    cfg.UGANDA_SHEET_TAB,
+    cfg.UGANDA_STOCK
+  );
+
+  // 🔥 MERGE BOTH
+  CARJU_STOCK_CACHE = [
+    ...(japanData.length ? japanData : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK))
+      .map(x => ({ ...x, __forcedLocation: 'japan' })),
+
+    ...(ugandaData.length ? ugandaData : cfg.UGANDA_STOCK)
+      .map(x => ({ ...x, __forcedLocation: 'uganda' }))
+  ];
 
   renderStockBrowse();
   renderStockSliders();
