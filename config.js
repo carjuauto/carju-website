@@ -3,7 +3,9 @@ window.CARJU_CONFIG = {
   TIKTOK: "https://www.tiktok.com/@carju-auto",
 
   SHEET_ID: "1i3m_OTmbj0d8iBxpCG7PYFeP_HwhPUYTig89VU0s4jI",
-  SHEET_TAB: "CARJU_STOCK",
+
+  JAPAN_SHEET_TAB: "JAPAN_STOCK",
+  UGANDA_SHEET_TAB: "UGANDA_STOCK",
 
   BRANDS: [
     "Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi",
@@ -16,7 +18,7 @@ window.CARJU_CONFIG = {
     "Machinery","Agricultural"
   ],
 
-  STOCK: [
+  JAPAN_STOCK: [
     {
       id: "jp001",
       location: "japan",
@@ -61,6 +63,8 @@ window.CARJU_CONFIG = {
       whatsapp: "818047909663"
     }
   ],
+
+  UGANDA_STOCK: [],
 
   FEES: []
 };
