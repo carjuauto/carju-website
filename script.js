@@ -284,6 +284,54 @@ function renderStockSliders(){
     }
   }
 
+/* =========================
+   NEW ARRIVALS SYSTEM
+========================= */
+
+function getNewArrivals(items, location, limit = 3){
+  return items
+    .filter(x =>
+      x.location === location &&
+      (clean(x.badge) === 'new arrival' ||
+       (x.features || []).some(f => clean(f) === 'new arrival'))
+    )
+    .slice(0, limit);
+}
+
+function renderNewArrivals(){
+  const items = getStockItems();
+
+  const homeMount = document.getElementById('newArrivalsHome');
+  const ugandaMount = document.getElementById('newArrivalsUganda');
+
+  // ===== HOMEPAGE (JAPAN) =====
+  if (homeMount){
+    const japanNew = getNewArrivals(items, 'japan', 3);
+
+    if (!japanNew.length){
+      homeMount.style.display = 'none';
+    } else {
+      homeMount.innerHTML = '';
+      japanNew.forEach(item => {
+        homeMount.appendChild(renderStockCard(item, true));
+      });
+    }
+  }
+
+  // ===== UGANDA PAGE =====
+  if (ugandaMount){
+    const ugandaNew = getNewArrivals(items, 'uganda', 3);
+
+    if (!ugandaNew.length){
+      ugandaMount.style.display = 'none';
+    } else {
+      ugandaMount.innerHTML = '';
+      ugandaNew.forEach(item => {
+        ugandaMount.appendChild(renderStockCard(item, true));
+      });
+    }
+  }
+}
   if (ugandaGrid){
     ugandaGrid.innerHTML = '';
     if (!ugandaItems.length){
@@ -577,6 +625,7 @@ async function buildFromConfig(){
   renderStockBrowse();
   renderStockSliders();
   setupStockSliderControls();
+  renderNewArrivals();
 
   if (cfg.FEES && cfg.FEES.length){
     renderFeesTables(cfg.FEES);
