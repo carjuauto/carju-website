@@ -173,7 +173,7 @@ function normalizeStockItem(item){
 
   return {
     id: item.ID || item.id || '',
-    location: clean(item.Location || item.location || ''),
+    location: clean(item.Location || item.location || item.__forcedLocation || ''),
     title: item.Title || item.title || item.name || 'Vehicle',
 
     manufacturer: item.Manufacturer || item.manufacturer || item.Brand || item.brand || '',
@@ -351,18 +351,23 @@ function renderStockBrowse(){
   const catSel = document.getElementById('stockCategorySelect');
   const grid = document.getElementById('stockBrowseGrid');
 
-  if (!locationSel || !brandSel || !catSel || !grid) return;
+  if (!brandSel || !catSel || !grid) return;
 
-  const brands = uniqueList(['All', ...items.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
-  const cats = uniqueList(['All', ...items.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
+  const isUgandaPage = document.body.classList.contains('yusuma-uganda-stock-page');
+  const isJapanPage = document.body.classList.contains('japan-stock-page');
+
+  const pageLocation = isUgandaPage ? 'uganda' : 'japan';
+
+  const pageItems = items.filter(item => item.location === pageLocation);
+
+  const brands = uniqueList(['All', ...pageItems.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
+  const cats = uniqueList(['All', ...pageItems.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
 
   brandSel.innerHTML = brands.map(b => `<option value="${escapeHTML(b)}">${escapeHTML(b)}</option>`).join('');
   catSel.innerHTML = cats.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');
 
   function updateBrowseGrid(){
-    const loc = clean(locationSel.value || 'All');
-
-    if (loc === 'uganda'){
+    if (locationSel && clean(locationSel.value) === 'uganda' && !isUgandaPage){
       window.location.href = 'yusuma-uganda-stock.html';
       return;
     }
@@ -370,28 +375,39 @@ function renderStockBrowse(){
     const brand = clean(brandSel.value || 'All');
     const cat = clean(catSel.value || 'All');
 
-    const filtered = items.filter(item => {
-      const locationOk = item.location === 'japan';
+    const filtered = pageItems.filter(item => {
       const brandOk = brand === 'all' || clean(item.brand) === brand;
       const catOk = cat === 'all' || clean(item.category) === cat;
-      return locationOk && brandOk && catOk;
+      return brandOk && catOk;
     });
 
     grid.innerHTML = '';
 
     if (!filtered.length){
-      grid.appendChild(el('div', { class: 'muted small' }, 'No Japan stock matches found. Try another filter.'));
+      grid.appendChild(
+        el('div', { class: 'muted small' },
+          pageLocation === 'uganda'
+            ? 'No Uganda stock matches found. Try another filter.'
+            : 'No Japan stock matches found. Try another filter.'
+        )
+      );
       return;
     }
 
     filtered.forEach(item => grid.appendChild(renderStockCard(item, true)));
   }
 
-  locationSel.addEventListener('change', updateBrowseGrid);
+  if (locationSel){
+    locationSel.addEventListener('change', updateBrowseGrid);
+  }
+
   brandSel.addEventListener('change', updateBrowseGrid);
   catSel.addEventListener('change', updateBrowseGrid);
 
-  locationSel.value = 'All';
+  if (locationSel){
+    locationSel.value = isUgandaPage ? 'uganda' : 'All';
+  }
+
   brandSel.value = 'All';
   catSel.value = 'All';
 
@@ -609,18 +625,25 @@ async function buildFromConfig(){
   }
 
   let japanData = [];
-  let ugandaData = [];
+let ugandaData = [];
 
-  if (
-    document.body.classList.contains('uganda-stock-detail') ||
-    document.body.classList.contains('yusuma-uganda-stock-page')
-  ){
-    ugandaData = await loadStockFromSheet(cfg.UGANDA_SHEET_TAB, cfg.UGANDA_STOCK);
-    CARJU_STOCK_CACHE = ugandaData.length ? ugandaData : cfg.UGANDA_STOCK;
-  } else {
-    japanData = await loadStockFromSheet(cfg.JAPAN_SHEET_TAB, cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK);
-    CARJU_STOCK_CACHE = japanData.length ? japanData : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK);
-  }
+if (
+  document.body.classList.contains('uganda-stock-detail') ||
+  document.body.classList.contains('yusuma-uganda-stock-page')
+){
+  ugandaData = await loadStockFromSheet(cfg.UGANDA_SHEET_TAB, cfg.UGANDA_STOCK, 'uganda');
+  CARJU_STOCK_CACHE = ugandaData.length ? ugandaData : cfg.UGANDA_STOCK;
+} else {
+  japanData = await loadStockFromSheet(
+    cfg.JAPAN_SHEET_TAB,
+    cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK,
+    'japan'
+  );
+
+  CARJU_STOCK_CACHE = japanData.length
+    ? japanData
+    : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK);
+}
 
   renderStockBrowse();
   renderStockSliders();
