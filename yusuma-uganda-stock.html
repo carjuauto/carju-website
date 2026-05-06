@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>YUSUMA Enterprises Uganda Stock</title>
+  <meta name="description" content="Available Uganda stock from YUSUMA Enterprises.">
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js?v=200"></script>
+</head>
+
+<body class="yusuma-uganda-stock-page">
+<main class="container">
+  <section class="yusuma-hero">
+    <h1>YUSUMA ENTERPRISES LTD</h1>
+    <p>Welcome to YUSUMA Enterprises Uganda stock page. Browse cars available locally in Uganda.</p>
+  </section>
+
+  <section class="brand-category-section stock-browse-section">
+    <div class="card">
+      <div class="kicker">Browse Uganda stock</div>
+
+      <div class="filters">
+        <label>
+          Brand
+          <select id="stockBrandSelect"></select>
+        </label>
+
+        <label>
+          Category
+          <select id="stockCategorySelect"></select>
+        </label>
+
+        <label style="display:none;">
+          Location
+          <select id="stockLocationSelect">
+            <option value="uganda">Uganda</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="stockBrowseGrid" class="grid grid-3" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section class="stock-section">
+    <div class="stock-head">
+      <div>
+        <h2>Available Cars in Uganda</h2>
+        <p>Contact YUSUMA Enterprises directly for viewing and pricing.</p>
+      </div>
+    </div>
+
+    <div class="stock-slider-wrap">
+      <button class="stock-arrow stock-prev" data-stock-prev="uganda">&#10094;</button>
+      <div id="ugandaStockGrid" class="stock-slider"></div>
+      <button class="stock-arrow stock-next" data-stock-next="uganda">&#10095;</button>
+    </div>
+  </section>
+</main>
+
+<footer class="footer yusuma-footer">
+  <p>Powered with support from</p>
+  <a href="index.html">
+    <img src="assets/logo.png" alt="CARJU JAPAN" width="90">
+  </a>
+  <p class="footer-text">Tap the logo to visit CARJU JAPAN.</p>
+</footer>
+
+<script src="script.js?v=200"></script>
+</body>
+</html>
