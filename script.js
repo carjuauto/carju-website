@@ -495,7 +495,11 @@ async function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
-  CARJU_STOCK_CACHE = await loadStockFromSheet();
+  const sheetData = await loadStockFromSheet();
+
+CARJU_STOCK_CACHE = (sheetData && sheetData.length)
+  ? sheetData
+  : getConfig().STOCK;
 
   renderStockBrowse();
   renderStockSliders();
