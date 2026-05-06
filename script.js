@@ -71,14 +71,12 @@ function getConfig(){
 
     SHEET_ID: cfg.SHEET_ID || "",
 
-    // New two-tab system
-    JAPAN_SHEET_TAB: cfg.JAPAN_SHEET_TAB || cfg.SHEET_TAB || "JAPAN_STOCK",
+    JAPAN_SHEET_TAB: cfg.JAPAN_SHEET_TAB || cfg.SHEET_TAB || "CARJU_STOCK",
     UGANDA_SHEET_TAB: cfg.UGANDA_SHEET_TAB || "UGANDA_STOCK",
 
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
 
-    // Fallbacks
     STOCK: cfg.STOCK || [],
     JAPAN_STOCK: cfg.JAPAN_STOCK || [],
     UGANDA_STOCK: cfg.UGANDA_STOCK || [],
@@ -173,7 +171,7 @@ function normalizeStockItem(item){
 
   return {
     id: item.ID || item.id || '',
-    location: clean(item.Location || item.location || item.__forcedLocation || ''),
+    location: clean(item.Location || item.location || ''),
     title: item.Title || item.title || item.name || 'Vehicle',
 
     manufacturer: item.Manufacturer || item.manufacturer || item.Brand || item.brand || '',
@@ -298,7 +296,7 @@ function renderStockSliders(){
 }
 
 /* =========================
-   NEW ARRIVALS SYSTEM
+   New arrivals
 ========================= */
 function getNewArrivals(items, location, limit = 3){
   return items
@@ -320,56 +318,32 @@ function renderNewArrivals(){
 
   if (homeMount){
     const japanNew = getNewArrivals(items, 'japan', 3);
+    homeMount.innerHTML = '';
 
-    if (!japanNew.length){
-      homeMount.style.display = 'none';
-    } else {
+    if (japanNew.length){
       homeMount.style.display = '';
-      homeMount.innerHTML = '';
       japanNew.forEach(item => homeMount.appendChild(renderStockCard(item, true)));
+    } else {
+      homeMount.style.display = 'none';
     }
   }
 
   if (ugandaMount){
     const ugandaNew = getNewArrivals(items, 'uganda', 3);
+    ugandaMount.innerHTML = '';
 
-    if (!ugandaNew.length){
-      ugandaMount.style.display = 'none';
-    } else {
+    if (ugandaNew.length){
       ugandaMount.style.display = '';
-      ugandaMount.innerHTML = '';
       ugandaNew.forEach(item => ugandaMount.appendChild(renderStockCard(item, true)));
-    }
-  }
-}
-    }
-  }
-
-  // ===== UGANDA PAGE =====
-  if (ugandaMount){
-    const ugandaNew = getNewArrivals(items, 'uganda', 3);
-
-    if (!ugandaNew.length){
+    } else {
       ugandaMount.style.display = 'none';
-    } else {
-      ugandaMount.innerHTML = '';
-      ugandaNew.forEach(item => {
-        ugandaMount.appendChild(renderStockCard(item, true));
-      });
-    }
-  }
-}
-  if (ugandaGrid){
-    ugandaGrid.innerHTML = '';
-    if (!ugandaItems.length){
-      if (ugandaSection) ugandaSection.style.display = 'none';
-    } else {
-      if (ugandaSection) ugandaSection.style.display = '';
-      ugandaItems.forEach(item => ugandaGrid.appendChild(renderStockCard(item)));
     }
   }
 }
 
+/* =========================
+   Browse filters
+========================= */
 function renderStockBrowse(){
   const items = getStockItems();
 
@@ -383,9 +357,13 @@ function renderStockBrowse(){
   const isUgandaPage = document.body.classList.contains('yusuma-uganda-stock-page');
   const isJapanPage = document.body.classList.contains('japan-stock-page');
 
-  const pageLocation = isUgandaPage ? 'uganda' : 'japan';
+  let pageItems = items;
 
-  const pageItems = items.filter(item => item.location === pageLocation);
+  if (isUgandaPage){
+    pageItems = items.filter(item => item.location === 'uganda');
+  } else if (isJapanPage){
+    pageItems = items.filter(item => item.location === 'japan');
+  }
 
   const brands = uniqueList(['All', ...pageItems.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
   const cats = uniqueList(['All', ...pageItems.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
@@ -394,30 +372,21 @@ function renderStockBrowse(){
   catSel.innerHTML = cats.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');
 
   function updateBrowseGrid(){
-    if (locationSel && clean(locationSel.value) === 'uganda' && !isUgandaPage){
-      window.location.href = 'yusuma-uganda-stock.html';
-      return;
-    }
-
+    const loc = locationSel ? clean(locationSel.value || 'All') : 'all';
     const brand = clean(brandSel.value || 'All');
     const cat = clean(catSel.value || 'All');
 
     const filtered = pageItems.filter(item => {
+      const locationOk = loc === 'all' || item.location === loc;
       const brandOk = brand === 'all' || clean(item.brand) === brand;
       const catOk = cat === 'all' || clean(item.category) === cat;
-      return brandOk && catOk;
+      return locationOk && brandOk && catOk;
     });
 
     grid.innerHTML = '';
 
     if (!filtered.length){
-      grid.appendChild(
-        el('div', { class: 'muted small' },
-          pageLocation === 'uganda'
-            ? 'No Uganda stock matches found. Try another filter.'
-            : 'No Japan stock matches found. Try another filter.'
-        )
-      );
+      grid.appendChild(el('div', { class: 'muted small' }, 'No stock matches found. Try another filter.'));
       return;
     }
 
@@ -426,14 +395,11 @@ function renderStockBrowse(){
 
   if (locationSel){
     locationSel.addEventListener('change', updateBrowseGrid);
+    locationSel.value = 'All';
   }
 
   brandSel.addEventListener('change', updateBrowseGrid);
   catSel.addEventListener('change', updateBrowseGrid);
-
-  if (locationSel){
-    locationSel.value = isUgandaPage ? 'uganda' : 'All';
-  }
 
   brandSel.value = 'All';
   catSel.value = 'All';
@@ -488,13 +454,15 @@ function closeImageViewer(){
 function nextViewerImage(){
   if (!CURRENT_DETAIL_GALLERY.length) return;
   CURRENT_DETAIL_INDEX = (CURRENT_DETAIL_INDEX + 1) % CURRENT_DETAIL_GALLERY.length;
-  document.getElementById('viewerImage').src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
+  const img = document.getElementById('viewerImage');
+  if (img) img.src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
 }
 
 function prevViewerImage(){
   if (!CURRENT_DETAIL_GALLERY.length) return;
   CURRENT_DETAIL_INDEX = (CURRENT_DETAIL_INDEX - 1 + CURRENT_DETAIL_GALLERY.length) % CURRENT_DETAIL_GALLERY.length;
-  document.getElementById('viewerImage').src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
+  const img = document.getElementById('viewerImage');
+  if (img) img.src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
 }
 
 function renderStockDetailPage(expectedLocation){
@@ -556,7 +524,7 @@ function renderStockDetailPage(expectedLocation){
 
           <div class="stock-actions">
             <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank">Ask About This Car</a>
-            <a class="stock-btn secondary" href="${item.location === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
+            <a class="stock-btn secondary" href="index.html">Back to Stock</a>
           </div>
         </div>
       </div>
@@ -637,7 +605,6 @@ function renderFeesTables(rows){
    Build page
 ========================= */
 async function buildFromConfig(){
-async function buildFromConfig(){
   const cfg = getConfig();
 
   const wa = document.getElementById('wa-link');
@@ -652,35 +619,23 @@ async function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
-  // 🔥 LOAD BOTH ALWAYS
-  const japanData = await loadStockFromSheet(
-    cfg.JAPAN_SHEET_TAB,
-    cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK
-  );
+  const japanFallback = cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK;
+  const ugandaFallback = cfg.UGANDA_STOCK || [];
 
-  const ugandaData = await loadStockFromSheet(
-    cfg.UGANDA_SHEET_TAB,
-    cfg.UGANDA_STOCK
-  );
+  const japanData = await loadStockFromSheet(cfg.JAPAN_SHEET_TAB, japanFallback);
+  const ugandaData = await loadStockFromSheet(cfg.UGANDA_SHEET_TAB, ugandaFallback);
 
-  // 🔥 MERGE BOTH
-  const safeJapan = (japanData.length
-  ? japanData
-  : (cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK)
-).map(x => ({
-  ...x,
-  Location: x.Location || x.location || 'Japan'
-}));
+  const safeJapan = (japanData.length ? japanData : japanFallback).map(x => ({
+    ...x,
+    Location: x.Location || x.location || 'Japan'
+  }));
 
-const safeUganda = (ugandaData.length
-  ? ugandaData
-  : cfg.UGANDA_STOCK
-).map(x => ({
-  ...x,
-  Location: x.Location || x.location || 'Uganda'
-}));
+  const safeUganda = (ugandaData.length ? ugandaData : ugandaFallback).map(x => ({
+    ...x,
+    Location: x.Location || x.location || 'Uganda'
+  }));
 
-CARJU_STOCK_CACHE = [...safeJapan, ...safeUganda];
+  CARJU_STOCK_CACHE = [...safeJapan, ...safeUganda];
 
   renderStockBrowse();
   renderStockSliders();
