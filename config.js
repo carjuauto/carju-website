@@ -64,7 +64,31 @@ window.CARJU_CONFIG = {
     }
   ],
 
-  UGANDA_STOCK: [],
-
+  UGANDA_STOCK: [
+  {
+    id: "ug001",
+    location: "uganda",
+    title: "Toyota Premio",
+    manufacturer: "Toyota",
+    brand: "Toyota",
+    model: "Premio",
+    category: "Sedan",
+    year: "2012",
+    price: "Ask YUSUMA",
+    status: "Available in Uganda",
+    seller: "YUSUMA Enterprises",
+    badge: "New Arrival",
+    doors: "4",
+    transmission: "Automatic",
+    drivetrain: "2WD",
+    fuel: "Regular gasoline",
+    maintenance: "Completed",
+    features: ["New Arrival", "Automatic", "2WD"],
+    mainImage: "assets/stock/japan/serena-main.jpg",
+    gallery: ["assets/stock/japan/serena-main.jpg"],
+    description: "Available locally in Uganda through YUSUMA Enterprises.",
+    whatsapp: "256700000000"
+  }
+],
   FEES: []
 };
