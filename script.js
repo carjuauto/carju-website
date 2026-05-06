@@ -371,27 +371,35 @@ function renderStockBrowse(){
   brandSel.innerHTML = brands.map(b => `<option value="${escapeHTML(b)}">${escapeHTML(b)}</option>`).join('');
   catSel.innerHTML = cats.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');
 
-  function updateBrowseGrid(){
-    const loc = locationSel ? clean(locationSel.value || 'All') : 'all';
-    const brand = clean(brandSel.value || 'All');
-    const cat = clean(catSel.value || 'All');
+function updateBrowseGrid(){
+  const isUgandaPage = document.body.classList.contains('yusuma-uganda-stock-page');
+  const isJapanPage = document.body.classList.contains('japan-stock-page');
 
-    const filtered = pageItems.filter(item => {
-      const locationOk = loc === 'all' || item.location === loc;
-      const brandOk = brand === 'all' || clean(item.brand) === brand;
-      const catOk = cat === 'all' || clean(item.category) === cat;
-      return locationOk && brandOk && catOk;
-    });
+  const loc = isUgandaPage
+    ? 'uganda'
+    : isJapanPage
+      ? 'japan'
+      : (locationSel ? clean(locationSel.value || 'All') : 'all');
 
-    grid.innerHTML = '';
+  const brand = clean(brandSel.value || 'All');
+  const cat = clean(catSel.value || 'All');
 
-    if (!filtered.length){
-      grid.appendChild(el('div', { class: 'muted small' }, 'No stock matches found. Try another filter.'));
-      return;
-    }
+  const filtered = pageItems.filter(item => {
+    const locationOk = loc === 'all' || item.location === loc;
+    const brandOk = brand === 'all' || clean(item.brand) === brand;
+    const catOk = cat === 'all' || clean(item.category) === cat;
+    return locationOk && brandOk && catOk;
+  });
 
-    filtered.forEach(item => grid.appendChild(renderStockCard(item, true)));
+  grid.innerHTML = '';
+
+  if (!filtered.length){
+    grid.appendChild(el('div', { class: 'muted small' }, 'No stock matches found. Try another filter.'));
+    return;
   }
+
+  filtered.forEach(item => grid.appendChild(renderStockCard(item, true)));
+}
 
   if (locationSel){
   locationSel.addEventListener('change', updateBrowseGrid);
