@@ -1,6 +1,8 @@
 /* =========================
-   Global language state
+   CARJU JAPAN — Stable Premium Stock System
+   Config.js only. No Google Sheets.
 ========================= */
+
 const state = { lang: localStorage.getItem('carju_lang') || 'en' };
 
 function setLang(l){
@@ -31,13 +33,6 @@ function clean(s){
   return String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
-const PLACEHOLDER_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
-
-function stockImageFallback(img){
-  img.onerror = null;
-  img.src = PLACEHOLDER_IMG;
-}
-
 function escapeHTML(str){
   return String(str || '')
     .replaceAll('&', '&amp;')
@@ -47,67 +42,40 @@ function escapeHTML(str){
     .replaceAll("'", '&#039;');
 }
 
-const DEFAULT_BRANDS = ["Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi","Suzuki","Daihatsu","Isuzu","Hino","Lexus"];
-const DEFAULT_CATEGORIES = ["Sedan","Hatchback","SUV","Truck","Van","Wagon","Coupe","Convertible","Hybrid/EV","Machinery","Agricultural"];
+const PLACEHOLDER_IMG =
+  `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'><rect width='100%' height='100%' fill='%23f3f3f3'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='18'>Image unavailable</text></svg>`;
+
+function stockImageFallback(img){
+  img.onerror = null;
+  img.src = PLACEHOLDER_IMG;
+}
+
+const DEFAULT_BRANDS = [
+  "Toyota","Honda","Nissan","Mazda","Subaru","Mitsubishi",
+  "Suzuki","Daihatsu","Isuzu","Hino","Lexus"
+];
+
+const DEFAULT_CATEGORIES = [
+  "Sedan","Hatchback","SUV","Truck","Van","Wagon",
+  "Coupe","Convertible","Hybrid/EV","Machinery","Agricultural"
+];
 
 function getConfig(){
   const cfg = window.CARJU_CONFIG || {};
   return {
     WHATSAPP: cfg.WHATSAPP || "+81 80 4790 9663",
     TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
-    SHEET_ID: cfg.SHEET_ID || "",
-    JAPAN_SHEET_TAB: cfg.JAPAN_SHEET_TAB || cfg.SHEET_TAB || "JAPAN_STOCK",
-    UGANDA_SHEET_TAB: cfg.UGANDA_SHEET_TAB || "UGANDA_STOCK",
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
-    STOCK: cfg.STOCK || [],
     JAPAN_STOCK: cfg.JAPAN_STOCK || [],
     UGANDA_STOCK: cfg.UGANDA_STOCK || [],
     FEES: cfg.FEES || []
   };
 }
 
-async function loadStockFromSheet(tabName, fallbackRows = []){
-  const cfg = getConfig();
-
-  if (!cfg.SHEET_ID){
-    return fallbackRows || [];
-  }
-
-  try {
-    const url = `https://opensheet.elk.sh/${cfg.SHEET_ID}/${encodeURIComponent(tabName)}?t=${Date.now()}`;
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) return fallbackRows || [];
-    const rows = await res.json();
-    return rows || [];
-  } catch (err){
-    console.warn(`[CARJU] Sheet load error for ${tabName}:`, err);
-    return fallbackRows || [];
-  }
-}
-
-var CARJU_STOCK_CACHE = [];
-var CURRENT_DETAIL_GALLERY = [];
-var CURRENT_DETAIL_INDEX = 0;
-
-function driveToDirect(url){
-  if (!url) return "";
-  const raw = String(url).trim();
-
-  if (
-    raw.startsWith("assets/") ||
-    raw.startsWith("./assets/") ||
-    raw.startsWith("../assets/") ||
-    raw.startsWith("data:image")
-  ){
-    return raw;
-  }
-
-  const match = raw.match(/[-\w]{25,}/);
-  if (!match) return raw;
-
-  return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1600`;
-}
+let CARJU_STOCK_CACHE = [];
+let CURRENT_DETAIL_GALLERY = [];
+let CURRENT_DETAIL_INDEX = 0;
 
 function splitList(value){
   return String(value || "")
@@ -117,83 +85,54 @@ function splitList(value){
 }
 
 function normalizeStockItem(item){
-function buildAutoGallery(item){
   const id = item.ID || item.id || '';
   const location = clean(item.Location || item.location || '');
 
-  if (!id || !location) return [];
-
-  const folder = `assets/stock/${location}/${id}`;
-
-  return [
-    `${folder}/main.jpg`,
-    `${folder}/2.jpg`,
-    `${folder}/3.jpg`,
-    `${folder}/4.jpg`,
-    `${folder}/5.jpg`,
-    `${folder}/6.jpg`,
-    `${folder}/7.jpg`,
-    `${folder}/8.jpg`,
-    `${folder}/9.jpg`,
-    `${folder}/10.jpg`
-  ];
-}
-
-function normalizeStockItem(item){
-  let photos = [];
+  let gallery = [];
 
   if (Array.isArray(item.gallery) && item.gallery.length){
-    photos = item.gallery.map(driveToDirect).filter(Boolean);
+    gallery = item.gallery.filter(Boolean);
   } else {
-    photos = [
+    gallery = [
       item.MainImage || item.mainImage || item.ImageURL || item.src,
       item.Photo1,item.Photo2,item.Photo3,item.Photo4,item.Photo5,
       item.Photo6,item.Photo7,item.Photo8,item.Photo9,item.Photo10
-    ].map(driveToDirect).filter(Boolean);
+    ].filter(Boolean);
   }
 
-  const autoGallery = buildAutoGallery(item);
+  const mainImage =
+    item.MainImage ||
+    item.mainImage ||
+    item.mainImageUrl ||
+    item.main_image ||
+    gallery[0] ||
+    PLACEHOLDER_IMG;
 
-  if (!photos.length && autoGallery.length){
-    photos = autoGallery;
+  if (!gallery.length){
+    gallery = [mainImage];
   }
-
-  const id = item.ID || item.id || '';
-  const location = clean(item.Location || item.location || '');
 
   return {
-    id: id,
-    location: location,
+    id,
+    location,
     title: item.Title || item.title || item.name || 'Vehicle',
-
     manufacturer: item.Manufacturer || item.manufacturer || item.Brand || item.brand || '',
     model: item.Model || item.model || item.Title || item.title || '',
     brand: item.Brand || item.brand || item.Manufacturer || item.manufacturer || '',
     category: item.Category || item.category || '',
     year: item.Year || item.year || '',
     price: item.Price || item.price || 'Ask for Price',
-
+    status: item.Status || item.status || '',
+    seller: item.Seller || item.seller || '',
+    badge: item.Badge || item.badge || '',
     doors: item.Doors || item.doors || '',
     transmission: item.Transmission || item.transmission || '',
     drivetrain: item.Drivetrain || item.drivetrain || '',
     fuel: item.Fuel || item.fuel || '',
     maintenance: item.Maintenance || item.maintenance || '',
-
-    features: Array.isArray(item.features)
-      ? item.features
-      : splitList(item.Features || item.features),
-
-    status: item.Status || item.status || '',
-    badge: item.Badge || item.badge || '',
-    seller: item.Seller || item.seller || '',
-
-    mainImage:
-      driveToDirect(item.MainImage || item.mainImage || photos[0]) ||
-      `assets/stock/${location}/${id}/main.jpg` ||
-      PLACEHOLDER_IMG,
-
-    gallery: photos.length ? photos : [`assets/stock/${location}/${id}/main.jpg`],
-
+    features: Array.isArray(item.features) ? item.features : splitList(item.Features || item.features),
+    mainImage,
+    gallery,
     description: item.Description || item.description || '',
     whatsapp: String(item.WhatsApp || item.whatsapp || '').replace(/[^0-9]/g, '')
   };
@@ -210,25 +149,42 @@ function stockDetailUrl(item){
 }
 
 function stockWhatsAppUrl(item){
+  const fallbackPhone = item.location === 'uganda' ? '256700000000' : '818047909663';
+  const phone = item.whatsapp || fallbackPhone;
   const contactName = item.seller || (item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN');
-  const message = `Hello ${contactName}, I am interested in this car: ${item.title} ${item.year}. Please share more details.`;
-  return `https://wa.me/${item.whatsapp}?text=${encodeURIComponent(message)}`;
+
+  const message = [
+    `Hello ${contactName}, I am interested in this car:`,
+    ``,
+    `${item.title} ${item.year || ''}`,
+    `Stock ID: ${item.id}`,
+    `Price: ${item.price || 'Ask for Price'}`,
+    ``,
+    `Please share more details.`
+  ].join('\n');
+
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
 function renderStockCard(item, compact = false){
   const card = document.createElement('article');
-  card.className = compact ? 'stock-card stock-card-compact' : 'stock-card';
+  card.className = compact ? 'stock-card stock-card-compact premium-stock-card' : 'stock-card premium-stock-card';
 
-  const badgeHtml = item.badge ? `<span class="stock-new-badge">${escapeHTML(item.badge)}</span>` : '';
+  const badgeHtml = item.badge
+    ? `<span class="stock-new-badge">${escapeHTML(item.badge)}</span>`
+    : '';
 
-  const imagesHtml = item.gallery.map(src => `
-    <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
+  const galleryHtml = item.gallery.map(src => `
+    <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" loading="lazy" onerror="stockImageFallback(this)">
   `).join('');
 
   card.innerHTML = `
     <div class="stock-image-wrap">
       ${badgeHtml}
-      <div class="stock-card-image-scroll">${imagesHtml}</div>
+      <div class="stock-card-image-scroll">
+        ${galleryHtml}
+      </div>
+      <div class="stock-photo-count">${item.gallery.length} photos</div>
     </div>
 
     <div class="stock-card-body">
@@ -236,9 +192,10 @@ function renderStockCard(item, compact = false){
       <h3>${escapeHTML(item.title)}</h3>
       <div class="stock-meta">${escapeHTML([item.year, item.brand, item.category, item.seller].filter(Boolean).join(' · '))}</div>
       <div class="stock-price">${escapeHTML(item.price)}</div>
+
       <div class="stock-actions">
         <a class="stock-btn secondary" href="${stockDetailUrl(item)}">View Details</a>
-        <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank">Ask Now</a>
+        <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank" rel="noopener">Ask Now</a>
       </div>
     </div>
   `;
@@ -249,7 +206,7 @@ function renderStockCard(item, compact = false){
 function renderStockSliders(){
   const items = getStockItems();
 
-  const renderGrid = (id, location) => {
+  function renderGrid(id, location){
     const grid = document.getElementById(id);
     if (!grid) return;
 
@@ -265,7 +222,7 @@ function renderStockSliders(){
 
     if (section) section.style.display = '';
     rows.forEach(item => grid.appendChild(renderStockCard(item)));
-  };
+  }
 
   renderGrid('japanStockGrid', 'japan');
   renderGrid('ugandaStockGrid', 'uganda');
@@ -286,25 +243,23 @@ function getNewArrivals(items, location, limit = 3){
 function renderNewArrivals(){
   const items = getStockItems();
 
-  const renderMount = (id, location) => {
+  function renderMount(id, location){
     const mount = document.getElementById(id);
     if (!mount) return;
 
     const rows = getNewArrivals(items, location, 3);
-    mount.innerHTML = '';
-
     const section = mount.closest('.new-arrivals-section');
+
+    mount.innerHTML = '';
 
     if (!rows.length){
       if (section) section.style.display = 'none';
-      else mount.style.display = 'none';
       return;
     }
 
     if (section) section.style.display = '';
-    mount.style.display = '';
     rows.forEach(item => mount.appendChild(renderStockCard(item, true)));
-  };
+  }
 
   renderMount('newArrivalsHome', 'japan');
   renderMount('newArrivalsUganda', 'uganda');
@@ -323,36 +278,35 @@ function renderStockBrowse(){
   const isUgandaPage = document.body.classList.contains('yusuma-uganda-stock-page');
   const isJapanPage = document.body.classList.contains('japan-stock-page');
 
-  function getCurrentLocation(){
+  function pageLocation(){
     if (isUgandaPage) return 'uganda';
     if (isJapanPage) return 'japan';
-    return locationSel ? clean(locationSel.value || 'all') : 'all';
+    return locationSel ? clean(locationSel.value || 'japan') : 'japan';
   }
 
   function getPageItems(){
-    const loc = getCurrentLocation();
-    if (loc === 'uganda') return items.filter(item => item.location === 'uganda');
-    if (loc === 'japan') return items.filter(item => item.location === 'japan');
-    return items.filter(item => item.location === 'japan');
+    const loc = pageLocation();
+    if (loc === 'uganda') return items.filter(x => x.location === 'uganda');
+    return items.filter(x => x.location === 'japan');
   }
 
   function fillFilters(){
-    const pageItems = getPageItems();
-    const currentBrand = brandSel.value || 'All';
-    const currentCat = catSel.value || 'All';
+    const rows = getPageItems();
+    const brands = uniqueList(['All', ...rows.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
+    const cats = uniqueList(['All', ...rows.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
 
-    const brands = uniqueList(['All', ...pageItems.map(x => x.brand).filter(Boolean), ...getConfig().BRANDS]);
-    const cats = uniqueList(['All', ...pageItems.map(x => x.category).filter(Boolean), ...getConfig().CATEGORIES]);
+    const oldBrand = brandSel.value || 'All';
+    const oldCat = catSel.value || 'All';
 
     brandSel.innerHTML = brands.map(b => `<option value="${escapeHTML(b)}">${escapeHTML(b)}</option>`).join('');
     catSel.innerHTML = cats.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');
 
-    brandSel.value = brands.includes(currentBrand) ? currentBrand : 'All';
-    catSel.value = cats.includes(currentCat) ? currentCat : 'All';
+    brandSel.value = brands.includes(oldBrand) ? oldBrand : 'All';
+    catSel.value = cats.includes(oldCat) ? oldCat : 'All';
   }
 
   function updateBrowseGrid(){
-    const loc = getCurrentLocation();
+    const loc = pageLocation();
 
     if (loc === 'uganda' && !isUgandaPage){
       window.location.href = 'yusuma-uganda-stock.html';
@@ -361,11 +315,10 @@ function renderStockBrowse(){
 
     fillFilters();
 
-    const pageItems = getPageItems();
     const brand = clean(brandSel.value || 'All');
     const cat = clean(catSel.value || 'All');
 
-    const filtered = pageItems.filter(item => {
+    const filtered = getPageItems().filter(item => {
       const brandOk = brand === 'all' || clean(item.brand) === brand;
       const catOk = cat === 'all' || clean(item.category) === cat;
       return brandOk && catOk;
@@ -374,7 +327,10 @@ function renderStockBrowse(){
     grid.innerHTML = '';
 
     if (!filtered.length){
-      grid.appendChild(el('div', { class: 'muted small' }, loc === 'uganda' ? 'No Uganda stock matches found. Try another filter.' : 'No Japan stock matches found. Try another filter.'));
+      grid.appendChild(el('div', { class: 'muted small empty-stock' }, loc === 'uganda'
+        ? 'No Uganda stock matches found. Try another filter.'
+        : 'No Japan stock matches found. Try another filter.'
+      ));
       return;
     }
 
@@ -382,10 +338,7 @@ function renderStockBrowse(){
   }
 
   if (locationSel){
-    if (isUgandaPage) locationSel.value = 'uganda';
-    else if (isJapanPage) locationSel.value = 'japan';
-    else locationSel.value = 'All';
-
+    locationSel.value = isUgandaPage ? 'uganda' : 'japan';
     locationSel.addEventListener('change', updateBrowseGrid);
   }
 
@@ -403,7 +356,7 @@ function setupStockSliderControls(){
     btn.addEventListener('click', () => {
       const type = btn.getAttribute('data-stock-prev');
       const grid = document.getElementById(type + 'StockGrid');
-      if (grid) grid.scrollBy({ left: -320, behavior: 'smooth' });
+      if (grid) grid.scrollBy({ left: -340, behavior: 'smooth' });
     });
   });
 
@@ -411,7 +364,7 @@ function setupStockSliderControls(){
     btn.addEventListener('click', () => {
       const type = btn.getAttribute('data-stock-next');
       const grid = document.getElementById(type + 'StockGrid');
-      if (grid) grid.scrollBy({ left: 320, behavior: 'smooth' });
+      if (grid) grid.scrollBy({ left: 340, behavior: 'smooth' });
     });
   });
 }
@@ -482,10 +435,11 @@ function renderStockDetailPage(expectedLocation){
     : '';
 
   mount.innerHTML = `
-    <section class="stock-detail-page">
+    <section class="stock-detail-page premium-detail">
       <div class="stock-detail-hero">
-        <div>
+        <div class="stock-detail-photo-panel">
           <img id="mainStockImage" class="stock-main-image" src="${escapeHTML(item.mainImage)}" alt="${escapeHTML(item.title)}" onclick="openImageViewer(0)" onerror="stockImageFallback(this)">
+          <div class="detail-photo-hint">Tap image to enlarge · ${item.gallery.length} photos</div>
         </div>
 
         <div class="stock-detail-info">
@@ -511,7 +465,7 @@ function renderStockDetailPage(expectedLocation){
           </ul>
 
           <div class="stock-actions">
-            <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank">Ask About This Car</a>
+            <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank" rel="noopener">Ask About This Car</a>
             <a class="stock-btn secondary" href="${item.location === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
           </div>
         </div>
@@ -537,9 +491,12 @@ function renderFeesTables(rows){
   const mounts = Array.from(document.querySelectorAll('#feesTable'));
   if (!mounts.length) return;
 
-  const buildTableNode = () => {
+  mounts.forEach(m => {
+    m.innerHTML = '';
+
     if (!rows || !rows.length){
-      return el('div', { class: 'muted small' }, 'Fees are currently unavailable.');
+      m.appendChild(el('div', { class: 'muted small' }, 'Fees are currently unavailable.'));
+      return;
     }
 
     const headers = Object.keys(rows[0] || {});
@@ -571,20 +528,16 @@ function renderFeesTables(rows){
     });
 
     table.appendChild(tbody);
-    return table;
-  };
 
-  mounts.forEach(m => {
-    m.innerHTML = '';
     const card = document.createElement('div');
     card.className = 'card';
     card.appendChild(el('h3', {}, 'Agency Fee Structure'));
-    card.appendChild(buildTableNode());
+    card.appendChild(table);
     m.appendChild(card);
   });
 }
 
-async function buildFromConfig(){
+function buildFromConfig(){
   const cfg = getConfig();
 
   const wa = document.getElementById('wa-link');
@@ -599,23 +552,10 @@ async function buildFromConfig(){
     tk.href = cfg.TIKTOK;
   }
 
-  const japanFallback = cfg.JAPAN_STOCK.length ? cfg.JAPAN_STOCK : cfg.STOCK;
-  const ugandaFallback = cfg.UGANDA_STOCK || [];
-
-  const japanData = await loadStockFromSheet(cfg.JAPAN_SHEET_TAB, japanFallback);
-  const ugandaData = await loadStockFromSheet(cfg.UGANDA_SHEET_TAB, ugandaFallback);
-
-  const safeJapan = (japanData.length ? japanData : japanFallback).map(x => ({
-    ...x,
-    Location: x.Location || x.location || 'Japan'
-  }));
-
-  const safeUganda = (ugandaData.length ? ugandaData : ugandaFallback).map(x => ({
-    ...x,
-    Location: x.Location || x.location || 'Uganda'
-  }));
-
-  CARJU_STOCK_CACHE = [...safeJapan, ...safeUganda];
+  CARJU_STOCK_CACHE = [
+    ...cfg.JAPAN_STOCK.map(x => ({ ...x, location: x.location || 'japan' })),
+    ...cfg.UGANDA_STOCK.map(x => ({ ...x, location: x.location || 'uganda' }))
+  ];
 
   renderStockBrowse();
   renderStockSliders();
@@ -688,23 +628,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const contact = (contactEl && contactEl.value.trim()) || '';
         const looking = (selectEl && selectEl.value) || '';
 
-        const subject = `Callback request from ${name || 'client'}`;
-        const body = [
-          `Hello CARJU Japan,`,
-          ``,
-          `Name: ${name || '-'}`,
-          `Contact (Email/WhatsApp): ${contact || '-'}`,
-          `Looking for: ${looking || '-'}`,
-          ``,
-          `Please call me back or reply when you can.`
+        const msg = [
+          `Hi CARJU Japan, I’d like a callback.`,
+          `Name: ${name}`,
+          `Contact: ${contact}`,
+          `Looking for: ${looking}`
         ].join('\n');
 
-        if (confirm('Send via WhatsApp? (Cancel = Email)')){
-          const msg = `Hi CARJU Japan, I’d like a callback.\nName: ${name}\nContact: ${contact}\nLooking for: ${looking}`;
-          window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
-        } else {
-          window.location.href = `mailto:carjuautoagency@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
+        window.open(`https://wa.me/818047909663?text=${encodeURIComponent(msg)}`, '_blank');
       });
     }
   }
@@ -721,25 +652,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = card.querySelector('.more, .hidden-text');
     if (!body) return;
 
-    const isCurrentlyHidden =
+    const isHidden =
       body.classList.contains('hidden') ||
       body.style.display === 'none' ||
       getComputedStyle(body).display === 'none';
 
     if (body.classList.contains('hidden')){
-      body.classList.toggle('hidden', !isCurrentlyHidden);
+      body.classList.toggle('hidden', !isHidden);
     } else if (body.classList.contains('hidden-text')){
-      body.classList.toggle('open', isCurrentlyHidden);
-      body.style.display = isCurrentlyHidden ? 'block' : 'none';
+      body.classList.toggle('open', isHidden);
+      body.style.display = isHidden ? 'block' : 'none';
     } else {
-      body.style.display = isCurrentlyHidden ? '' : 'none';
+      body.style.display = isHidden ? '' : 'none';
     }
 
-    btn.textContent = isCurrentlyHidden ? 'Read less' : 'Read more';
-
-    if (isCurrentlyHidden && window.matchMedia('(max-width: 860px)').matches){
-      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
-    }
+    btn.textContent = isHidden ? 'Read less' : 'Read more';
   });
 
   document.addEventListener('keydown', (e) => {
@@ -751,7 +678,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft') prevViewerImage();
   });
 
-  buildFromConfig()
-    .then(() => console.log('[CARJU] Stock system initialized.'))
-    .catch(err => console.error('[CARJU] buildFromConfig failed:', err));
+  buildFromConfig();
 });
