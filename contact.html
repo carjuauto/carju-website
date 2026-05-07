@@ -3,41 +3,32 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Contact CARJU JAPAN </title>
+  <title>Contact | CARJU JAPAN</title>
   <meta name="description" content="Contact CARJU JAPAN for sourcing cars and machinery from Japan.">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-<script src="config.js?v=201"></script>
+  <script src="config.js?v=302"></script>
 </head>
+
 <body>
 <header class="header container header--compact">
-  <!-- Logo (left) -->
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN 合同会社</span>
   </a>
 
-  <!-- Menu button (right on mobile) -->
   <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- Nav (language moved inside) -->
   <nav class="nav" id="siteNav">
-    <a href="services.html" data-i18n="en">Services</a>
-    <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+    <a href="services.html">Services</a>
+    <a href="fees.html">Fees</a>
+    <a href="stock-japan.html">Japan Stock</a>
+    <a href="yusuma-uganda-stock.html">Uganda Stock</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="about.html">About</a>
 
-    <a href="fees.html" data-i18n="en">Fees</a>
-    <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
-
-    <a href="contact.html" data-i18n="en">Contact</a>
-    <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
-
-    <a href="faq.html" data-i18n="en">FAQ</a>
-    <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
-
-    <a href="about.html" data-i18n="en">About</a>
-    <a href="about.html" class="hidden" data-i18n="ja">アバウト</a>
-
-    <!-- Language inside menu -->
     <div class="lang lang--menu">
       <button data-lang-btn="en">EN</button>
       <button data-lang-btn="ja" class="badge">日本語</button>
@@ -45,49 +36,95 @@
   </nav>
 </header>
 
-<main class="container">
-  <h1 data-i18n="en">Contact Us</h1>
-  <h1 class="hidden" data-i18n="ja">お問い合わせ</h1>
+<section class="page-hero premium-page-hero">
+  <div class="container">
+    <p class="kicker">Contact CARJU JAPAN</p>
+    <h1>Tell us what you want to buy from Japan.</h1>
+    <p class="muted">Send the model, budget, year range, destination country, and any special requirements. We’ll guide you from search to shipping.</p>
+  </div>
+</section>
+
+<main class="container stack-xl">
 
   <section class="grid grid-2">
-    <div class="card">
-      <h3 data-i18n="en">Talk to us</h3>
-      <h3 class="hidden" data-i18n="ja">ご相談ください</h3>
-      <p><strong>Email:</strong> <a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
-      <p><strong>WhatsApp:</strong> <a id="wa-link" href="https://wa.me/+818047909663" target="_blank">+81 80 4790 9663</a></p>
-      <p><strong>TikTok:</strong> <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank">@carju_auto</a></p>
-      <p><strong>Office:</strong> Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo, Japan (Due to the nature of our business being an Agency and currently not holding stock, we are operating under a VirtualOffice.  Physical premises will be established once the business deems it best to establish one)</p>
+    <div class="card glass reveal">
+      <h2>Talk to us directly</h2>
+      <p class="muted">For faster replies, WhatsApp is usually best.</p>
+
+      <div class="contact-list">
+        <p><strong>Email:</strong><br><a href="mailto:carjuautoagency@gmail.com">carjuautoagency@gmail.com</a></p>
+        <p><strong>WhatsApp:</strong><br><a id="wa-link" href="https://wa.me/818047909663" target="_blank">+81 80 4790 9663</a></p>
+        <p><strong>TikTok:</strong><br><a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank">@carju_auto</a></p>
+        <p><strong>Office:</strong><br>Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo, Japan</p>
+      </div>
+
+      <p class="muted small">We currently operate as an agency and do not hold physical stock at the office. Physical premises may be established when the business requires it.</p>
+
+      <div class="hero-cta" style="margin-top:14px">
+        <a class="btn" target="_blank" href="https://wa.me/818047909663?text=Hello%20CARJU%20JAPAN%2C%20I%20want%20to%20ask%20about%20buying%20a%20vehicle%20from%20Japan.">Chat on WhatsApp</a>
+      </div>
     </div>
 
-    <div class="card">
-      <h3 data-i18n="en">Quick Request</h3>
-      <h3 class="hidden" data-i18n="ja">簡単見積り</h3>
+    <div class="card glass reveal">
+      <h2>Quick Request</h2>
+      <p class="muted">Fill this and your email app will open with the message.</p>
+
       <form action="mailto:carjuautoagency@gmail.com" method="post" enctype="text/plain">
-        <label>Name<br><input required type="text" name="name" placeholder="Your name"/></label><br>
-        <label>Email<br><input required type="email" name="email" placeholder="you@example.com"/></label><br>
-        <label>What are you looking for?<br><textarea name="message" rows="5" placeholder="Brand, model, year, budget..."></textarea></label><br>
-        <button class="btn" type="submit">Send</button>
+        <label>
+          Name
+          <input required type="text" name="name" placeholder="Your name"/>
+        </label>
+
+        <label>
+          Email / WhatsApp
+          <input required type="text" name="contact" placeholder="Email or WhatsApp number"/>
+        </label>
+
+        <label>
+          What are you looking for?
+          <textarea name="message" rows="6" placeholder="Example: Toyota Harrier 2015, budget ¥1.5M, shipping to Uganda..."></textarea>
+        </label>
+
+        <button class="btn" type="submit">Send Request</button>
       </form>
-      <p class="muted" style="margin-top:6px">Prefer WhatsApp? Click the WhatsApp icon below.</p>
     </div>
   </section>
+
+  <section class="card glass reveal">
+    <h2>What to include in your request</h2>
+    <div class="values-grid">
+      <div class="value">
+        <h3>Vehicle details</h3>
+        <p>Brand, model, year, mileage range, fuel type, color, and condition preference.</p>
+      </div>
+      <div class="value">
+        <h3>Budget</h3>
+        <p>Your target buying budget and whether it includes shipping or only the vehicle price.</p>
+      </div>
+      <div class="value">
+        <h3>Destination</h3>
+        <p>Tell us the country and port so we can guide you better on shipping and documents.</p>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
   <div class="socials">
-    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a id="wa-link-footer" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a id="tiktok-link-footer" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
-  <p class="footer-text">© 2025 CARJU JAPAN, All Rights Reserved</p>
+
+  <p class="footer-license">
+    <strong>Secondhand Dealer License:</strong> 441090004187<br>
+    <strong>Licensing Authority:</strong> 千葉県公安委員会
+  </p>
+
+  <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js?v=201"></script>
+<script src="script.js?v=302"></script>
 </body>
 </html>
-
-
-
-
-
-
