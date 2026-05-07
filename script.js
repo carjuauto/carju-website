@@ -117,6 +117,29 @@ function splitList(value){
 }
 
 function normalizeStockItem(item){
+function buildAutoGallery(item){
+  const id = item.ID || item.id || '';
+  const location = clean(item.Location || item.location || '');
+
+  if (!id || !location) return [];
+
+  const folder = `assets/stock/${location}/${id}`;
+
+  return [
+    `${folder}/main.jpg`,
+    `${folder}/2.jpg`,
+    `${folder}/3.jpg`,
+    `${folder}/4.jpg`,
+    `${folder}/5.jpg`,
+    `${folder}/6.jpg`,
+    `${folder}/7.jpg`,
+    `${folder}/8.jpg`,
+    `${folder}/9.jpg`,
+    `${folder}/10.jpg`
+  ];
+}
+
+function normalizeStockItem(item){
   let photos = [];
 
   if (Array.isArray(item.gallery) && item.gallery.length){
@@ -129,27 +152,48 @@ function normalizeStockItem(item){
     ].map(driveToDirect).filter(Boolean);
   }
 
+  const autoGallery = buildAutoGallery(item);
+
+  if (!photos.length && autoGallery.length){
+    photos = autoGallery;
+  }
+
+  const id = item.ID || item.id || '';
+  const location = clean(item.Location || item.location || '');
+
   return {
-    id: item.ID || item.id || '',
-    location: clean(item.Location || item.location || ''),
+    id: id,
+    location: location,
     title: item.Title || item.title || item.name || 'Vehicle',
+
     manufacturer: item.Manufacturer || item.manufacturer || item.Brand || item.brand || '',
     model: item.Model || item.model || item.Title || item.title || '',
     brand: item.Brand || item.brand || item.Manufacturer || item.manufacturer || '',
     category: item.Category || item.category || '',
     year: item.Year || item.year || '',
     price: item.Price || item.price || 'Ask for Price',
+
     doors: item.Doors || item.doors || '',
     transmission: item.Transmission || item.transmission || '',
     drivetrain: item.Drivetrain || item.drivetrain || '',
     fuel: item.Fuel || item.fuel || '',
     maintenance: item.Maintenance || item.maintenance || '',
-    features: Array.isArray(item.features) ? item.features : splitList(item.Features || item.features),
+
+    features: Array.isArray(item.features)
+      ? item.features
+      : splitList(item.Features || item.features),
+
     status: item.Status || item.status || '',
     badge: item.Badge || item.badge || '',
     seller: item.Seller || item.seller || '',
-    mainImage: driveToDirect(item.MainImage || item.mainImage || photos[0]) || PLACEHOLDER_IMG,
-    gallery: photos.length ? photos : [PLACEHOLDER_IMG],
+
+    mainImage:
+      driveToDirect(item.MainImage || item.mainImage || photos[0]) ||
+      `assets/stock/${location}/${id}/main.jpg` ||
+      PLACEHOLDER_IMG,
+
+    gallery: photos.length ? photos : [`assets/stock/${location}/${id}/main.jpg`],
+
     description: item.Description || item.description || '',
     whatsapp: String(item.WhatsApp || item.whatsapp || '').replace(/[^0-9]/g, '')
   };
