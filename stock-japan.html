@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Japan Stock | CARJU JAPAN</title>
   <meta name="description" content="Available Japan stock from CARJU JAPAN.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js?v=302"></script>
+  <script src="config.js?v=900"></script>
 </head>
 
 <body class="japan-stock-page">
@@ -27,31 +28,37 @@
     <a href="contact.html">Contact</a>
     <a href="faq.html">FAQ</a>
     <a href="about.html">About</a>
-
-    <div class="lang lang--menu">
-      <button data-lang-btn="en">EN</button>
-      <button data-lang-btn="ja" class="badge">日本語</button>
-    </div>
   </nav>
 </header>
 
 <main class="container">
-  <section class="card" style="text-align:center;margin-top:20px;">
-    <h1>Available Stock in Japan</h1>
-    <p>Vehicles available through CARJU JAPAN for export, inspection, and shipping support.</p>
+  <section class="stock-page-hero carju-stock-hero">
+    <div>
+      <span class="hero-pill">CARJU JAPAN Stock</span>
+      <h1>Available Stock in Japan</h1>
+      <p>Browse vehicles available through CARJU JAPAN. Click any vehicle to view details, photos, and contact us directly.</p>
+    </div>
+  </section>
+
+  <section class="new-arrivals-section premium-section">
+    <div class="stock-head">
+      <div>
+        <h2>🔥 New Arrivals</h2>
+        <p>Fresh vehicles recently added from Japan.</p>
+      </div>
+    </div>
+    <div id="newArrivalsHome" class="stock-slider"></div>
   </section>
 
   <section class="brand-category-section stock-browse-section">
-    <div class="card">
+    <div class="card premium-card">
       <div class="kicker">Browse Japan stock</div>
 
       <div class="filters">
-        <label>
+        <label style="display:none;">
           Location
           <select id="stockLocationSelect">
-            <option value="All">Japan</option>
             <option value="japan">Japan</option>
-            <option value="uganda">Uganda</option>
           </select>
         </label>
 
@@ -74,7 +81,7 @@
     <div class="stock-head">
       <div>
         <h2>Japan Stock</h2>
-        <p>Click any vehicle to view details or ask through WhatsApp.</p>
+        <p>Swipe through photos on each card or open the full details page.</p>
       </div>
     </div>
 
@@ -92,15 +99,10 @@
     <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
-
-  <p class="footer-license">
-    <strong>Secondhand Dealer License:</strong> 441090004187<br>
-    <strong>Licensing Authority:</strong> 千葉県公安委員会
-  </p>
-
+  <p class="footer-license"><strong>Secondhand Dealer License:</strong> 441090004187<br><strong>Licensing Authority:</strong> 千葉県公安委員会</p>
   <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js?v=302"></script>
+<script src="script.js?v=900"></script>
 </body>
 </html>
