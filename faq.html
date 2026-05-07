@@ -3,201 +3,148 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>FAQ CARJU JAPAN</title>
+  <title>FAQ | CARJU JAPAN</title>
   <meta name="description" content="Frequently asked questions about buying vehicles and machinery from Japan with CARJU JAPAN.">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js.js?v=201"></script>
+  <script src="config.js?v=302"></script>
 </head>
-
-<!-- Sticky Promo Banner -->
-<div id="promo-bar" class="promo-bar" role="region" aria-label="Promotion">
-  <span data-i18n="en">🎉 Limited Offer: <strong>50% OFF</strong> agency fees for your first purchase.</span>
-  <span class="hidden" data-i18n="ja">🎉 期間限定：初回のエージェンシー手数料が <strong>50%OFF</strong>。</span>
-  <a class="promo-link"
-     href="https://wa.me/818047909663?text=Hello%20CARJU%20Japan!%20I%27d%20like%20to%20claim%2050%25%20OFF%20agency%20fees%20for%20my%20first%20purchase."
-     target="_blank">💬 <span data-i18n="en">Claim via WhatsApp</span><span class="hidden" data-i18n="ja">WhatsAppで申請</span></a>
-  <button id="promo-bar-close" class="promo-bar-close" aria-label="Close">&times;</button>
-</div>
 
 <body>
 <header class="header container header--compact">
-  <!-- Logo (left) -->
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN 合同会社</span>
   </a>
 
-  <!-- Menu button (right on mobile) -->
   <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- Nav (language moved inside) -->
   <nav class="nav" id="siteNav">
-    <a href="services.html" data-i18n="en">Services</a>
-    <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+    <a href="services.html">Services</a>
+    <a href="fees.html">Fees</a>
+    <a href="stock-japan.html">Japan Stock</a>
+    <a href="yusuma-uganda-stock.html">Uganda Stock</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="about.html">About</a>
 
-    <a href="fees.html" data-i18n="en">Fees</a>
-    <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
-
-    <a href="contact.html" data-i18n="en">Contact</a>
-    <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
-
-    <a href="faq.html" data-i18n="en">FAQ</a>
-    <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
-
-    <a href="about.html" data-i18n="en">About</a>
-    <a href="about.html" class="hidden" data-i18n="ja">アバウト</a>
-
-    <!-- Language inside menu -->
     <div class="lang lang--menu">
       <button data-lang-btn="en">EN</button>
       <button data-lang-btn="ja" class="badge">日本語</button>
     </div>
   </nav>
 </header>
-  <!-- Banner -->
-<!-- ===== Animation Banner ===== -->
-<div class="anim-banner">
-  <div class="logistics-anim" aria-hidden="true">
-    <svg viewBox="0 0 900 220" role="img" aria-label="Japan to World shipping animation">
-      <!-- WORLD (left) -->
-      <g class="la-world-wrap">
-        <image href="assets/world-globe.PNG"
-               x="60" y="60" width="90" height="90"
-               preserveAspectRatio="xMidYMid meet"
-               class="la-world-img"/>
-      </g>
 
-      <!-- JAPAN (right) -->
-      <g class="la-japan-wrap">
-        <image href="assets/japan-map.PNG"
-               x="750" y="60" width="200" height="200"
-               preserveAspectRatio="xMidYMid meet"
-               class="la-japan-img"/>
-      </g>
-
-      <!-- SHIP (movement is 100% CSS) -->
-      <g class="la-ship-wrap">
-        <image href="assets/ship.PNG"
-               x="0" y="85" width="100" height="50"
-               preserveAspectRatio="xMidYMid meet"
-               class="la-ship-img"/>
-      </g>
-    </svg>
-  </div>
-</div>
-
-<!-- ✨ Hero -->
 <section class="faq-hero">
   <div class="container faq-hero-inner">
     <h1>Frequently Asked Questions</h1>
-    <p class="faq-sub">Quick answers about deposits, timelines, auctions, shipping, and payments.</p>
+    <p class="faq-sub">Quick answers about deposits, auctions, shipping, payments, documents, and fees.</p>
 
     <div class="faq-search">
-      <input id="faqSearch" type="search" placeholder="Type to filter… e.g., deposit, shipping, payment" aria-label="Search FAQs" />
+      <input id="faqSearch" type="search" placeholder="Search: deposit, shipping, payment..." aria-label="Search FAQs">
     </div>
 
     <div class="faq-quick">
-      <button class="chip" data-tag="deposit">Deposit</button>
-      <button class="chip" data-tag="auction">Auction</button>
-      <button class="chip" data-tag="shipping">Shipping</button>
-      <button class="chip" data-tag="fees">Fees</button>
-      <button class="chip" data-tag="payment">Payment</button>
-      <button class="chip" data-tag="documents">Documents</button>
+      <button class="chip" type="button" data-tag="deposit">Deposit</button>
+      <button class="chip" type="button" data-tag="auction">Auction</button>
+      <button class="chip" type="button" data-tag="shipping">Shipping</button>
+      <button class="chip" type="button" data-tag="fees">Fees</button>
+      <button class="chip" type="button" data-tag="payment">Payment</button>
+      <button class="chip" type="button" data-tag="documents">Documents</button>
     </div>
   </div>
 </section>
 
 <main class="container">
-  <!-- Accordion -->
   <section class="faq-grid">
-    <!-- Each .faq-item can include data-tags for filtering -->
-    <article class="faq-item" data-tags="deposit,fees,payment">
-      <button class="faq-q" aria-expanded="false">
+
+    <article class="faq-item" data-tags="deposit fees payment">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>How much deposit is required to start bidding?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>We require a <strong>¥150,000 auction deposit</strong> to activate bidding. If you win and pay within 3 business days, we credit the deposit to your final invoice. If you win but fail to pay, auction houses may retain the deposit per their policy. This also affects the reputation of our company so please stick to the agreement.</p>
+        <p>We require a <strong>¥150,000 auction deposit</strong> to activate bidding. If you win and pay within 3 business days, we credit the deposit to your final invoice. If you win but fail to pay, the auction house may retain the deposit according to its policy.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="auction,timeline,process">
-      <button class="faq-q" aria-expanded="false">
+    <article class="faq-item" data-tags="auction timeline process">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>How does the auction process work?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>Tell us your target vehicle and budget. We shortlist units using real auction sheets and photos, then bid on your approval. If we win the bid, we handle payment, de-registration, export docs, and Shipping booking and Loading.</p>
+        <p>You tell us your target vehicle and budget. We shortlist units with photos and auction sheets, then bid only after your approval. If we win, we handle payment guidance, deregistration, export documents, shipping booking, and loading support.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="timeline,shipping,docs">
-      <button class="faq-q" aria-expanded="false">
+    <article class="faq-item" data-tags="timeline shipping documents">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>How long does shipping take after purchase?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>Typical lead time is <strong>6-10 weeks</strong> to East Africa depending on sailing schedules and port congestion. We’ll keep you updated from purchase to Bill of Lading (B/L).</p>
+        <p>Typical lead time is around <strong>6–10 weeks</strong> to East Africa, depending on vessel schedule, port congestion, inspection timing, and document processing. We update you from purchase until Bill of Lading.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="fees,pricing,service">
-      <button class="faq-q" aria-expanded="false">
+    <article class="faq-item" data-tags="fees pricing service">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>What fees do you charge?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>Our agency fees are transparent and tiered by purchase price. See the full breakdown on the <a href="fees.html">Fees</a> page. No hidden charges.</p>
+        <p>Our agency fees are transparent and depend on the purchase arrangement. We explain the car price, auction or seller costs, inland transport, export handling, and shipping separately before you commit.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="payment,bank">
-      <button class="faq-q" aria-expanded="false">
-        <span>How do I pay? Do you accept installments?</span>
+    <article class="faq-item" data-tags="payment bank">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>How do I pay?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>Payment is via bank transfer to our corporate account in Japan. Installments are not available for winning bids, but we can discuss phased purchasing for multiple units.</p>
+        <p>Payment is normally made by bank transfer to our official account. For auction purchases, payment timing is strict, so we confirm the invoice and required deadline immediately after a successful bid.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="documents,inspection,transparency">
-      <button class="faq-q" aria-expanded="false">
+    <article class="faq-item" data-tags="documents inspection transparency">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>What documents do I receive?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>Export certificate, invoice, B/L, and inspection certificate when required. We share auction sheets and photos up-front so you know what you’re buying.</p>
+        <p>You may receive the invoice, export certificate, Bill of Lading, and inspection certificate where required. We also share available auction sheets, photos, and condition information before purchase.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="inventory,agency">
-      <button class="faq-q" aria-expanded="false">
+    <article class="faq-item" data-tags="inventory agency stock">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>Do you keep stock or only source on demand?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>We are an <strong>agency</strong>we don't keep stock but rather source exactly what a client wants from auctions and trusted partners. This keeps overhead low and choice wide.</p>
+        <p>CARJU JAPAN mainly works as a sourcing agency. We help clients find vehicles from auctions, dealers, and private sellers instead of limiting them to only one stock list.</p>
       </div>
     </article>
 
-    <article class="faq-item" data-tags="support,whatsapp,contact">
-      <button class="faq-q" aria-expanded="false">
+    <article class="faq-item" data-tags="support whatsapp contact">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>How do I get the fastest support?</span>
         <i class="chev">▾</i>
       </button>
       <div class="faq-a">
-        <p>Message us on WhatsApp for the quickest response: <a href="https://wa.me/818047909663" target="_blank">+81 80 4790 9663</a>. You can also use the <a href="contact.html">contact form</a>.</p>
+        <p>WhatsApp is usually the fastest: <a href="https://wa.me/818047909663" target="_blank">+81 80 4790 9663</a>. You can also contact us by email or through the contact page.</p>
       </div>
     </article>
+
   </section>
 
-  <!-- CTA -->
   <section class="faq-cta card">
     <div class="faq-cta-left">
       <h3>Still have questions?</h3>
-      <p class="muted">Tell us what you’re looking for and we’ll show you real examples with current market prices.</p>
+      <p class="muted">Tell us what you are looking for and we will guide you with realistic options and clear costs.</p>
     </div>
     <div class="faq-cta-actions">
       <a class="btn" href="contact.html">Get a Quote</a>
@@ -208,74 +155,55 @@
 
 <footer class="footer">
   <div class="socials">
-    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+    <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
-  <p class="footer-text">© 2025 CARJU JAPAN, All Rights Reserved</p>
+  <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=302"></script>
 
-<!-- Tiny inline script only for this page (accordion + search).
-     This does NOT modify global behavior elsewhere. -->
 <script>
-  // mobile menu toggle (uses the CSS you already have)
-  const ham = document.querySelector('.hamburger');
-  const nav = document.getElementById('site-menu');
-  if(ham && nav){
-    ham.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
-      ham.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-  }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
 
-  // FAQ accordion
-  document.querySelectorAll('.faq-q').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-      const panel = btn.nextElementSibling;
-      panel.style.maxHeight = open ? null : (panel.scrollHeight + 24) + 'px';
+        const panel = btn.nextElementSibling;
+        panel.style.maxHeight = open ? null : (panel.scrollHeight + 24) + 'px';
+      });
+    });
+
+    const firstBtn = document.querySelector('.faq-q');
+    if (firstBtn) firstBtn.click();
+
+    const search = document.getElementById('faqSearch');
+    const items = Array.from(document.querySelectorAll('.faq-item'));
+
+    function filterFaq(q){
+      const s = String(q || '').trim().toLowerCase();
+
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        const tags = (item.dataset.tags || '').toLowerCase();
+        item.style.display = text.includes(s) || tags.includes(s) ? '' : 'none';
+      });
+    }
+
+    if (search){
+      search.addEventListener('input', e => filterFaq(e.target.value));
+    }
+
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const tag = chip.dataset.tag || '';
+        if (search) search.value = tag;
+        filterFaq(tag);
+      });
     });
   });
-
-  // Expand first item by default (nice touch)
-  const firstBtn = document.querySelector('.faq-q');
-  if(firstBtn){
-    firstBtn.click();
-  }
-
-  // Live search + chips
-  const search = document.getElementById('faqSearch');
-  const items = Array.from(document.querySelectorAll('.faq-item'));
-  function filterFaq(q){
-    const s = (q||'').trim().toLowerCase();
-    items.forEach(it=>{
-      const text = it.innerText.toLowerCase();
-      it.style.display = text.includes(s) ? '' : 'none';
-    });
-  }
-  if(search){
-    search.addEventListener('input', e=> filterFaq(e.target.value));
-  }
-  document.querySelectorAll('.chip').forEach(ch=>{
-    ch.addEventListener('click', ()=>{
-      const tag = ch.dataset.tag || '';
-      search.value = tag;
-      filterFaq(tag);
-    });
-  });
-
-  // Resize observer keeps open panel height correct on reflow
-  const ro = new ResizeObserver(() => {
-    document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(btn=>{
-      const panel = btn.nextElementSibling;
-      panel.style.maxHeight = (panel.scrollHeight + 24) + 'px';
-    });
-  });
-  document.querySelectorAll('.faq-a').forEach(p => ro.observe(p));
 </script>
-  <script src="script.js?v=201"></script>
 </body>
 </html>
