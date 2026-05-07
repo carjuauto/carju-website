@@ -3,62 +3,32 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Services CARJU JAPAN</title>
-  <meta name="description" content="Auction bidding, inspection, logistics, new & used vehicles and machinery.">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <title>Services | CARJU JAPAN</title>
+  <meta name="description" content="Auction bidding, inspection, logistics, vehicle sourcing and export support from Japan.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js?v=201"></script>
-
-  <!-- Page-local tweaks (safe; doesn't change global styles) -->
-  <style>
-    /* Hero heading with animation behind it */
-    .page-hero{position:relative; padding:14px 0 36px; margin:8px 0 6px; text-align:center}
-    .page-hero h1,.page-hero p{position:relative; z-index:2}
-    .page-hero .anim-banner{position:absolute; left:0; right:0; top:-6px; height:230px; z-index:0; pointer-events:none; opacity:.95}
-    .page-hero .anim-banner svg{width:100%; height:100%}
-    /* ship path + brighter line (works with your styles.css tokens) */
-    .page-hero .route-path{stroke:rgba(255,255,255,.8); stroke-dasharray:6 6; animation:route-dash 2.4s linear infinite}
-    @keyframes route-dash{from{stroke-dashoffset:0} to{stroke-dashoffset:-56}}
-
-    /* Keep services grid readable on phones (1 card per row) */
-    @media (max-width: 760px){
-      .services-grid{grid-template-columns:1fr !important}
-    }
-
-    /* TikTok responsive wrapper */
-    .video-wrapper{position:relative; border-radius:16px; overflow:hidden}
-    .video-wrapper > *{display:block; width:100%}
-  </style>
+  <script src="config.js?v=302"></script>
 </head>
+
 <body>
 <header class="header container header--compact">
-  <!-- Logo (left) -->
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN 合同会社</span>
   </a>
 
-  <!-- Menu button (right on mobile) -->
   <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
 
-  <!-- Nav (language moved inside) -->
   <nav class="nav" id="siteNav">
-    <a href="services.html" data-i18n="en">Services</a>
-    <a href="services.html" class="hidden" data-i18n="ja">サービス</a>
+    <a href="services.html">Services</a>
+    <a href="fees.html">Fees</a>
+    <a href="stock-japan.html">Japan Stock</a>
+    <a href="yusuma-uganda-stock.html">Uganda Stock</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="about.html">About</a>
 
-    <a href="fees.html" data-i18n="en">Fees</a>
-    <a href="fees.html" class="hidden" data-i18n="ja">料金</a>
-
-    <a href="contact.html" data-i18n="en">Contact</a>
-    <a href="contact.html" class="hidden" data-i18n="ja">お問い合わせ</a>
-
-    <a href="faq.html" data-i18n="en">FAQ</a>
-    <a href="faq.html" class="hidden" data-i18n="ja">よくある質問</a>
-
-    <a href="about.html" data-i18n="en">About</a>
-    <a href="about.html" class="hidden" data-i18n="ja">アバウト</a>
-
-    <!-- Language inside menu -->
     <div class="lang lang--menu">
       <button data-lang-btn="en">EN</button>
       <button data-lang-btn="ja" class="badge">日本語</button>
@@ -66,25 +36,31 @@
   </nav>
 </header>
 
-<!-- === Hero heading with animation behind it (not covering cards) === -->
-<section class="page-hero">
-  <h1 data-i18n="en">Our Services</h1>
-  <h1 class="hidden" data-i18n="ja">サービス内容</h1>
-  <p class="muted">What we do for you</p>
+<section class="page-hero premium-page-hero">
+  <div class="container">
+    <p class="kicker">CARJU JAPAN Services</p>
+    <h1>We help you buy from Japan with confidence.</h1>
+    <p class="muted">From finding the right vehicle to bidding, checking, paperwork, and shipping coordination.</p>
+  </div>
 </section>
 
-<main class="container">
-  <section class="services">
-    <h2>Our Services are but not Limited to;</h2>
+<main class="container stack-xl">
 
+  <section class="card glass reveal">
+    <h2>What we do for you</h2>
+    <p>CARJU JAPAN works as your buying agent in Japan. We search beyond ordinary stock lists so you can access auction cars, local dealers, private sellers, and special units that fit your budget.</p>
+  </section>
+
+  <section class="services">
     <div class="services-grid">
+
       <div class="service-card glass" onclick="toggleService(this)">
         <div class="inner">
           <div class="icon-wrap">🚗</div>
           <h3>Auction Bidding</h3>
-          <p>We bid directly at major auctions like USS, TAA, and JU...</p>
+          <p>We help you bid at major Japanese vehicle auctions.</p>
           <div class="hidden-text">
-            <p>With access to Japan’s largest auction networks, we help you secure the best vehicle within your set budget. Real-time updates, photos, and auction sheets all transparent from start to finish.</p>
+            <p>We shortlist vehicles, review auction sheets, guide you on realistic bid prices, and only bid after your approval. This helps you avoid rushing into bad units.</p>
           </div>
           <button class="read-more-btn" type="button">Read more</button>
         </div>
@@ -93,10 +69,22 @@
       <div class="service-card glass" onclick="toggleService(this)">
         <div class="inner">
           <div class="icon-wrap">🔎</div>
-          <h3>Deep Search</h3>
-          <p>We go beyond auctions — local yards, dealers &amp; individuals.</p>
+          <h3>Deep Market Search</h3>
+          <p>We search auctions, dealers, yards, and private sellers.</p>
           <div class="hidden-text">
-            <p>Unlike normal exporters, we search across Japan, from small suppliers to private owners. This ensures more choices, better deals, and real savings for our clients.</p>
+            <p>Many exporters only show their own stock. We search wider so you get more options, better prices, and a better chance of finding the right car.</p>
+          </div>
+          <button class="read-more-btn" type="button">Read more</button>
+        </div>
+      </div>
+
+      <div class="service-card glass" onclick="toggleService(this)">
+        <div class="inner">
+          <div class="icon-wrap">📸</div>
+          <h3>Condition Checks</h3>
+          <p>We review details before you commit.</p>
+          <div class="hidden-text">
+            <p>We check auction sheets, visible damage, seller information, photos, and available records. If something looks risky, we tell you before money is committed.</p>
           </div>
           <button class="read-more-btn" type="button">Read more</button>
         </div>
@@ -105,10 +93,10 @@
       <div class="service-card glass" onclick="toggleService(this)">
         <div class="inner">
           <div class="icon-wrap">📄</div>
-          <h3>Paperwork &amp; Export</h3>
-          <p>All export documents handled from start to shipping.</p>
+          <h3>Paperwork & Export</h3>
+          <p>We support export documents and shipping paperwork.</p>
           <div class="hidden-text">
-            <p>We prepare invoices, deregistration, inspection certificates, and handle Bill of Lading processes — keeping your export smooth and clear.</p>
+            <p>We help with invoice preparation, export certificate, deregistration, inspection where required, and Bill of Lading coordination.</p>
           </div>
           <button class="read-more-btn" type="button">Read more</button>
         </div>
@@ -117,22 +105,10 @@
       <div class="service-card glass" onclick="toggleService(this)">
         <div class="inner">
           <div class="icon-wrap">💬</div>
-          <h3>Advisory</h3>
-          <p>We guide you on what sells and what to avoid.</p>
+          <h3>Buying Advisory</h3>
+          <p>We guide you on models, prices, and resale sense.</p>
           <div class="hidden-text">
-            <p>Our team gives market insights on car models that fit your region’s demand — from Uganda to Kenya, DR Congo, and more. It’s like having a local expert in Japan.</p>
-          </div>
-          <button class="read-more-btn" type="button">Read more</button>
-        </div>
-      </div>
-
-      <div class="service-card glass" onclick="toggleService(this)">
-        <div class="inner">
-          <div class="icon-wrap">🧰</div>
-          <h3>Pre-Ship Fixes</h3>
-          <p>Minor repairs and checks before shipment.</p>
-          <div class="hidden-text">
-            <p>We can help you replace small parts, test batteries, and ensure your vehicle ships in good shape, when possible and within your budget.</p>
+            <p>We help you think through what makes sense for Uganda, East Africa, and your target market: fuel, maintenance, parts, resale, and total landed cost.</p>
           </div>
           <button class="read-more-btn" type="button">Read more</button>
         </div>
@@ -141,210 +117,91 @@
       <div class="service-card glass" onclick="toggleService(this)">
         <div class="inner">
           <div class="icon-wrap">🚢</div>
-          <h3>Consolidation</h3>
-          <p>Combine multiple items to save freight costs.</p>
+          <h3>Shipping Coordination</h3>
+          <p>We coordinate movement from purchase to port.</p>
           <div class="hidden-text">
-            <p>We can load spare parts, tires, or accessories together with your car... helping you save big on shipping fees while staying organized.</p>
+            <p>We help coordinate inland transport, yard movement, booking support, loading updates, and shipment documents so you know what is happening at each stage.</p>
           </div>
           <button class="read-more-btn" type="button">Read more</button>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- HOW IT WORKS (deep-link target: services.html#how-it-works) -->
-  <section id="how-it-works" class="tiktok-section reveal">
-  <h2>How It Works</h2>
-  <p>Please watch this short video explaining how our service works.</p>
-  <div class="video-wrapper">
-    <blockquote class="tiktok-embed"
-                cite="https://www.tiktok.com/@carju_auto/video/7564112458651028792"
-                data-video-id="7564112458651028792"
-                style="max-width: 720px; min-width: 325px; margin:auto;">
-      <section>
-        <a target="_blank" href="https://www.tiktok.com/@carju_auto/video/7564112458651028792">
-          Watch on TikTok
-        </a>
-      </section>
-    </blockquote>
-    <script async src="https://www.tiktok.com/embed.js"></script>
-    <noscript>
-      <p>
-        <a href="https://www.tiktok.com/@carju_auto/video/7564112458651028792" target="_blank" rel="noopener">
-          Open the video on TikTok
-        </a>
-      </p>
-    </noscript>
-  </div>
-</section>
+  <section id="how-it-works" class="card glass reveal tiktok-section">
+    <h2>How It Works</h2>
+    <p>Please watch this short video explaining how our service works.</p>
 
-  <!-- WHY US (same content as home for continuity) -->
-  <section class="why-us">
-    <h2 data-i18n="en">Why Choose CARJU JAPAN</h2>
-    <h2 class="hidden" data-i18n="ja">選ばれる理由</h2>
-
-    <div class="why-grid">
-      <article class="why-item">
-        <h3>We search everywhere</h3>
-        <p class="teaser">Auctions, local dealers, and private owners — we compare all options for you.</p>
-        <div class="more hidden"><p>Most sites only show their own cars. We check major auctions, small yards, and even individuals who want to sell. You get more choice and better odds of finding “your” car at the right price.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
-      </article>
-
-      <article class="why-item">
-        <h3>Agent on your side</h3>
-        <p class="teaser">We don’t push stock — we buy on your behalf and protect your budget.</p>
-        <div class="more hidden"><p>No inventory means no pressure to clear cars. Our job is to represent you: find options, compare condition and costs, and guide you to the best value — not the fastest sale.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
-      </article>
-
-      <article class="why-item">
-        <h3>Real checks, real photos</h3>
-        <p class="teaser">We verify condition and paperwork before you commit.</p>
-        <div class="more hidden"><p>We review auction sheets, service history (when available), and seller info. If anything looks off, we skip it. If it looks good, we share photos/details and you choose.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
-      </article>
-
-      <article class="why-item">
-        <h3>Clear costs</h3>
-        <p class="teaser">No hidden surprises — we break down every fee.</p>
-        <div class="more hidden"><p>You’ll see itemized costs from bid to Bill of Lading: car price, auction/seller fees, our agent fee, transport, and shipping. You always know what you’re paying for.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
-      </article>
-
-      <article class="why-item">
-        <h3>East Africa know-how</h3>
-        <p class="teaser">Uganda &amp; the region — we know what sells and how to ship it.</p>
-        <div class="more hidden"><p>We help you pick models that fit your roads, fuel, maintenance, and resale. We coordinate to your port and can suggest clearance agents if needed.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
-      </article>
-
-      <article class="why-item">
-        <h3>End-to-port support</h3>
-        <p class="teaser">Inspection, documents, and shipping — handled.</p>
-        <div class="more hidden"><p>From inspection to export paperwork to vessel booking and B/L, we keep you updated. You focus on picking the car — we handle the logistics to port.</p></div>
-        <a href="#" class="why-more" data-expand>Read more</a>
-      </article>
+    <div class="video-wrapper">
+      <blockquote class="tiktok-embed"
+        cite="https://www.tiktok.com/@carju_auto/video/7564112458651028792"
+        data-video-id="7564112458651028792"
+        style="max-width:720px;min-width:325px;margin:auto;">
+        <section>
+          <a target="_blank" href="https://www.tiktok.com/@carju_auto/video/7564112458651028792">Watch on TikTok</a>
+        </section>
+      </blockquote>
+      <script async src="https://www.tiktok.com/embed.js"></script>
     </div>
   </section>
+
+  <section class="card glass reveal">
+    <h2>Simple buying process</h2>
+    <div class="values-grid">
+      <div class="value">
+        <h3>1. Tell us your target</h3>
+        <p>Model, year, budget, destination, and condition preference.</p>
+      </div>
+      <div class="value">
+        <h3>2. We search and shortlist</h3>
+        <p>We share suitable options with photos, sheet details, and estimated costs.</p>
+      </div>
+      <div class="value">
+        <h3>3. You approve before buying</h3>
+        <p>No bidding or purchase happens before your confirmation.</p>
+      </div>
+      <div class="value">
+        <h3>4. Payment and documents</h3>
+        <p>We issue invoice details and guide the paperwork process.</p>
+      </div>
+      <div class="value">
+        <h3>5. Export and shipping</h3>
+        <p>We coordinate export handling and shipping updates.</p>
+      </div>
+      <div class="value">
+        <h3>6. You receive documents</h3>
+        <p>We share the shipping documents needed for clearance.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card glass reveal">
+    <h2>Ready to start?</h2>
+    <p>Send us the car you want, your budget, and your destination country. We’ll guide you from there.</p>
+    <div class="hero-cta" style="margin-top:12px">
+      <a class="btn" href="contact.html">Start a Search</a>
+      <a class="btn" target="_blank" href="https://wa.me/818047909663?text=Hello%20CARJU%20JAPAN%2C%20I%20want%20help%20finding%20a%20vehicle%20from%20Japan." style="background:#fff;color:var(--brand);border:1px solid #ddd">WhatsApp Us</a>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
   <div class="socials">
-    <a href="https://wa.me/+818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+    <a href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
     <a href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
     <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
   </div>
-  <p class="footer-text">© 2025 CARJU JAPAN, All Rights Reserved</p>
+
+  <p class="footer-license">
+    <strong>Secondhand Dealer License:</strong> 441090004187<br>
+    <strong>Licensing Authority:</strong> 千葉県公安委員会
+  </p>
+
+  <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js?v=201"></script>
-<script>
-  // Scroll reveal (already safe)
-  (function(){
-    const cards = Array.from(document.querySelectorAll('.services-grid .service-card'));
-    if (!('IntersectionObserver' in window) || !cards.length) {
-      cards.forEach(c => c.classList.add('in-view'));
-      return;
-    }
-    cards.forEach((c, i) => { const pos = i % 3; c.style.transitionDelay = (pos * 80) + 'ms'; });
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
-      });
-    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-    cards.forEach(c => io.observe(c));
-  })();
-
-  // Small, local toggle — keeps your global JS untouched
-  function toggleService(card){
-    const more = card.querySelector('.hidden-text');
-    const btn  = card.querySelector('.read-more-btn');
-    if(!more || !btn) return;
-    const opening = more.style.display !== 'block';
-    more.style.display = opening ? 'block' : 'none';
-    btn.textContent = opening ? 'Read less' : 'Read more';
-  }
-</script>
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    if (location.hash === '#how-it-works') {
-      const videoURL = 'https://www.tiktok.com/@carju_auto/video/7384528198347738882';
-      window.open(videoURL, '_blank', 'noopener');
-      const section = document.querySelector('#how-it-works');
-      if (section) section.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-</script>  
-<style>
-  /* Space the block away from the services grid */
-  #how-it-works {
-    margin-top: 28px;
-    position: relative;
-    overflow: hidden; /* for the overlay */
-  }
-
-  /* Subtle dark gradient so text pops even on white TikTok background */
-  #how-it-works::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;            /* top overlay only */
-    height: 120px;                 /* how tall the fade is */
-    background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0));
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Make the heading + lead text stand out */
-  #how-it-works > h2,
-  #how-it-works > p {
-    position: relative;
-    z-index: 1;
-    color: #ffffff !important;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-  }
-
-  #how-it-works > h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    margin-bottom: 6px;
-  }
-
-  #how-it-works > p {
-    font-size: 1.05rem;
-    opacity: 0.95;
-    margin-top: 0;
-  }
-
-  /* Give the embed a little breathing room from the header */
-  #how-it-works .video-wrapper {
-    margin-top: 10px;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  /* (Mobile) keep it readable and spaced */
-  @media (max-width: 760px) {
-    #how-it-works {
-      margin-top: 22px;
-    }
-    #how-it-works > h2 { font-size: 1.6rem; }
-    #how-it-works > p  { font-size: 1rem; }
-  }
-</style>
+<script src="script.js?v=302"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
