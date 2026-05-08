@@ -1065,3 +1065,44 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
     height:220px;
   }
 }
+/* FIX — YUSUMA request/contact icons too large */
+.yusuma-request-card img,
+.yusuma-request-actions img,
+.yusuma-request-card .request-icon,
+.yusuma-request-actions .request-icon {
+  width: 22px !important;
+  height: 22px !important;
+  max-width: 22px !important;
+  max-height: 22px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+}
+
+/* Keep request buttons aligned */
+.yusuma-request-actions a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: auto !important;
+}
+
+/* If the icons are direct images inside links */
+.yusuma-request-actions a img {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* Floating WhatsApp only */
+.yusuma-floating-whatsapp img {
+  width: 28px !important;
+  height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+}
+
+.yusuma-floating-whatsapp {
+  width: 56px !important;
+  height: 56px !important;
+  right: 18px !important;
+  bottom: 18px !important;
+}
