@@ -1,5 +1,6 @@
 window.CARJU_CONFIG = {
   WHATSAPP: "+81 80 4790 9663",
+  YUSUMA_WHATSAPP: "256704104804",
   TIKTOK: "https://www.tiktok.com/@carju-auto",
 
   BRANDS: [
@@ -138,7 +139,7 @@ window.CARJU_CONFIG = {
       ],
       description:
         "Toyota Premio available locally in Uganda through YUSUMA Enterprises. Contact directly for viewing and pricing.",
-      whatsapp: "256704104804"
+      whatsapp: window.CARJU_CONFIG.YUSUMA_WHATSAPP
     }
   ],
 
