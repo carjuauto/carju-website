@@ -21,7 +21,7 @@ window.CARJU_CONFIG = {
       brand: "Nissan",
       model: "Nissan Serena Highway Star",
       category: "Van",
-      year: "",
+      year: "2013",
       price: "Ask for Price",
       status: "Available in Japan",
       seller: "CARJU JAPAN",
@@ -55,6 +55,45 @@ window.CARJU_CONFIG = {
       ],
       description:
         "Nissan Serena Highway Star available through CARJU JAPAN. Comfortable family van with automatic transmission, 2WD drivetrain, backup camera, and completed maintenance.",
+      whatsapp: "818047909663"
+    },
+    {
+      id: "jp002",
+      location: "japan",
+      title: "Mazda CX-5",
+      manufacturer: "Mazda",
+      brand: "Mazda",
+      model: "CX-5",
+      category: "SUV",
+      year: "2014",
+      price: "Ask for Price",
+      status: "Available in Japan",
+      seller: "CARJU JAPAN",
+      badge: "🔥Hot Deal",
+      doors: "5",
+      transmission: "Automatic",
+      drivetrain: "4WD",
+      fuel: "Diesel",
+      maintenance: "To be confirmed",
+      features: [
+        "New Arrival",
+        "Backup Camera",
+        "ABS",
+        "Automatic Transmission",
+        "4WD",
+        "Family SUV"
+      ],
+      mainImage: "assets/stock/japan/jp002/main.jpg",
+      gallery: [
+        "assets/stock/japan/jp002/main.jpg",
+        "assets/stock/japan/jp002/2.jpg",
+        "assets/stock/japan/jp002/3.jpg",
+        "assets/stock/japan/jp002/4.jpg",
+        "assets/stock/japan/jp002/5.jpg",
+        "assets/stock/japan/jp002/6.jpg"
+      ],
+      description:
+        "Mazda CX-5 available through CARJU JAPAN. Comfortable SUV, clean driven, back camera, navigation, ETC. 3rd party dealer.",
       whatsapp: "818047909663"
     }
   ],
