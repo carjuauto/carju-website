@@ -717,3 +717,78 @@ input,textarea,select{
 .yusuma-btn:hover{
   transform:translateY(-1px);
 }
+/* ===== YUSUMA footer icon fix + floating WhatsApp ===== */
+
+.yusuma-footer img {
+  max-width: 70px;
+  height: auto;
+  object-fit: contain;
+}
+
+.yusuma-footer-contacts {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  text-align: center;
+  margin: 14px 0;
+}
+
+.yusuma-footer-contacts a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #333;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.yusuma-footer-contacts img,
+.yusuma-footer-icon {
+  width: 22px !important;
+  height: 22px !important;
+  object-fit: contain !important;
+  flex: 0 0 22px;
+}
+
+/* Floating WhatsApp button */
+.yusuma-floating-whatsapp {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 34px rgba(0,0,0,.28);
+  border: 2px solid rgba(255,255,255,.9);
+}
+
+.yusuma-floating-whatsapp img {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: contain !important;
+}
+
+.yusuma-floating-whatsapp:hover {
+  transform: translateY(-2px) scale(1.04);
+  text-decoration: none;
+}
+
+@media (max-width: 620px) {
+  .yusuma-floating-whatsapp {
+    width: 54px;
+    height: 54px;
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .yusuma-floating-whatsapp img {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
