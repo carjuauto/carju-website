@@ -323,7 +323,15 @@ function renderStockBrowse(){
 
     const brand = clean(brandSel.value || 'All');
     const cat = clean(catSel.value || 'All');
-
+/* Prevent showing everything by default */
+if (brand === 'all' && cat === 'all'){
+  grid.innerHTML = `
+    <div class="browse-placeholder">
+      Please select a brand or category to browse available stock.
+    </div>
+  `;
+  return;
+}
     const filtered = getPageItems().filter(item => {
       const brandOk = brand === 'all' || clean(item.brand) === brand;
       const catOk = cat === 'all' || clean(item.category) === cat;
@@ -353,8 +361,14 @@ function renderStockBrowse(){
 
   fillFilters();
   brandSel.value = 'All';
-  catSel.value = 'All';
-  updateBrowseGrid();
+catSel.value = 'All';
+
+/* Start empty */
+grid.innerHTML = `
+  <div class="browse-placeholder">
+    Please select a brand or category to browse available stock.
+  </div>
+`;
 }
 
 function setupStockSliderControls(){
