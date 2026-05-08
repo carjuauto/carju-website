@@ -792,3 +792,276 @@ input,textarea,select{
     height: 30px !important;
   }
 }
+/* =========================
+   YUSUMA premium page upgrade
+========================= */
+
+.yusuma-hero-actions{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* New arrivals should look different from normal stock */
+.yusuma-new-arrivals{
+  margin:34px 0;
+  padding:26px 18px;
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(110,0,0,.95), rgba(20,20,20,.94)),
+    radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 38%);
+  box-shadow:0 24px 60px rgba(0,0,0,.28);
+  color:#fff;
+  overflow:hidden;
+}
+
+.yusuma-arrival-head{
+  text-align:center;
+  margin-bottom:16px;
+}
+
+.yusuma-arrival-head h2{
+  color:#fff;
+  font-size:30px;
+  margin:8px 0 4px;
+}
+
+.yusuma-arrival-head p{
+  color:#f4f4f4;
+  margin:0 auto;
+  max-width:680px;
+}
+
+.yusuma-arrival-slider{
+  padding:18px 8px 8px;
+}
+
+.yusuma-new-arrivals .stock-card{
+  flex:0 0 330px;
+  border-radius:26px;
+  background:#fff;
+  box-shadow:0 22px 55px rgba(0,0,0,.35);
+  transform:none;
+  border:2px solid rgba(255,255,255,.55);
+}
+
+.yusuma-new-arrivals .stock-card:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+
+.yusuma-new-arrivals .stock-card-image-scroll,
+.yusuma-new-arrivals .stock-card-image-scroll img{
+  height:235px;
+}
+
+.yusuma-new-arrivals .stock-card-body{
+  padding:18px;
+}
+
+.yusuma-new-arrivals .stock-card-body h3{
+  font-size:22px;
+}
+
+.yusuma-new-arrivals .stock-price{
+  font-size:18px;
+}
+
+.yusuma-new-arrivals .stock-new-badge{
+  background:linear-gradient(135deg,#ffcc00,#ff3b30);
+  color:#111;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+/* Specific request section */
+.yusuma-request-card{
+  margin:34px 0 20px;
+  padding:28px 20px;
+  text-align:center;
+  border-radius:24px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.78)),
+    radial-gradient(circle at top left, rgba(185,0,0,.12), transparent 40%);
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:0 18px 45px rgba(0,0,0,.14);
+}
+
+.yusuma-request-card h2{
+  margin:0 0 8px;
+  font-size:28px;
+  color:#8b0000;
+}
+
+.yusuma-request-card p{
+  max-width:680px;
+  margin:0 auto 18px;
+  color:#555;
+}
+
+.yusuma-request-actions{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.yusuma-request-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 16px;
+  border-radius:999px;
+  font-weight:800;
+  text-decoration:none;
+  background:#fff;
+  color:#8b0000;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 10px 24px rgba(0,0,0,.13);
+}
+
+.yusuma-request-btn img{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+}
+
+.yusuma-request-btn.whatsapp{
+  background:#25d366;
+  color:#fff;
+}
+
+.yusuma-request-btn.call{
+  background:#111;
+  color:#fff;
+}
+
+.yusuma-request-btn.email{
+  background:#fff;
+  color:#8b0000;
+}
+
+/* Footer logo smaller */
+.yusuma-powered img{
+  width:38px !important;
+  height:auto;
+  opacity:.65;
+}
+
+.yusuma-powered{
+  margin-top:18px;
+  font-size:12px;
+  color:#777;
+}
+
+.yusuma-footer-contacts img{
+  width:24px;
+  height:24px;
+}
+
+/* Floating WhatsApp */
+.yusuma-floating-whatsapp{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:9998;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#25d366;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 14px 35px rgba(0,0,0,.28);
+}
+
+.yusuma-floating-whatsapp img{
+  width:34px;
+  height:34px;
+}
+
+@media(max-width:620px){
+  .yusuma-new-arrivals .stock-card{
+    flex:0 0 86vw;
+  }
+
+  .yusuma-new-arrivals .stock-card-image-scroll,
+  .yusuma-new-arrivals .stock-card-image-scroll img{
+    height:220px;
+  }
+
+  .yusuma-request-btn{
+    width:100%;
+  }
+}
+/* =========================
+   CARJU homepage new arrivals premium
+========================= */
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome{
+  padding:18px 8px 10px;
+}
+
+body:not(.yusuma-uganda-stock-page) .new-arrivals-section:has(#newArrivalsHome){
+  margin:26px 0 34px;
+  padding:24px 18px;
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(227,28,35,.96), rgba(20,20,20,.95)),
+    radial-gradient(circle at top left, rgba(255,255,255,.22), transparent 38%);
+  box-shadow:0 24px 60px rgba(0,0,0,.26);
+  color:#fff;
+  overflow:hidden;
+}
+
+body:not(.yusuma-uganda-stock-page) .new-arrivals-section:has(#newArrivalsHome) h2{
+  color:#fff;
+  font-size:30px;
+}
+
+body:not(.yusuma-uganda-stock-page) .new-arrivals-section:has(#newArrivalsHome) p{
+  color:#f5f5f5;
+}
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card{
+  flex:0 0 330px;
+  border-radius:26px;
+  background:#fff;
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 22px 55px rgba(0,0,0,.34);
+  transform:none;
+}
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card-image-scroll,
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card-image-scroll img{
+  height:235px;
+}
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card-body{
+  padding:18px;
+}
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card-body h3{
+  font-size:22px;
+}
+
+body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
+  background:linear-gradient(135deg,#ffcc00,#ff3b30);
+  color:#111;
+}
+
+@media(max-width:620px){
+  body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card{
+    flex:0 0 86vw;
+  }
+
+  body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card-image-scroll,
+  body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-card-image-scroll img{
+    height:220px;
+  }
+}
