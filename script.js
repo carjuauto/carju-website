@@ -149,7 +149,7 @@ function stockDetailUrl(item){
 }
 
 function stockWhatsAppUrl(item){
-  const fallbackPhone = item.location === 'uganda' ? '256700000000' : '818047909663';
+  const fallbackPhone = item.location === 'uganda' ? '256704104804' : '818047909663';
   const phone = item.whatsapp || fallbackPhone;
   const contactName = item.seller || (item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN');
 
