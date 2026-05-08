@@ -138,7 +138,7 @@ window.CARJU_CONFIG = {
       ],
       description:
         "Toyota Premio available locally in Uganda through YUSUMA Enterprises. Contact directly for viewing and pricing.",
-      whatsapp: "256700000000"
+      whatsapp: "256704104804"
     }
   ],
 
