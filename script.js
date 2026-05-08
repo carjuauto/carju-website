@@ -64,7 +64,8 @@ function getConfig(){
   const cfg = window.CARJU_CONFIG || {};
   return {
     WHATSAPP: cfg.WHATSAPP || "+81 80 4790 9663",
-    TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
+YUSUMA_WHATSAPP: cfg.YUSUMA_WHATSAPP || "256704104804",
+TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
     JAPAN_STOCK: cfg.JAPAN_STOCK || [],
@@ -149,8 +150,13 @@ function stockDetailUrl(item){
 }
 
 function stockWhatsAppUrl(item){
-  const fallbackPhone = item.location === 'uganda' ? '256704104804' : '818047909663';
-  const phone = item.whatsapp || fallbackPhone;
+  const cfg = getConfig();
+const fallbackPhone = item.location === 'uganda'
+  ? cfg.YUSUMA_WHATSAPP
+  : String(cfg.WHATSAPP).replace(/[^0-9]/g, '');
+const phone = item.location === 'uganda'
+  ? (item.whatsapp || cfg.YUSUMA_WHATSAPP)
+  : (item.whatsapp || fallbackPhone);
   const contactName = item.seller || (item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN');
 
   const message = [
