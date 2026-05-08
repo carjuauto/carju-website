@@ -8,27 +8,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js?v=501"></script>
+  <script src="config.js?v=502"></script>
 </head>
 
 <body class="yusuma-uganda-stock-page">
 <main class="container">
+
   <section class="yusuma-hero" style="--yusuma-hero:url('assets/yusuma-hero.jpg')">
     <div class="yusuma-hero-content">
       <span class="hero-pill">Uganda local stock</span>
       <h1>YUSUMA ENTERPRISES LTD</h1>
       <p>Browse cars available locally in Uganda. Contact YUSUMA Enterprises directly for viewing and pricing.</p>
+      <div class="yusuma-hero-actions">
+        <a class="stock-btn" href="https://wa.me/256704104804" target="_blank">WhatsApp YUSUMA</a>
+        <a class="stock-btn secondary" href="tel:+256704104804">Call Directly</a>
+      </div>
     </div>
   </section>
 
-  <section class="new-arrivals-section premium-section">
-    <div class="stock-head">
-      <div>
-        <h2>🔥 New Arrivals in Uganda</h2>
-        <p>Recently added vehicles available locally.</p>
-      </div>
+  <section class="new-arrivals-section yusuma-new-arrivals">
+    <div class="yusuma-arrival-head">
+      <span class="hero-pill">Fresh stock</span>
+      <h2>🔥 New Arrivals in Uganda</h2>
+      <p>Recently added vehicles available locally. Swipe the cards to see more photos.</p>
     </div>
-    <div id="newArrivalsUganda" class="stock-slider"></div>
+    <div id="newArrivalsUganda" class="stock-slider yusuma-arrival-slider"></div>
+  </section>
+
+  <section class="yusuma-request-card">
+    <h2>Looking for something specific?</h2>
+    <p>Tell YUSUMA Enterprises the car you want. Share the brand, model, year, budget, and any special details.</p>
+
+    <div class="yusuma-request-actions">
+      <a class="yusuma-request-btn whatsapp"
+         href="https://wa.me/256704104804?text=Hello%20YUSUMA%20Enterprises%2C%20I%20am%20looking%20for%20a%20specific%20car.%0A%0ABrand%3A%0AModel%3A%0AYear%3A%0ABudget%3A%0AOther%20details%3A"
+         target="_blank">
+        <img src="assets/whatsapp.PNG" alt="WhatsApp">
+        Request by WhatsApp
+      </a>
+
+      <a class="yusuma-request-btn call" href="tel:+256704104804">
+        📞 Call YUSUMA
+      </a>
+
+      <a class="yusuma-request-btn email"
+         href="mailto:yusumaent@gmail.com?subject=Car%20Request%20-%20YUSUMA%20Enterprises&body=Hello%20YUSUMA%20Enterprises%2C%0A%0AI%20am%20looking%20for%20a%20specific%20car.%0A%0ABrand%3A%0AModel%3A%0AYear%3A%0ABudget%3A%0AOther%20details%3A">
+        <img src="assets/gmail.PNG" alt="Email">
+        Request by Email
+      </a>
+    </div>
   </section>
 
   <section class="brand-category-section stock-browse-section">
@@ -62,7 +90,7 @@
     <div class="stock-head">
       <div>
         <h2>Available Cars in Uganda</h2>
-        <p>Swipe through photos on each card or open the full details page.</p>
+        <p>Open full details or contact YUSUMA directly for viewing and pricing.</p>
       </div>
     </div>
 
@@ -72,6 +100,7 @@
       <button class="stock-arrow stock-next" data-stock-next="uganda">&#10095;</button>
     </div>
   </section>
+
 </main>
 
 <footer class="footer yusuma-footer">
@@ -84,32 +113,32 @@
     </p>
 
     <div class="yusuma-footer-contacts">
-      <a href="https://wa.me/256704104804" target="_blank" aria-label="Contact YUSUMA on WhatsApp">
-        <img src="assets/whatsapp.PNG" alt="WhatsApp" width="30" height="30">
+      <a href="https://wa.me/256704104804" target="_blank">
+        <img src="assets/whatsapp.PNG" alt="WhatsApp">
         <span>+256 704 104 804</span>
       </a>
 
-      <a href="mailto:yusumaent@gmail.com" aria-label="Email YUSUMA Enterprises">
-        <img src="assets/gmail.PNG" alt="Email" width="30" height="30">
+      <a href="mailto:yusumaent@gmail.com">
+        <img src="assets/gmail.PNG" alt="Email">
         <span>yusumaent@gmail.com</span>
       </a>
     </div>
 
     <div class="yusuma-powered">
       <span>Powered with support from</span>
-      <a href="index.html" aria-label="Visit CARJU JAPAN">
+      <a href="index.html">
         <img src="assets/logo.png" alt="CARJU JAPAN">
       </a>
     </div>
   </div>
 </footer>
 
-<script src="script.js?v=501"></script>
 <a class="yusuma-floating-whatsapp"
    href="https://wa.me/256704104804?text=Hello%20YUSUMA%20Enterprises%2C%20I%20am%20interested%20in%20your%20Uganda%20stock."
-   target="_blank"
-   aria-label="Chat with YUSUMA on WhatsApp">
+   target="_blank">
   <img src="assets/whatsapp.PNG" alt="WhatsApp">
 </a>
+
+<script src="script.js?v=502"></script>
 </body>
 </html>
