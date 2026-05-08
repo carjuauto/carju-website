@@ -1106,3 +1106,56 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
   right: 18px !important;
   bottom: 18px !important;
 }
+/* =========================
+   SMALLER NEW ARRIVAL CARDS (MOBILE)
+========================= */
+
+@media (max-width: 768px){
+
+  /* Homepage new arrivals */
+  #newArrivalsHome .stock-card{
+    flex: 0 0 78vw !important;
+    max-width: 78vw !important;
+    border-radius: 22px !important;
+  }
+
+  #newArrivalsHome .stock-card-image-scroll,
+  #newArrivalsHome .stock-card-image-scroll img{
+    height: 180px !important;
+  }
+
+  /* Uganda new arrivals */
+  #newArrivalsUganda .stock-card{
+    flex: 0 0 78vw !important;
+    max-width: 78vw !important;
+    border-radius: 22px !important;
+  }
+
+  #newArrivalsUganda .stock-card-image-scroll,
+  #newArrivalsUganda .stock-card-image-scroll img{
+    height: 180px !important;
+  }
+
+  /* Reduce text sizes slightly */
+  #newArrivalsHome .stock-card-body h3,
+  #newArrivalsUganda .stock-card-body h3{
+    font-size: 22px !important;
+    line-height: 1.2 !important;
+  }
+
+  #newArrivalsHome .stock-card-body,
+  #newArrivalsUganda .stock-card-body{
+    padding: 14px !important;
+  }
+}
+/* Browse placeholder */
+.browse-placeholder{
+  width:100%;
+  padding:40px 20px;
+  text-align:center;
+  border-radius:22px;
+  background:#fff;
+  border:1px dashed rgba(0,0,0,.15);
+  color:#777;
+  font-size:16px;
+}
