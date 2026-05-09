@@ -6,9 +6,9 @@
   <title>CARJU JAPAN Japan Sourcing</title>
   <meta name="description" content="Vehicles, machinery, export agency from Japan.">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=503"/>
+  <link rel="stylesheet" href="styles.css?v=504"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js?v=503"></script>
+  <script src="config.js?v=504"></script>
 </head>
 
 <body>
@@ -51,30 +51,7 @@
 
 <main class="container">
 
-  <section class="premium-hero hero-banner hero-photo" style="--hero:url('assets/your-hero-car.jpg')">
-    <div class="anim-banner">
-      <div class="logistics-anim" aria-hidden="true">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <path id="ship-route" d="M 1080 120 C 920 60 700 80 500 120 S 200 200 80 140" fill="none"/>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <g class="la-world-wrap"><image href="assets/world-globe.PNG" x="30" y="100" width="200" height="200" class="la-world-img"/></g>
-          <g class="la-japan-wrap"><image href="assets/japan-map.PNG" x="1020" y="40" width="300" height="300" class="la-japan-img"/></g>
-          <g filter="url(#glow)"><use href="#ship-route" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="7 7" class="route-path"/></g>
-          <g class="ship-on-route">
-            <image href="assets/ship.PNG" width="140" height="70" />
-            <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse">
-              <mpath href="#ship-route"></mpath>
-            </animateMotion>
-          </g>
-        </svg>
-      </div>
-    </div>
-
+  <section class="premium-hero hero-banner hero-photo carju-home-hero" style="--hero:url('assets/yusuma-cars.png')">
     <div class="hero-inner">
       <div class="hero-copy">
         <span class="hero-pill">Japan vehicle sourcing & export support</span>
@@ -123,6 +100,11 @@
       <div class="kicker hidden" data-i18n="ja">在庫車両を探す</div>
 
       <div class="filters">
+        <label class="stock-search-label">
+          <span data-i18n="en">Search</span><span class="hidden" data-i18n="ja">検索</span>
+          <input id="stockSearchInput" type="search" placeholder="Type brand, model, year...">
+        </label>
+
         <label>
           <span data-i18n="en">Location</span><span class="hidden" data-i18n="ja">場所</span>
           <select id="stockLocationSelect">
@@ -189,16 +171,26 @@
   </section>
 </main>
 
-<footer class="footer">
-  <div class="socials">
-    <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
-    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+<footer class="footer carju-premium-footer">
+  <div class="carju-footer-inner">
+    <img src="assets/logo.png" alt="CARJU JAPAN logo" class="carju-footer-logo">
+
+    <h3>CARJU JAPAN 合同会社</h3>
+    <p class="footer-license">
+      <strong>Secondhand Dealer License:</strong> 441090004187<br>
+      <strong>Licensing Authority:</strong> 千葉県公安委員会
+    </p>
+
+    <div class="socials">
+      <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+      <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+      <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+    </div>
+
+    <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
   </div>
-  <p class="footer-license"><strong>Secondhand Dealer License:</strong> 441090004187<br><strong>Licensing Authority:</strong> 千葉県公安委員会</p>
-  <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js?v=503"></script>
+<script src="script.js?v=504"></script>
 </body>
 </html>
