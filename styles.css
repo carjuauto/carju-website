@@ -1379,3 +1379,70 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
     width:100%;
   }
 }
+/* ===== Inquiry page ===== */
+.inquiry-shell{
+  max-width:850px;
+  margin:30px auto;
+}
+
+.inquiry-card{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:28px;
+  padding:26px;
+  box-shadow:var(--shadow-lg);
+}
+
+.inquiry-form{
+  display:grid;
+  gap:14px;
+  margin-top:18px;
+}
+
+.inquiry-vehicle{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:16px;
+  align-items:center;
+  margin:18px 0;
+  padding:14px;
+  background:#fff;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+}
+
+.inquiry-vehicle img{
+  width:170px;
+  height:110px;
+  object-fit:cover;
+  border-radius:16px;
+}
+
+.uganda-redirect-box{
+  padding:18px;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(120,0,0,.95),rgba(20,20,20,.92));
+  color:#fff;
+}
+
+.inquiry-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+@media(max-width:620px){
+  .inquiry-card{
+    padding:18px;
+  }
+
+  .inquiry-vehicle{
+    grid-template-columns:1fr;
+  }
+
+  .inquiry-vehicle img{
+    width:100%;
+    height:190px;
+  }
+}
