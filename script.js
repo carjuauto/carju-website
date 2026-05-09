@@ -64,8 +64,8 @@ function getConfig(){
   const cfg = window.CARJU_CONFIG || {};
   return {
     WHATSAPP: cfg.WHATSAPP || "+81 80 4790 9663",
-YUSUMA_WHATSAPP: cfg.YUSUMA_WHATSAPP || "256704104804",
-TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
+    YUSUMA_WHATSAPP: cfg.YUSUMA_WHATSAPP || "256704104804",
+    TIKTOK: cfg.TIKTOK || "https://www.tiktok.com/@carju_auto",
     BRANDS: uniqueList([...DEFAULT_BRANDS, ...(cfg.BRANDS || [])]),
     CATEGORIES: uniqueList([...DEFAULT_CATEGORIES, ...(cfg.CATEGORIES || [])]),
     JAPAN_STOCK: cfg.JAPAN_STOCK || [],
@@ -151,12 +151,14 @@ function stockDetailUrl(item){
 
 function stockWhatsAppUrl(item){
   const cfg = getConfig();
-const fallbackPhone = item.location === 'uganda'
-  ? cfg.YUSUMA_WHATSAPP
-  : String(cfg.WHATSAPP).replace(/[^0-9]/g, '');
-const phone = item.location === 'uganda'
-  ? (item.whatsapp || cfg.YUSUMA_WHATSAPP)
-  : (item.whatsapp || fallbackPhone);
+  const fallbackPhone = item.location === 'uganda'
+    ? cfg.YUSUMA_WHATSAPP
+    : String(cfg.WHATSAPP).replace(/[^0-9]/g, '');
+
+  const phone = item.location === 'uganda'
+    ? (item.whatsapp || cfg.YUSUMA_WHATSAPP)
+    : (item.whatsapp || fallbackPhone);
+
   const contactName = item.seller || (item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN');
 
   const message = [
@@ -274,6 +276,7 @@ function renderNewArrivals(){
 function renderStockBrowse(){
   const items = getStockItems();
 
+  const searchInput = document.getElementById('stockSearchInput');
   const locationSel = document.getElementById('stockLocationSelect');
   const brandSel = document.getElementById('stockBrandSelect');
   const catSel = document.getElementById('stockCategorySelect');
@@ -311,6 +314,14 @@ function renderStockBrowse(){
     catSel.value = cats.includes(oldCat) ? oldCat : 'All';
   }
 
+  function placeholder(){
+    grid.innerHTML = `
+      <div class="browse-placeholder">
+        Please type a search term or select a brand/category to browse available stock.
+      </div>
+    `;
+  }
+
   function updateBrowseGrid(){
     const loc = pageLocation();
 
@@ -323,27 +334,44 @@ function renderStockBrowse(){
 
     const brand = clean(brandSel.value || 'All');
     const cat = clean(catSel.value || 'All');
-/* Prevent showing everything by default */
-if (brand === 'all' && cat === 'all'){
-  grid.innerHTML = `
-    <div class="browse-placeholder">
-      Please select a brand or category to browse available stock.
-    </div>
-  `;
-  return;
-}
+    const search = searchInput ? clean(searchInput.value) : '';
+
+    if (brand === 'all' && cat === 'all' && !search){
+      placeholder();
+      return;
+    }
+
     const filtered = getPageItems().filter(item => {
       const brandOk = brand === 'all' || clean(item.brand) === brand;
       const catOk = cat === 'all' || clean(item.category) === cat;
-      return brandOk && catOk;
+
+      const searchableText = clean([
+        item.title,
+        item.brand,
+        item.model,
+        item.manufacturer,
+        item.category,
+        item.year,
+        item.price,
+        item.status,
+        item.seller,
+        item.transmission,
+        item.drivetrain,
+        item.fuel,
+        item.features?.join(' ')
+      ].filter(Boolean).join(' '));
+
+      const searchOk = !search || searchableText.includes(search);
+
+      return brandOk && catOk && searchOk;
     });
 
     grid.innerHTML = '';
 
     if (!filtered.length){
       grid.appendChild(el('div', { class: 'muted small empty-stock' }, loc === 'uganda'
-        ? 'No Uganda stock matches found. Try another filter.'
-        : 'No Japan stock matches found. Try another filter.'
+        ? 'No Uganda stock matches found. Try another search or filter.'
+        : 'No Japan stock matches found. Try another search or filter.'
       ));
       return;
     }
@@ -356,19 +384,17 @@ if (brand === 'all' && cat === 'all'){
     locationSel.addEventListener('change', updateBrowseGrid);
   }
 
+  if (searchInput){
+    searchInput.addEventListener('input', updateBrowseGrid);
+  }
+
   brandSel.addEventListener('change', updateBrowseGrid);
   catSel.addEventListener('change', updateBrowseGrid);
 
   fillFilters();
   brandSel.value = 'All';
-catSel.value = 'All';
-
-/* Start empty */
-grid.innerHTML = `
-  <div class="browse-placeholder">
-    Please select a brand or category to browse available stock.
-  </div>
-`;
+  catSel.value = 'All';
+  placeholder();
 }
 
 function setupStockSliderControls(){
