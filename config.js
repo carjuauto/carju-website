@@ -134,7 +134,8 @@ window.CARJU_CONFIG = {
     "assets/stock/japan/jp003/5.jpg",
     "assets/stock/japan/jp003/6.jpg",
     "assets/stock/japan/jp003/7.jpg",
-    "assets/stock/japan/jp003/8.jpg"
+    "assets/stock/japan/jp003/8.jpg",
+    "assets/stock/japan/jp003/9.jpg"
   ],
   description:
     "2013 Nissan Serena S-HYBRID Full Option, panoramic sunroof, dual power sliding doors, ALPINE rear monitor, and very clean interior and exterior condition. Mileage is approximately 207,000 km.",
