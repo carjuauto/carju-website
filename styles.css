@@ -1159,3 +1159,186 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
   color:#777;
   font-size:16px;
 }
+/* =====================================================
+   FINAL PATCH v504 — Home hero, footer, search bar
+   Paste at the VERY BOTTOM of styles.css
+===================================================== */
+
+/* Remove old ship/globe animation on homepage */
+.carju-home-hero .anim-banner,
+.carju-home-hero .logistics-anim,
+.carju-home-hero svg{
+  display:none !important;
+}
+
+/* Homepage hero using cleaned car background */
+.carju-home-hero{
+  min-height:460px;
+  background:#111;
+}
+
+.carju-home-hero::before{
+  background:var(--hero) center/cover no-repeat !important;
+  filter:saturate(1.05) contrast(1.05);
+}
+
+.carju-home-hero::after{
+  background:
+    linear-gradient(90deg, rgba(40,0,0,.86), rgba(90,0,0,.56), rgba(0,0,0,.25)),
+    radial-gradient(circle at 25% 30%, rgba(227,28,35,.28), transparent 42%) !important;
+}
+
+.carju-home-hero .hero-panel{
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+}
+
+.carju-home-hero .hero-panel h3{
+  color:#fff;
+}
+
+.carju-home-hero .hero-panel input,
+.carju-home-hero .hero-panel select{
+  background:rgba(255,255,255,.9);
+}
+
+/* Search bar layout */
+.stock-search-label{
+  grid-column:span 1;
+}
+
+.stock-search-label input{
+  border:2px solid rgba(227,28,35,.12);
+  background:#fff;
+}
+
+.stock-search-label input:focus{
+  outline:none;
+  border-color:var(--brand);
+  box-shadow:0 0 0 5px rgba(227,28,35,.10);
+}
+
+/* Better browse placeholder */
+.browse-placeholder{
+  grid-column:1 / -1;
+  width:100%;
+  padding:34px 18px;
+  text-align:center;
+  border-radius:22px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,245,245,.85));
+  border:1px dashed rgba(159,16,22,.28);
+  color:#777;
+  font-size:15px;
+  font-weight:700;
+}
+
+/* CARJU homepage footer with YUSUMA-style grading */
+.carju-premium-footer{
+  margin-top:42px;
+  padding:34px 18px;
+  background:
+    linear-gradient(135deg, rgba(25,25,25,.97), rgba(130,0,0,.94)),
+    radial-gradient(circle at top left, rgba(255,255,255,.13), transparent 36%);
+  color:#fff;
+}
+
+.carju-footer-inner{
+  max-width:850px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.carju-footer-logo{
+  width:62px;
+  height:auto;
+  display:block;
+  margin:0 auto 10px;
+}
+
+.carju-premium-footer h3{
+  margin:0 0 10px;
+  color:#fff;
+  font-size:21px;
+  letter-spacing:.4px;
+}
+
+.carju-premium-footer .footer-license,
+.carju-premium-footer .footer-text{
+  color:#f1f1f1;
+}
+
+.carju-premium-footer .socials{
+  margin:18px 0 10px;
+}
+
+.carju-premium-footer .socials a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+}
+
+.carju-premium-footer .socials img{
+  width:24px !important;
+  height:24px !important;
+  object-fit:contain;
+}
+
+/* Mobile improvements */
+@media(max-width:768px){
+  .carju-home-hero{
+    min-height:auto;
+    border-radius:24px;
+  }
+
+  .carju-home-hero .hero-inner{
+    min-height:auto;
+    padding:24px 18px;
+  }
+
+  .carju-home-hero .hero-copy h1{
+    font-size:38px;
+  }
+
+  .carju-home-hero .hero-copy p{
+    font-size:16px;
+  }
+
+  .stock-search-label{
+    grid-column:1 / -1;
+  }
+
+  #newArrivalsHome .stock-card,
+  #newArrivalsUganda .stock-card{
+    flex:0 0 74vw !important;
+    max-width:74vw !important;
+  }
+
+  #newArrivalsHome .stock-card-image-scroll,
+  #newArrivalsHome .stock-card-image-scroll img,
+  #newArrivalsUganda .stock-card-image-scroll,
+  #newArrivalsUganda .stock-card-image-scroll img{
+    height:170px !important;
+  }
+}
+
+@media(max-width:430px){
+  #newArrivalsHome .stock-card,
+  #newArrivalsUganda .stock-card{
+    flex:0 0 72vw !important;
+    max-width:72vw !important;
+  }
+
+  #newArrivalsHome .stock-card-image-scroll,
+  #newArrivalsHome .stock-card-image-scroll img,
+  #newArrivalsUganda .stock-card-image-scroll,
+  #newArrivalsUganda .stock-card-image-scroll img{
+    height:155px !important;
+  }
+}
