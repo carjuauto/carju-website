@@ -96,7 +96,7 @@ window.CARJU_CONFIG = {
       description:
         "Mazda CX-5 available through CARJU JAPAN. Comfortable SUV, clean driven, back camera, navigation, ETC. 3rd party dealer.",
       whatsapp: "818047909663"
-    }
+    },
 {
   id: "jp003",
   location: "japan",
