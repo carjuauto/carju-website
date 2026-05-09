@@ -149,16 +149,20 @@ function stockDetailUrl(item){
     : `stock-japan-detail.html?id=${encodeURIComponent(item.id)}`;
 }
 
-function stockWhatsAppUrl(item){
+function getItemPhone(item){
   const cfg = getConfig();
+
   const fallbackPhone = item.location === 'uganda'
     ? cfg.YUSUMA_WHATSAPP
     : String(cfg.WHATSAPP).replace(/[^0-9]/g, '');
 
-  const phone = item.location === 'uganda'
+  return item.location === 'uganda'
     ? (item.whatsapp || cfg.YUSUMA_WHATSAPP)
     : (item.whatsapp || fallbackPhone);
+}
 
+function stockWhatsAppUrl(item){
+  const phone = getItemPhone(item);
   const contactName = item.seller || (item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN');
 
   const message = [
@@ -169,6 +173,56 @@ function stockWhatsAppUrl(item){
     `Price: ${item.price || 'Ask for Price'}`,
     ``,
     `Please share more details.`
+  ].join('\n');
+
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+function reserveCarUrl(item){
+  const phone = getItemPhone(item);
+  const company = item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN';
+
+  const message = [
+    `Hello ${company}, I would like to reserve this vehicle.`,
+    ``,
+    `Vehicle: ${item.title}`,
+    `Stock ID: ${item.id}`,
+    `Year: ${item.year || '-'}`,
+    `Price: ${item.price || '-'}`,
+    `Location: ${item.location === 'uganda' ? 'Uganda' : 'Japan'}`,
+    ``,
+    `My details:`,
+    `Name:`,
+    `Phone/WhatsApp:`,
+    `Country:`,
+    ``,
+    `Please confirm if it is still available and tell me the reservation process.`
+  ].join('\n');
+
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+function requestInvoiceUrl(item){
+  const phone = getItemPhone(item);
+  const company = item.location === 'uganda' ? 'YUSUMA Enterprises' : 'CARJU JAPAN';
+
+  const message = [
+    `Hello ${company}, I would like to request an invoice for this vehicle.`,
+    ``,
+    `Vehicle: ${item.title}`,
+    `Stock ID: ${item.id}`,
+    `Year: ${item.year || '-'}`,
+    `Price: ${item.price || '-'}`,
+    `Location: ${item.location === 'uganda' ? 'Uganda' : 'Japan'}`,
+    ``,
+    `My details:`,
+    `Name:`,
+    `Phone/WhatsApp:`,
+    `Email:`,
+    `Country:`,
+    `Preferred payment method:`,
+    ``,
+    `Please send me the invoice and payment instructions.`
   ].join('\n');
 
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -510,8 +564,10 @@ function renderStockDetailPage(expectedLocation){
             <li><strong>Location:</strong> ${item.location === 'uganda' ? 'Uganda' : 'Japan'}</li>
           </ul>
 
-          <div class="stock-actions">
+          <div class="stock-actions detail-actions">
             <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank" rel="noopener">Ask About This Car</a>
+            <a class="stock-btn reserve-btn" href="${reserveCarUrl(item)}" target="_blank" rel="noopener">Reserve This Car</a>
+            <a class="stock-btn invoice-btn" href="${requestInvoiceUrl(item)}" target="_blank" rel="noopener">Request Invoice</a>
             <a class="stock-btn secondary" href="${item.location === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
           </div>
         </div>
