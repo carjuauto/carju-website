@@ -1342,3 +1342,40 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
     height:155px !important;
   }
 }
+/* =====================================================
+   RESERVE + REQUEST INVOICE BUTTONS
+   Paste at the VERY BOTTOM of styles.css
+===================================================== */
+
+.detail-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.reserve-btn{
+  background:linear-gradient(180deg,#111,#333) !important;
+  border-color:#111 !important;
+  color:#fff !important;
+}
+
+.invoice-btn{
+  background:linear-gradient(180deg,#f7c948,#d89000) !important;
+  border-color:#c47d00 !important;
+  color:#111 !important;
+}
+
+.detail-actions .stock-btn{
+  min-width:145px;
+  text-align:center;
+}
+
+@media(max-width:620px){
+  .detail-actions{
+    flex-direction:column;
+  }
+
+  .detail-actions .stock-btn{
+    width:100%;
+  }
+}
