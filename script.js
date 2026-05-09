@@ -149,6 +149,10 @@ function stockDetailUrl(item){
     : `stock-japan-detail.html?id=${encodeURIComponent(item.id)}`;
 }
 
+function inquiryPageUrl(item, action = 'ask'){
+  return `inquiry.html?id=${encodeURIComponent(item.id)}&location=${encodeURIComponent(item.location)}&action=${encodeURIComponent(action)}`;
+}
+
 function getItemPhone(item){
   const cfg = getConfig();
 
@@ -240,6 +244,9 @@ function renderStockCard(item, compact = false){
     <img src="${escapeHTML(src)}" alt="${escapeHTML(item.title)}" loading="lazy" onerror="stockImageFallback(this)">
   `).join('');
 
+  const askUrl = item.location === 'japan' ? inquiryPageUrl(item, 'ask') : stockWhatsAppUrl(item);
+  const askTarget = item.location === 'japan' ? '' : 'target="_blank" rel="noopener"';
+
   card.innerHTML = `
     <div class="stock-image-wrap">
       ${badgeHtml}
@@ -257,7 +264,7 @@ function renderStockCard(item, compact = false){
 
       <div class="stock-actions">
         <a class="stock-btn secondary" href="${stockDetailUrl(item)}">View Details</a>
-        <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank" rel="noopener">Ask Now</a>
+        <a class="stock-btn" href="${askUrl}" ${askTarget}>Ask Now</a>
       </div>
     </div>
   `;
@@ -506,6 +513,119 @@ function prevViewerImage(){
   if (img) img.src = CURRENT_DETAIL_GALLERY[CURRENT_DETAIL_INDEX];
 }
 
+function setupInquiryPage(){
+  if (!document.body.classList.contains('inquiry-page')) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const location = clean(params.get('location') || 'japan');
+  const action = params.get('action') || 'ask';
+
+  const item = getStockItems().find(x => x.id === id && x.location === location);
+
+  const preview = document.getElementById('inquiryVehiclePreview');
+  const country = document.getElementById('inquiryCountry');
+  const ugandaBox = document.getElementById('ugandaRedirectBox');
+  const normalFields = document.getElementById('normalInquiryFields');
+  const form = document.getElementById('carjuInquiryForm');
+  const yusumaWa = document.getElementById('inquiryYusumaWhatsapp');
+
+  if (!preview || !country || !ugandaBox || !normalFields || !form) return;
+
+  if (!item){
+    preview.innerHTML = `
+      <div class="card">
+        <h2>Vehicle not found</h2>
+        <p>This vehicle may have been removed or sold.</p>
+        <a class="stock-btn" href="stock-japan.html">Back to Japan Stock</a>
+      </div>
+    `;
+    form.style.display = 'none';
+    return;
+  }
+
+  preview.innerHTML = `
+    <div class="inquiry-vehicle">
+      <img src="${escapeHTML(item.mainImage)}" alt="${escapeHTML(item.title)}" onerror="stockImageFallback(this)">
+      <div>
+        <h2>${escapeHTML(item.title)}</h2>
+        <p>${escapeHTML([item.year, item.brand, item.category, item.price].filter(Boolean).join(' · '))}</p>
+        <p><strong>Stock ID:</strong> ${escapeHTML(item.id)}</p>
+      </div>
+    </div>
+  `;
+
+  if (yusumaWa){
+    const msg = [
+      `Hello YUSUMA Enterprises, I am from Uganda and I am interested in this Japan stock vehicle:`,
+      ``,
+      `Vehicle: ${item.title}`,
+      `Stock ID: ${item.id}`,
+      `Year: ${item.year || '-'}`,
+      `Price: ${item.price || '-'}`,
+      ``,
+      `Please advise me through YUSUMA.`
+    ].join('\n');
+
+    yusumaWa.href = `https://wa.me/${getConfig().YUSUMA_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  }
+
+  function updateCountryFlow(){
+    if (country.value === 'Uganda'){
+      ugandaBox.classList.remove('hidden');
+      normalFields.classList.add('hidden');
+    } else {
+      ugandaBox.classList.add('hidden');
+      normalFields.classList.remove('hidden');
+    }
+  }
+
+  country.addEventListener('change', updateCountryFlow);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (country.value === 'Uganda') return;
+
+    const name = document.getElementById('inquiryName')?.value.trim() || '';
+    const email = document.getElementById('inquiryEmail')?.value.trim() || '';
+    const phone = document.getElementById('inquiryPhone')?.value.trim() || '';
+    const message = document.getElementById('inquiryMessage')?.value.trim() || '';
+
+    if (!country.value){
+      alert('Please select your country.');
+      return;
+    }
+
+    const actionText =
+      action === 'reserve' ? 'reserve this vehicle' :
+      action === 'invoice' ? 'request an invoice for this vehicle' :
+      'ask about this vehicle';
+
+    const waMessage = [
+      `Hello CARJU JAPAN, I would like to ${actionText}.`,
+      ``,
+      `Vehicle: ${item.title}`,
+      `Stock ID: ${item.id}`,
+      `Year: ${item.year || '-'}`,
+      `Price: ${item.price || '-'}`,
+      ``,
+      `Client details:`,
+      `Name: ${name || '-'}`,
+      `Email: ${email || '-'}`,
+      `Phone/WhatsApp: ${phone || '-'}`,
+      `Country: ${country.value || '-'}`,
+      ``,
+      `Message: ${message || '-'}`
+    ].join('\n');
+
+    const carjuPhone = String(getConfig().WHATSAPP).replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${carjuPhone}?text=${encodeURIComponent(waMessage)}`, '_blank');
+  });
+
+  updateCountryFlow();
+}
+
 function renderStockDetailPage(expectedLocation){
   const mount = document.getElementById('stockDetailMount');
   if (!mount) return;
@@ -533,6 +653,14 @@ function renderStockDetailPage(expectedLocation){
   const featuresHtml = item.features && item.features.length
     ? `<div class="stock-features">${item.features.map(feature => `<span>${escapeHTML(feature)}</span>`).join('')}</div>`
     : '';
+
+  const askUrl = item.location === 'japan' ? inquiryPageUrl(item, 'ask') : stockWhatsAppUrl(item);
+  const reserveUrl = item.location === 'japan' ? inquiryPageUrl(item, 'reserve') : reserveCarUrl(item);
+  const invoiceUrl = item.location === 'japan' ? inquiryPageUrl(item, 'invoice') : requestInvoiceUrl(item);
+
+  const askTarget = item.location === 'japan' ? '' : 'target="_blank" rel="noopener"';
+  const reserveTarget = item.location === 'japan' ? '' : 'target="_blank" rel="noopener"';
+  const invoiceTarget = item.location === 'japan' ? '' : 'target="_blank" rel="noopener"';
 
   mount.innerHTML = `
     <section class="stock-detail-page premium-detail">
@@ -565,9 +693,9 @@ function renderStockDetailPage(expectedLocation){
           </ul>
 
           <div class="stock-actions detail-actions">
-            <a class="stock-btn" href="${stockWhatsAppUrl(item)}" target="_blank" rel="noopener">Ask About This Car</a>
-            <a class="stock-btn reserve-btn" href="${reserveCarUrl(item)}" target="_blank" rel="noopener">Reserve This Car</a>
-            <a class="stock-btn invoice-btn" href="${requestInvoiceUrl(item)}" target="_blank" rel="noopener">Request Invoice</a>
+            <a class="stock-btn" href="${askUrl}" ${askTarget}>Ask About This Car</a>
+            <a class="stock-btn reserve-btn" href="${reserveUrl}" ${reserveTarget}>Reserve This Car</a>
+            <a class="stock-btn invoice-btn" href="${invoiceUrl}" ${invoiceTarget}>Request Invoice</a>
             <a class="stock-btn secondary" href="${item.location === 'uganda' ? 'yusuma-uganda-stock.html' : 'stock-japan.html'}">Back to Stock</a>
           </div>
         </div>
@@ -675,6 +803,8 @@ function buildFromConfig(){
   if (document.body.classList.contains('uganda-stock-detail')){
     renderStockDetailPage('uganda');
   }
+
+  setupInquiryPage();
 }
 
 function toggleService(card){
