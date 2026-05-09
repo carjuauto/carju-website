@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Vehicle Inquiry | CARJU JAPAN</title>
+  <meta name="description" content="Send a vehicle inquiry to CARJU JAPAN or YUSUMA Enterprises.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=507"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <script src="config.js?v=507"></script>
+</head>
+
+<body class="inquiry-page">
+<header class="header container header--compact">
+  <a href="index.html" class="brandlink header-logo">
+    <img src="assets/logo.png" alt="CARJU JAPAN logo" />
+    <span class="site-name">CARJU JAPAN 合同会社</span>
+  </a>
+
+  <button class="hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">☰</button>
+
+  <nav class="nav" id="siteNav">
+    <a href="services.html">Services</a>
+    <a href="fees.html">Fees</a>
+    <a href="stock-japan.html">Japan Stock</a>
+    <a href="yusuma-uganda-stock.html">Uganda Stock</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="inquiry-shell">
+    <div class="inquiry-card">
+      <span class="hero-pill">Vehicle inquiry</span>
+      <h1>Tell us where you are buying from</h1>
+      <p class="muted">This helps us connect you with the right CARJU/YUSUMA support team.</p>
+
+      <div id="inquiryVehiclePreview" class="inquiry-preview"></div>
+
+      <form id="carjuInquiryForm" class="inquiry-form">
+        <label>
+          Country
+          <select id="inquiryCountry" required>
+            <option value="">Select your country</option>
+            <option value="Uganda">Uganda</option>
+            <option value="Kenya">Kenya</option>
+            <option value="Tanzania">Tanzania</option>
+            <option value="Rwanda">Rwanda</option>
+            <option value="DR Congo">DR Congo</option>
+            <option value="South Sudan">South Sudan</option>
+            <option value="Zimbabwe">Zimbabwe</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <div id="ugandaRedirectBox" class="uganda-redirect-box hidden">
+          <h2>Uganda client support</h2>
+          <p>Since you are in Uganda, please contact YUSUMA Enterprises directly for local support, viewing, pricing, and payment guidance.</p>
+
+          <div class="inquiry-actions">
+            <a class="stock-btn" href="yusuma-uganda-stock.html">Go to Uganda Stock</a>
+            <a id="inquiryYusumaWhatsapp" class="stock-btn secondary" href="https://wa.me/256704104804" target="_blank">WhatsApp YUSUMA</a>
+          </div>
+        </div>
+
+        <div id="normalInquiryFields">
+          <label>
+            Full Name
+            <input id="inquiryName" type="text" placeholder="Your name">
+          </label>
+
+          <label>
+            Email
+            <input id="inquiryEmail" type="email" placeholder="you@example.com">
+          </label>
+
+          <label>
+            WhatsApp / Phone Number
+            <input id="inquiryPhone" type="tel" placeholder="+256... / +81...">
+          </label>
+
+          <label>
+            Message
+            <textarea id="inquiryMessage" rows="4" placeholder="Tell us your budget, destination port, and any questions..."></textarea>
+          </label>
+
+          <button class="stock-btn" type="submit">Send Inquiry to CARJU</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer carju-premium-footer">
+  <div class="carju-footer-inner">
+    <img class="carju-footer-logo" src="assets/logo.png" alt="CARJU JAPAN">
+    <h3>CARJU JAPAN 合同会社</h3>
+    <div class="socials">
+      <a id="wa-link" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp"></a>
+      <a id="tiktok-link" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok"></a>
+      <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail"></a>
+    </div>
+    <p class="footer-license">
+      <strong>Secondhand Dealer License:</strong> 441090004187<br>
+      <strong>Licensing Authority:</strong> 千葉県公安委員会
+    </p>
+    <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
+  </div>
+</footer>
+
+<script src="script.js?v=507"></script>
+</body>
+</html>
