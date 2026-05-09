@@ -97,6 +97,49 @@ window.CARJU_CONFIG = {
         "Mazda CX-5 available through CARJU JAPAN. Comfortable SUV, clean driven, back camera, navigation, ETC. 3rd party dealer.",
       whatsapp: "818047909663"
     }
+{
+  id: "jp003",
+  location: "japan",
+  title: "Nissan Serena S-HYBRID Full Option",
+  manufacturer: "Nissan",
+  brand: "Nissan",
+  model: "Serena S-HYBRID",
+  category: "Van",
+  year: "2013",
+  price: "Ask for Price",
+  status: "Available in Japan",
+  seller: "3rd Party Dealer",
+  badge: "🔥Hot Deal",
+  doors: "5",
+  transmission: "Automatic",
+  drivetrain: "2WD",
+  fuel: "Hybrid / Regular gasoline",
+  maintenance: "Available",
+  features: [
+    "207,000 km",
+    "Dual Power Sliding Doors",
+    "Panoramic Sunroof",
+    "ALPINE Rear Monitor",
+    "Full Option Model",
+    "Very Clean Inside &Outside",
+    "Family Van",
+    "3rd Party Dealer"
+  ],
+  mainImage: "assets/stock/japan/jp003/main.jpg",
+  gallery: [
+    "assets/stock/japan/jp003/main.jpg",
+    "assets/stock/japan/jp003/2.jpg",
+    "assets/stock/japan/jp003/3.jpg",
+    "assets/stock/japan/jp003/4.jpg",
+    "assets/stock/japan/jp003/5.jpg",
+    "assets/stock/japan/jp003/6.jpg",
+    "assets/stock/japan/jp003/7.jpg",
+    "assets/stock/japan/jp003/8.jpg"
+  ],
+  description:
+    "2013 Nissan Serena S-HYBRID Full Option, panoramic sunroof, dual power sliding doors, ALPINE rear monitor, and very clean interior and exterior condition. Mileage is approximately 207,000 km.",
+  whatsapp: "818047909663"
+}
   ],
 
   UGANDA_STOCK: [
