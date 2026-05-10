@@ -6,12 +6,12 @@
   <title>Contact | CARJU JAPAN</title>
   <meta name="description" content="Contact CARJU JAPAN for sourcing cars and machinery from Japan.">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles.css?v=508"/>
   <link rel="icon" type="image/png" href="assets/logo.png"/>
-  <script src="config.js?v=302"></script>
+  <script src="config.js?v=510"></script>
 </head>
 
-<body>
+<body class="contact-page">
 <header class="header container header--compact">
   <a href="index.html" class="brandlink header-logo">
     <img src="assets/logo.png" alt="CARJU JAPAN logo" />
@@ -40,13 +40,78 @@
   <div class="container">
     <p class="kicker">Contact CARJU JAPAN</p>
     <h1>Tell us what you want to buy from Japan.</h1>
-    <p class="muted">Send the model, budget, year range, destination country, and any special requirements. We’ll guide you from search to shipping.</p>
+    <p class="muted">
+      Share your destination country, budget, model, year range, and requirements.
+      We’ll guide you to the right buying channel.
+    </p>
   </div>
 </section>
 
 <main class="container stack-xl">
 
   <section class="grid grid-2">
+    <div class="card glass reveal">
+      <h2>Smart Request</h2>
+      <p class="muted">
+        If you are in Uganda, we’ll guide you to YUSUMA Enterprises. Other countries will continue with CARJU JAPAN.
+      </p>
+
+      <form id="contactSmartForm" class="contact-smart-form">
+        <label>
+          Full Name
+          <input required id="contactName" type="text" placeholder="Your name">
+        </label>
+
+        <label>
+          Country
+          <select required id="contactCountry">
+            <option value="">Select your country</option>
+            <option value="Uganda">Uganda</option>
+            <option value="Kenya">Kenya</option>
+            <option value="Tanzania">Tanzania</option>
+            <option value="Rwanda">Rwanda</option>
+            <option value="DR Congo">DR Congo</option>
+            <option value="South Sudan">South Sudan</option>
+            <option value="Zambia">Zambia</option>
+            <option value="Zimbabwe">Zimbabwe</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <div id="contactUgandaBox" class="uganda-redirect-box hidden">
+          <h3>Uganda customers are handled by YUSUMA Enterprises</h3>
+          <p>
+            For faster local service, viewing, pricing, and negotiation in Uganda,
+            please contact YUSUMA directly.
+          </p>
+
+          <div class="inquiry-actions">
+            <a class="stock-btn" href="yusuma-uganda-stock.html">Open Uganda Stock</a>
+            <a class="stock-btn secondary" href="https://wa.me/256704104804?text=Hello%20YUSUMA%20Enterprises%2C%20I%20am%20looking%20for%20a%20vehicle." target="_blank">WhatsApp YUSUMA</a>
+          </div>
+        </div>
+
+        <div id="contactNormalFields">
+          <label>
+            Email
+            <input id="contactEmail" type="email" placeholder="you@example.com">
+          </label>
+
+          <label>
+            WhatsApp / Phone
+            <input required id="contactPhone" type="text" placeholder="+256 / +254 / +243 ...">
+          </label>
+
+          <label>
+            What are you looking for?
+            <textarea required id="contactMessage" rows="6" placeholder="Example: Toyota Harrier 2015, budget ¥1.5M, shipping to Kenya..."></textarea>
+          </label>
+
+          <button class="btn" type="submit">Send Request via WhatsApp</button>
+        </div>
+      </form>
+    </div>
+
     <div class="card glass reveal">
       <h2>Talk to us directly</h2>
       <p class="muted">For faster replies, WhatsApp is usually best.</p>
@@ -58,35 +123,9 @@
         <p><strong>Office:</strong><br>Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo, Japan</p>
       </div>
 
-      <p class="muted small">We currently operate as an agency and do not hold physical stock at the office. Physical premises may be established when the business requires it.</p>
-
-      <div class="hero-cta" style="margin-top:14px">
-        <a class="btn" target="_blank" href="https://wa.me/818047909663?text=Hello%20CARJU%20JAPAN%2C%20I%20want%20to%20ask%20about%20buying%20a%20vehicle%20from%20Japan.">Chat on WhatsApp</a>
-      </div>
-    </div>
-
-    <div class="card glass reveal">
-      <h2>Quick Request</h2>
-      <p class="muted">Fill this and your email app will open with the message.</p>
-
-      <form action="mailto:carjuautoagency@gmail.com" method="post" enctype="text/plain">
-        <label>
-          Name
-          <input required type="text" name="name" placeholder="Your name"/>
-        </label>
-
-        <label>
-          Email / WhatsApp
-          <input required type="text" name="contact" placeholder="Email or WhatsApp number"/>
-        </label>
-
-        <label>
-          What are you looking for?
-          <textarea name="message" rows="6" placeholder="Example: Toyota Harrier 2015, budget ¥1.5M, shipping to Uganda..."></textarea>
-        </label>
-
-        <button class="btn" type="submit">Send Request</button>
-      </form>
+      <p class="muted small">
+        We currently operate as an agency and do not hold physical stock at the office.
+      </p>
     </div>
   </section>
 
@@ -110,21 +149,26 @@
 
 </main>
 
-<footer class="footer">
-  <div class="socials">
-    <a id="wa-link-footer" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
-    <a id="tiktok-link-footer" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
-    <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+<footer class="footer carju-premium-footer">
+  <div class="carju-footer-inner">
+    <img src="assets/logo.png" alt="CARJU JAPAN logo" class="carju-footer-logo">
+
+    <h3>CARJU JAPAN 合同会社</h3>
+    <p class="footer-license">
+      <strong>Secondhand Dealer License:</strong> 441090004187<br>
+      <strong>Licensing Authority:</strong> 千葉県公安委員会
+    </p>
+
+    <div class="socials">
+      <a id="wa-link-footer" href="https://wa.me/818047909663" target="_blank"><img src="assets/whatsapp.PNG" alt="WhatsApp" width="32" height="32"></a>
+      <a id="tiktok-link-footer" href="https://www.tiktok.com/@carju_auto" target="_blank"><img src="assets/tiktok.PNG" alt="TikTok" width="32" height="32"></a>
+      <a href="mailto:carjuautoagency@gmail.com" target="_blank"><img src="assets/gmail.PNG" alt="Gmail" width="32" height="32"></a>
+    </div>
+
+    <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
   </div>
-
-  <p class="footer-license">
-    <strong>Secondhand Dealer License:</strong> 441090004187<br>
-    <strong>Licensing Authority:</strong> 千葉県公安委員会
-  </p>
-
-  <p class="footer-text">© 2025 CARJU JAPAN 合同会社, All Rights Reserved</p>
 </footer>
 
-<script src="script.js?v=302"></script>
+<script src="script.js?v=508"></script>
 </body>
 </html>
