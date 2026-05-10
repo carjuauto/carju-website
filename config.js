@@ -181,8 +181,7 @@ window.CARJU_CONFIG = {
     "assets/stock/japan/jp004/4.jpg",
     "assets/stock/japan/jp004/5.jpg",
     "assets/stock/japan/jp004/6.jpg",
-    "assets/stock/japan/jp004/7.jpg",
-    "assets/stock/japan/jp004/8.jpg"
+    "assets/stock/japan/jp004/7.jpg"
   ],
   description:
     "2015 Toyota Aqua X Urban available in Japan through a 3rd party dealer. Clean hybrid hatchback with navigation, TV, ETC, back camera, Toyota Safety Sense, and 2 smart keys. Very clean interior and exterior with no known issues.",
