@@ -1446,3 +1446,147 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
     height:190px;
   }
 }
+/* =====================================================
+   FINAL PATCH v508 — Homepage + Contact + Inquiry
+===================================================== */
+
+/* Homepage hero after removing Quick Request panel */
+.hero-no-panel .hero-inner{
+  grid-template-columns:1fr !important;
+  max-width:760px;
+}
+
+.hero-no-panel .hero-copy{
+  max-width:760px;
+}
+
+.hero-no-panel .hero-panel{
+  display:none !important;
+}
+
+/* Contact smart form */
+.contact-smart-form{
+  display:grid;
+  gap:14px;
+  margin-top:14px;
+}
+
+.contact-smart-form label,
+.inquiry-form label{
+  font-weight:800;
+  color:#333;
+}
+
+.contact-smart-form input,
+.contact-smart-form textarea,
+.contact-smart-form select,
+.inquiry-form input,
+.inquiry-form textarea,
+.inquiry-form select{
+  margin-top:6px;
+}
+
+/* Uganda redirect box shared by contact + inquiry */
+.uganda-redirect-box{
+  padding:20px;
+  border-radius:22px;
+  background:
+    linear-gradient(135deg, rgba(120,0,0,.96), rgba(15,15,15,.94)),
+    radial-gradient(circle at top left, rgba(255,255,255,.14), transparent 36%);
+  color:#fff;
+  box-shadow:0 18px 45px rgba(0,0,0,.22);
+}
+
+.uganda-redirect-box h2,
+.uganda-redirect-box h3{
+  margin-top:0;
+  color:#fff;
+}
+
+.uganda-redirect-box p{
+  color:#f4f4f4;
+}
+
+/* Inquiry page polish */
+.inquiry-shell{
+  max-width:850px;
+  margin:30px auto;
+}
+
+.inquiry-card{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:28px;
+  padding:26px;
+  box-shadow:var(--shadow-lg);
+}
+
+.inquiry-form{
+  display:grid;
+  gap:14px;
+  margin-top:18px;
+}
+
+.inquiry-vehicle{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:16px;
+  align-items:center;
+  margin:18px 0;
+  padding:14px;
+  background:#fff;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+}
+
+.inquiry-vehicle img{
+  width:170px;
+  height:110px;
+  object-fit:cover;
+  border-radius:16px;
+}
+
+.inquiry-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+/* Contact page spacing */
+.contact-list p{
+  margin:0 0 14px;
+}
+
+.contact-page .values-grid{
+  margin-top:12px;
+}
+
+/* Mobile */
+@media(max-width:620px){
+  .hero-no-panel .hero-inner{
+    padding:28px 18px !important;
+  }
+
+  .hero-no-panel .hero-copy h1{
+    font-size:36px;
+  }
+
+  .inquiry-card{
+    padding:18px;
+  }
+
+  .inquiry-vehicle{
+    grid-template-columns:1fr;
+  }
+
+  .inquiry-vehicle img{
+    width:100%;
+    height:190px;
+  }
+
+  .inquiry-actions .stock-btn{
+    width:100%;
+    text-align:center;
+  }
+}
