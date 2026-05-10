@@ -766,7 +766,62 @@ function renderFeesTables(rows){
     m.appendChild(card);
   });
 }
+function setupContactPage(){
+  if (!document.body.classList.contains('contact-page')) return;
 
+  const form = document.getElementById('contactSmartForm');
+  const country = document.getElementById('contactCountry');
+  const ugandaBox = document.getElementById('contactUgandaBox');
+  const normalFields = document.getElementById('contactNormalFields');
+
+  if (!form || !country || !ugandaBox || !normalFields) return;
+
+  function updateContactFlow(){
+    if (country.value === 'Uganda'){
+      ugandaBox.classList.remove('hidden');
+      normalFields.classList.add('hidden');
+    } else {
+      ugandaBox.classList.add('hidden');
+      normalFields.classList.remove('hidden');
+    }
+  }
+
+  country.addEventListener('change', updateContactFlow);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (country.value === 'Uganda') return;
+
+    const name = document.getElementById('contactName')?.value.trim() || '';
+    const email = document.getElementById('contactEmail')?.value.trim() || '';
+    const phone = document.getElementById('contactPhone')?.value.trim() || '';
+    const message = document.getElementById('contactMessage')?.value.trim() || '';
+
+    if (!country.value){
+      alert('Please select your country.');
+      return;
+    }
+
+    const waMessage = [
+      `Hello CARJU JAPAN, I would like help finding a vehicle from Japan.`,
+      ``,
+      `Client details:`,
+      `Name: ${name || '-'}`,
+      `Country: ${country.value || '-'}`,
+      `Email: ${email || '-'}`,
+      `Phone/WhatsApp: ${phone || '-'}`,
+      ``,
+      `Request:`,
+      `${message || '-'}`
+    ].join('\n');
+
+    const carjuPhone = String(getConfig().WHATSAPP).replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${carjuPhone}?text=${encodeURIComponent(waMessage)}`, '_blank');
+  });
+
+  updateContactFlow();
+}
 function buildFromConfig(){
   const cfg = getConfig();
 
@@ -804,7 +859,8 @@ function buildFromConfig(){
     renderStockDetailPage('uganda');
   }
 
-  setupInquiryPage();
+setupInquiryPage();
+setupContactPage();
 }
 
 function toggleService(card){
