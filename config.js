@@ -140,6 +140,53 @@ window.CARJU_CONFIG = {
   description:
     "2013 Nissan Serena S-HYBRID Full Option, panoramic sunroof, dual power sliding doors, ALPINE rear monitor, and very clean interior and exterior condition. Mileage is approximately 207,000 km.",
   whatsapp: "818047909663"
+},
+{
+  id: "jp004",
+  location: "japan",
+  title: "Toyota Aqua X Urban",
+  manufacturer: "Toyota",
+  brand: "Toyota",
+  model: "Aqua X Urban",
+  category: "Hatchback",
+  year: "2015",
+  price: "Ask for Price",
+  status: "Available in Japan",
+  seller: "3rd Party Dealer",
+  badge: "New Arrival",
+  doors: "5",
+  transmission: "Automatic",
+  drivetrain: "2WD",
+  fuel: "Hybrid",
+  maintenance: "Shaken until 2027/11/13",
+  features: [
+    "New Arrival",
+    "92,000 km",
+    "Navigation",
+    "TV",
+    "ETC",
+    "Back Camera",
+    "Toyota Safety Sense",
+    "2 Smart Keys",
+    "Clean Interior and Exterior",
+    "No Issues",
+    "Hybrid",
+    "3rd Party Dealer"
+  ],
+  mainImage: "assets/stock/japan/jp004/main.jpg",
+  gallery: [
+    "assets/stock/japan/jp004/main.jpg",
+    "assets/stock/japan/jp004/2.jpg",
+    "assets/stock/japan/jp004/3.jpg",
+    "assets/stock/japan/jp004/4.jpg",
+    "assets/stock/japan/jp004/5.jpg",
+    "assets/stock/japan/jp004/6.jpg",
+    "assets/stock/japan/jp004/7.jpg",
+    "assets/stock/japan/jp004/8.jpg"
+  ],
+  description:
+    "2015 Toyota Aqua X Urban available in Japan through a 3rd party dealer. Clean hybrid hatchback with navigation, TV, ETC, back camera, Toyota Safety Sense, and 2 smart keys. Very clean interior and exterior with no known issues.",
+  whatsapp: "818047909663"
 }
   ],
 
