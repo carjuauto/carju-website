@@ -1693,3 +1693,28 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
     max-width:74vw !important;
   }
 }
+/* YUSUMA search/browse results sideways on mobile */
+@media(max-width:768px){
+  .yusuma-uganda-stock-page #stockBrowseGrid{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    gap:16px;
+    scroll-snap-type:x mandatory;
+    padding-bottom:14px;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .yusuma-uganda-stock-page #stockBrowseGrid::-webkit-scrollbar{
+    display:none;
+  }
+
+  .yusuma-uganda-stock-page #stockBrowseGrid .stock-card{
+    flex:0 0 78vw !important;
+    max-width:78vw !important;
+    scroll-snap-align:start;
+  }
+
+  .yusuma-uganda-stock-page #stockBrowseGrid .browse-placeholder,
+  .yusuma-uganda-stock
