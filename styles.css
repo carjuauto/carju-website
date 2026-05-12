@@ -1590,3 +1590,52 @@ body:not(.yusuma-uganda-stock-page) #newArrivalsHome .stock-new-badge{
     text-align:center;
   }
 }
+/* =====================================================
+   YUSUMA STOCK PAGE — SIDEWAYS SCROLL ON MOBILE
+===================================================== */
+
+@media(max-width:768px){
+
+  /* Available stock + New arrivals */
+  .yusuma-uganda-stock-page .stock-slider{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    gap:16px;
+    padding-bottom:12px;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+  }
+
+  .yusuma-uganda-stock-page .stock-slider::-webkit-scrollbar{
+    display:none;
+  }
+
+  /* Card sizing */
+  .yusuma-uganda-stock-page .stock-card{
+    flex:0 0 78vw !important;
+    max-width:78vw !important;
+    scroll-snap-align:start;
+  }
+
+  /* Image height */
+  .yusuma-uganda-stock-page .stock-card-image-scroll,
+  .yusuma-uganda-stock-page .stock-card-image-scroll img{
+    height:190px !important;
+  }
+}
+
+/* Smaller phones */
+@media(max-width:430px){
+
+  .yusuma-uganda-stock-page .stock-card{
+    flex:0 0 74vw !important;
+    max-width:74vw !important;
+  }
+
+  .yusuma-uganda-stock-page .stock-card-image-scroll,
+  .yusuma-uganda-stock-page .stock-card-image-scroll img{
+    height:170px !important;
+  }
+}
