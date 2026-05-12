@@ -193,26 +193,68 @@ window.CARJU_CONFIG = {
     {
       id: "ug001",
       location: "uganda",
-      title: "Toyota Premio",
+      title: "Mercedes Benz",
+      manufacturer: "Mercedes",
+      brand: "GLS350d",
+      model: "4MATIC",
+      category: "SUV",
+      year: "2018",
+      price: "Ask for Price",
+      status: "Available in Uganda",
+      seller: "YUSUMA Enterprises",
+      badge: "New Arrival",
+      doors: "5",
+      transmission: "Automatic",
+      drivetrain: "AWD",
+      fuel: "Diesel",
+      maintenance: "Completed",
+      features: [
+        "New Arrival",
+        "Automatic",
+        "AWD",
+        "Available Locally",
+        "360 camera",
+        "Alloy wheels"
+      ],
+      mainImage: "assets/stock/uganda/ug001/main.jpg",
+      gallery: [
+        "assets/stock/uganda/ug001/main.jpg",
+        "assets/stock/uganda/ug001/2.jpg",
+        "assets/stock/uganda/ug001/3.jpg",
+        "assets/stock/uganda/ug001/4.jpg",
+        "assets/stock/uganda/ug001/5.jpg",
+        "assets/stock/uganda/ug001/6.jpg",
+        "assets/stock/uganda/ug001/7.jpg"
+      ],
+      description:
+        "7 seater good for family and long distance movements. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
+      whatsapp: "256704104804"
+    },
+
+    {
+      id: "ug002",
+      location: "uganda",
+      title: "Toyota Hilux Pickup",
       manufacturer: "Toyota",
-      brand: "Toyota",
-      model: "Premio",
-      category: "Sedan",
-      year: "2012",
-      price: "Ask YUSUMA",
+      brand: "Rouge",
+      category: "Truck",
+      year: "2023",
+      price: "Ask for Price",
       status: "Available in Uganda",
       seller: "YUSUMA Enterprises",
       badge: "New Arrival",
       doors: "4",
       transmission: "Automatic",
-      drivetrain: "2WD",
-      fuel: "Regular gasoline",
+      drivetrain: "4WD",
+      fuel: "Diesel",
       maintenance: "Completed",
       features: [
         "New Arrival",
         "Automatic",
-        "2WD",
-        "Available Locally"
+        "4WD",
+        "Available Locally",
+        "360 camera",
+        "Alloy wheels"
       ],
       mainImage: "assets/stock/uganda/ug001/main.jpg",
       gallery: [
@@ -223,12 +265,48 @@ window.CARJU_CONFIG = {
         "assets/stock/uganda/ug001/5.jpg",
         "assets/stock/uganda/ug001/6.jpg",
         "assets/stock/uganda/ug001/7.jpg",
-        "assets/stock/uganda/ug001/8.jpg",
-        "assets/stock/uganda/ug001/9.jpg",
-        "assets/stock/uganda/ug001/10.jpg"
+        "assets/stock/uganda/ug001/8.jpg"
       ],
       description:
-        "Toyota Premio available locally in Uganda through YUSUMA Enterprises. Contact directly for viewing and pricing.",
+        "Highly recommended pick up with diff lock. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
+      whatsapp: "256704104804"
+    },
+
+    {
+      id: "ug003",
+      location: "uganda",
+      title: "Mercedes Benz",
+      manufacturer: "Mercedes",
+      brand: "GLC 43",
+      model: "AMG",
+      category: "suV",
+      year: "2023",
+      price: "Ask for Price",
+      status: "Available in Uganda",
+      seller: "YUSUMA Enterprises",
+      badge: "New Arrival",
+      doors: "5",
+      transmission: "Automatic",
+      drivetrain: "AWD",
+      fuel: "Gasoline",
+      maintenance: "Completed",
+      features: [
+        "New Arrival",
+        "Automatic",
+        "4WD",
+        "Available Locally",
+      ],
+      mainImage: "assets/stock/uganda/ug001/main.jpg",
+      gallery: [
+        "assets/stock/uganda/ug001/main.jpg",
+        "assets/stock/uganda/ug001/2.jpg",
+        "assets/stock/uganda/ug001/3.jpg",
+        "assets/stock/uganda/ug001/4.jpg",
+        "assets/stock/uganda/ug001/5.jpg",
+        "assets/stock/uganda/ug001/6.jpg"
+      ],
+      description:
+        "An aggressive spec with AMG line and all AMG features. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
       whatsapp: "256704104804"
     }
   ],
