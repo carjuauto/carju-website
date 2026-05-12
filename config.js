@@ -256,7 +256,7 @@ window.CARJU_CONFIG = {
         "360 camera",
         "Alloy wheels"
       ],
-      mainImage: "assets/stock/uganda/ug001/main.jpg",
+      mainImage: "assets/stock/uganda/ug002/main.jpg",
       gallery: [
         "assets/stock/uganda/ug001/main.jpg",
         "assets/stock/uganda/ug001/2.jpg",
@@ -296,7 +296,7 @@ window.CARJU_CONFIG = {
         "4WD",
         "Available Locally",
       ],
-      mainImage: "assets/stock/uganda/ug001/main.jpg",
+      mainImage: "assets/stock/uganda/ug003/main.jpg",
       gallery: [
         "assets/stock/uganda/ug001/main.jpg",
         "assets/stock/uganda/ug001/2.jpg",
