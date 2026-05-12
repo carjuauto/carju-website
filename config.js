@@ -258,14 +258,14 @@ window.CARJU_CONFIG = {
       ],
       mainImage: "assets/stock/uganda/ug002/main.jpg",
       gallery: [
-        "assets/stock/uganda/ug001/main.jpg",
-        "assets/stock/uganda/ug001/2.jpg",
-        "assets/stock/uganda/ug001/3.jpg",
-        "assets/stock/uganda/ug001/4.jpg",
-        "assets/stock/uganda/ug001/5.jpg",
-        "assets/stock/uganda/ug001/6.jpg",
-        "assets/stock/uganda/ug001/7.jpg",
-        "assets/stock/uganda/ug001/8.jpg"
+        "assets/stock/uganda/ug002/main.jpg",
+        "assets/stock/uganda/ug002/2.jpg",
+        "assets/stock/uganda/ug002/3.jpg",
+        "assets/stock/uganda/ug002/4.jpg",
+        "assets/stock/uganda/ug002/5.jpg",
+        "assets/stock/uganda/ug002/6.jpg",
+        "assets/stock/uganda/ug002/7.jpg",
+        "assets/stock/uganda/ug002/8.jpg"
       ],
       description:
         "Highly recommended pick up with diff lock. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
@@ -298,12 +298,12 @@ window.CARJU_CONFIG = {
       ],
       mainImage: "assets/stock/uganda/ug003/main.jpg",
       gallery: [
-        "assets/stock/uganda/ug001/main.jpg",
-        "assets/stock/uganda/ug001/2.jpg",
-        "assets/stock/uganda/ug001/3.jpg",
-        "assets/stock/uganda/ug001/4.jpg",
-        "assets/stock/uganda/ug001/5.jpg",
-        "assets/stock/uganda/ug001/6.jpg"
+        "assets/stock/uganda/ug003/main.jpg",
+        "assets/stock/uganda/ug003/2.jpg",
+        "assets/stock/uganda/ug003/3.jpg",
+        "assets/stock/uganda/ug003/4.jpg",
+        "assets/stock/uganda/ug003/5.jpg",
+        "assets/stock/uganda/ug003/6.jpg"
       ],
       description:
         "An aggressive spec with AMG line and all AMG features. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
