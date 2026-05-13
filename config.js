@@ -260,8 +260,8 @@ window.CARJU_CONFIG = {
       gallery: [
         "assets/stock/uganda/ug002/main.jpg",
         "assets/stock/uganda/ug002/2.jpg",
-        "assets/stock/uganda/ug002/3.jpg",
-        "assets/stock/uganda/ug002/4.jpg",
+        "assets/stock/uganda/ug002/8.jpg",
+        "assets/stock/uganda/ug002/6.jpg",
         "assets/stock/uganda/ug002/5.jpg",
         "assets/stock/uganda/ug002/6.jpg",
         "assets/stock/uganda/ug002/7.jpg",
