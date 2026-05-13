@@ -279,7 +279,7 @@ window.CARJU_CONFIG = {
       manufacturer: "Mercedes",
       brand: "GLC 43",
       model: "AMG",
-      category: "suV",
+      category: "SUV",
       year: "2023",
       price: "Ask for Price",
       status: "Available in Uganda",
