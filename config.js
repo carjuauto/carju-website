@@ -294,7 +294,7 @@ window.CARJU_CONFIG = {
         "New Arrival",
         "Automatic",
         "4WD",
-        "Available Locally",
+        "Available Locally"
       ],
       mainImage: "assets/stock/uganda/ug003/main.jpg",
       gallery: [
