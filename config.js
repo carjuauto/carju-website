@@ -186,6 +186,47 @@ window.CARJU_CONFIG = {
   description:
     "2015 Toyota Aqua X Urban available in Japan through a 3rd party dealer. Clean hybrid hatchback with navigation, TV, ETC, back camera, Toyota Safety Sense, and 2 smart keys. Very clean interior and exterior with no known issues.",
   whatsapp: "818047909663"
+},
+
+{
+  id: "jp005",
+  location: "japan",
+  title: "Toyota Vitz",
+  manufacturer: "Toyota",
+  brand: "Toyota",
+  model: "Vitz",
+  category: "Hatchback",
+  year: "2013",
+  price: "Ask for Price",
+  status: "Available in Japan",
+  seller: "3rd Party Dealer",
+  badge: "New Arrival",
+  doors: "5",
+  transmission: "Automatic",
+  drivetrain: "4WD",
+  fuel: "Gasoline",
+  maintenance: "Unknown",
+  features: [
+    "New Arrival",
+    "74,000 km",
+    "Navigation",
+    "TV",
+    "Power steering",
+    "Power window"
+  ],
+  mainImage: "assets/stock/japan/jp005/main.jpg",
+  gallery: [
+    "assets/stock/japan/jp005/main.jpg",
+    "assets/stock/japan/jp005/2.jpg",
+    "assets/stock/japan/jp005/3.jpg",
+    "assets/stock/japan/jp005/4.jpg",
+    "assets/stock/japan/jp005/5.jpg",
+    "assets/stock/japan/jp005/6.jpg",
+    "assets/stock/japan/jp005/7.jpg"
+  ],
+  description:
+    "2013 Toyota Vitz available in Japan through a 3rd party dealer. Clean hatchback with navigation. Very clean interior and exterior with minor scratches, paint marks and dents on the body.",
+  whatsapp: "818047909663"
 }
   ],
 
