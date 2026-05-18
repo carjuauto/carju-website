@@ -227,6 +227,67 @@ window.CARJU_CONFIG = {
   description:
     "2013 Toyota Vitz available in Japan through a 3rd party dealer. Clean hatchback with navigation. Very clean interior and exterior with minor scratches, paint marks and dents on the body.",
   whatsapp: "818047909663"
+},
+{
+  id: "jp006",
+  location: "japan",
+  title: "BMW 218d Diesel",
+  manufacturer: "BMW",
+  brand: "BMW",
+  model: "218d",
+  category: "Sedan",
+  year: "2016",
+  price: "Ask for Price",
+  status: "Available & Under Negotiations",
+  seller: "3rd Party Dealer",
+  badge: "🔥Hot Deal",
+  doors: "4",
+  transmission: "Automatic",
+  drivetrain: "2WD",
+  fuel: "Diesel",
+  maintenance: "Shaken until 2027/04",
+
+  features: [
+    "2000cc Diesel Engine",
+    "100,000 km",
+    "Pearl White",
+    "Push Start",
+    "2 Smart Keys",
+    "Tax Paid",
+    "Cruise Control",
+    "ABS",
+    "Airbags",
+    "Radar Safety",
+    "Back Camera",
+    "Front & Back Drive Recorder",
+    "HID Head Lights",
+    "Very Smooth Ride",
+    "Clean Interior & Exterior",
+    "No Accident History",
+    "No Pet Odor",
+    "Air Conditioning Working Perfectly",
+    "Original BMW Wheels"
+  ],
+
+  mainImage: "assets/stock/japan/jp006/main.jpg",
+
+  gallery: [
+    "assets/stock/japan/jp006/main.jpg",
+    "assets/stock/japan/jp006/2.jpg",
+    "assets/stock/japan/jp006/3.jpg",
+    "assets/stock/japan/jp006/4.jpg",
+    "assets/stock/japan/jp006/5.jpg",
+    "assets/stock/japan/jp006/6.jpg",
+    "assets/stock/japan/jp006/7.jpg",
+    "assets/stock/japan/jp006/8.jpg",
+    "assets/stock/japan/jp006/9.jpg",
+    "assets/stock/japan/jp006/10.jpg"
+  ],
+
+  description:
+    "2016 BMW 218d Diesel available in Japan through a 3rd party dealer. Pearl white body with automatic transmission, push start, cruise control, back camera, front and rear drive recorder, HID headlights, and radar safety features. Vehicle is very clean inside and outside with no accident history. Smooth driving condition with inspection valid until 2027/04.",
+
+  whatsapp: "818047909663"
 }
   ],
 
