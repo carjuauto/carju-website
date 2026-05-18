@@ -24,9 +24,8 @@ window.CARJU_CONFIG = {
       category: "Van",
       year: "2013",
       price: "Ask for Price",
-      status: "Available in Japan",
+      status: "UnderNegotiations",
       seller: "CARJU JAPAN",
-      badge: "New Arrival",
       doors: "5",
       transmission: "In-dash Automatic",
       drivetrain: "2WD",
@@ -286,6 +285,64 @@ window.CARJU_CONFIG = {
 
   description:
     "2016 BMW 218d Diesel available in Japan through a 3rd party dealer. Pearl white body with automatic transmission, push start, cruise control, back camera, front and rear drive recorder, HID headlights, and radar safety features. Vehicle is very clean inside and outside with no accident history. Smooth driving condition with inspection valid until 2027/04.",
+
+  whatsapp: "818047909663"
+},
+{
+  id: "jp007",
+  location: "japan",
+  title: "Toyota Alphard 2.5 S A Package",
+  manufacturer: "Toyota",
+  brand: "Toyota",
+  model: "Alphard 2.5 S A Package",
+  category: "Van",
+  year: "2016",
+  price: "Ask for Price",
+  status: "Available in Japan",
+  seller: "3rd Party Dealer",
+  badge: "New Arrival",
+  doors: "5",
+  transmission: "Automatic",
+  drivetrain: "2WD",
+  fuel: "Regular gasoline",
+  maintenance: "Shaken until 2027/04/30",
+
+  features: [
+    "64,000 km",
+    "2.5L Engine",
+    "Double Sunroof",
+    "Big Navigation Screen",
+    "Back Camera",
+    "Parking Sensors",
+    "Bluetooth",
+    "Front TV",
+    "Leather Seat Covers",
+    "20 Inch Alloy Rims",
+    "2 Smart Keys",
+    "Family Car",
+    "No Accident History",
+    "No Pet History",
+    "No Smoke History",
+    "Very Clean Interior & Exterior"
+  ],
+
+  mainImage: "assets/stock/japan/jp007/main.jpg",
+
+  gallery: [
+    "assets/stock/japan/jp007/main.jpg",
+    "assets/stock/japan/jp007/2.jpg",
+    "assets/stock/japan/jp007/3.jpg",
+    "assets/stock/japan/jp007/4.jpg",
+    "assets/stock/japan/jp007/5.jpg",
+    "assets/stock/japan/jp007/6.jpg",
+    "assets/stock/japan/jp007/7.jpg",
+    "assets/stock/japan/jp007/8.jpg",
+    "assets/stock/japan/jp007/9.jpg",
+    "assets/stock/japan/jp007/10.jpg"
+  ],
+
+  description:
+    "2016 Toyota Alphard 2.5 S A Package available in Japan through a 3rd party dealer. Luxury family van with double sunroof, large navigation display, back camera, parking sensors, Bluetooth, front TV, leather seat covers, and 20-inch alloy rims. Very clean interior and exterior with no accident, pet, or smoke history. Shaken valid until 2027/04/30.",
 
   whatsapp: "818047909663"
 }
