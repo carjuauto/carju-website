@@ -24,7 +24,7 @@ window.CARJU_CONFIG = {
       category: "Van",
       year: "2013",
       price: "Ask for Price",
-      status: "UnderNegotiations",
+      status: "Under Negotiations",
       seller: "CARJU JAPAN",
       doors: "5",
       transmission: "In-dash Automatic",
