@@ -467,6 +467,44 @@ window.CARJU_CONFIG = {
       description:
         "An aggressive spec with AMG line and all AMG features. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
       whatsapp: "256704104804"
+    },
+    {
+    id: "ug004",
+      location: "uganda",
+      title: "Isuzu Elf Dump",
+      manufacturer: "Isuzu",
+      brand: "NKR58",
+      model: "Elf",
+      category: "Truck",
+      year: "1992",
+      price: "75,000,000",
+      status: "Available in Uganda",
+      seller: "YUSUMA Enterprises",
+      badge: "New Arrival",
+      doors: "2",
+      transmission: "MT",
+      drivetrain: "4WD",
+      fuel: "Diesel",
+      maintenance: "Pending",
+      features: [
+        "New Arrival",
+        "MT",
+        "4WD",
+        "Available Locally"
+      ],
+      mainImage: "assets/stock/uganda/ug004/main.jpg",
+      gallery: [
+        "assets/stock/uganda/ug004/main.jpg",
+        "assets/stock/uganda/ug004/2.jpg",
+        "assets/stock/uganda/ug004/3.jpg",
+        "assets/stock/uganda/ug004/4.jpg",
+        "assets/stock/uganda/ug004/5.jpg",
+        "assets/stock/uganda/ug004/6.jpg",
+        "assets/stock/uganda/ug004/7.jpg"
+      ],
+      description:
+        "Dump truck good for construction and farming. Available locally in Uganda at YUSUMA Enterprises. Contact directly for viewing and pricing.",
+      whatsapp: "256704104804"
     }
   ],
 
