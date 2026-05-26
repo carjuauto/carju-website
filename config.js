@@ -345,6 +345,66 @@ window.CARJU_CONFIG = {
     "2016 Toyota Alphard 2.5 S A Package available in Japan through a 3rd party dealer. Luxury family van with double sunroof, large navigation display, back camera, parking sensors, Bluetooth, front TV, leather seat covers, and 20-inch alloy rims. Very clean interior and exterior with no accident, pet, or smoke history. Shaken valid until 2027/04/30.",
 
   whatsapp: "818047909663"
+},
+{
+  id: "jp008",
+  location: "japan",
+  title: "Toyota VOXY ZS KIRAMEKI",
+  manufacturer: "Toyota",
+  brand: "Toyota",
+  model: "VOXY ZS KIRAMEKI",
+  category: "Van",
+  year: "2015",
+  price: "Ask for Price",
+  status: "Available in Japan",
+  seller: "3rd Party Dealer",
+  badge: "New Arrival",
+
+  doors: "5",
+  transmission: "Automatic with Manual Mode",
+  drivetrain: "2WD",
+  fuel: "Gasoline",
+  maintenance: "Shaken until 2026/12",
+
+  features: [
+    "91,000 km",
+    "Pearl White",
+    "7 Seater",
+    "Rear Camera",
+    "Radio",
+    "CD",
+    "DVD",
+    "RC TV Front & Rear",
+    "Navigation",
+    "Bluetooth",
+    "Manual Mode Gear System",
+    "Power Slide Door",
+    "Security System",
+    "ETC",
+    "Power Steering",
+    "Push Start",
+    "Clean Interior",
+    "Client Name Document Arrangement Available",
+    "Free Delivery in Limited Kanto Areas"
+  ],
+
+  mainImage: "assets/stock/japan/jp008/main.jpg",
+
+  gallery: [
+    "assets/stock/japan/jp008/main.jpg",
+    "assets/stock/japan/jp008/2.jpg",
+    "assets/stock/japan/jp008/3.jpg",
+    "assets/stock/japan/jp008/4.jpg",
+    "assets/stock/japan/jp008/5.jpg",
+    "assets/stock/japan/jp008/6.jpg",
+    "assets/stock/japan/jp008/7.jpg",
+    "assets/stock/japan/jp008/8.jpg"
+  ],
+
+  description:
+    "2015 Toyota VOXY ZS KIRAMEKI available in Japan through 3rd Party Dealer. Pearl white 7-seater family van with approximately 91,000 km, rear camera, navigation, Bluetooth, CD/DVD, TV front & rear, power slide door, ETC, push start, and manual mode transmission system. Clean interior with shaken valid until December 2026.",
+
+  whatsapp: "818047909663"
 }
   ],
 
